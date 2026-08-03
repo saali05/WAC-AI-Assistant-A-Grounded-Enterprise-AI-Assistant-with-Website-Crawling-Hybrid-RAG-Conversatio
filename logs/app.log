@@ -1,0 +1,29 @@
+2026-08-03 15:00:02 | INFO | app.main:startup:14 - Application started successfully
+2026-08-03 15:02:45 | INFO | app.main:startup:14 - Application started successfully
+2026-08-03 15:03:27 | INFO | app.main:lifespan:16 - Application started successfully
+2026-08-03 15:03:46 | INFO | app.main:root:25 - Root endpoint accessed
+2026-08-03 15:04:03 | INFO | app.main:root:25 - Root endpoint accessed
+2026-08-03 15:04:04 | INFO | app.main:root:25 - Root endpoint accessed
+2026-08-03 15:04:04 | INFO | app.main:root:25 - Root endpoint accessed
+2026-08-03 15:04:04 | INFO | app.main:root:25 - Root endpoint accessed
+2026-08-03 15:04:04 | INFO | app.main:root:25 - Root endpoint accessed
+2026-08-03 15:04:04 | INFO | app.main:root:25 - Root endpoint accessed
+2026-08-03 15:04:27 | INFO | app.main:lifespan:18 - Application shutting down
+2026-08-03 15:04:28 | INFO | app.main:lifespan:15 - Application started successfully
+2026-08-03 15:04:29 | INFO | app.main:lifespan:17 - Application shutting down
+2026-08-03 15:04:30 | INFO | app.main:startup:14 - Application started successfully
+2026-08-03 15:04:39 | INFO | app.main:root:19 - Root endpoint accessed
+2026-08-03 15:04:47 | INFO | app.main:lifespan:15 - Application started successfully
+2026-08-03 15:04:50 | INFO | app.main:lifespan:17 - Application shutting down
+2026-08-03 15:04:59 | INFO | app.main:lifespan:15 - Application started successfully
+2026-08-03 15:05:15 | INFO | app.main:root:24 - Root endpoint accessed
+2026-08-03 15:05:16 | INFO | app.main:root:24 - Root endpoint accessed
+2026-08-03 15:05:16 | INFO | app.main:root:24 - Root endpoint accessed
+2026-08-03 15:05:16 | INFO | app.main:root:24 - Root endpoint accessed
+2026-08-03 15:05:16 | INFO | app.main:root:24 - Root endpoint accessed
+2026-08-03 15:05:17 | INFO | app.main:root:24 - Root endpoint accessed
+2026-08-03 15:08:36 | INFO | app.main:lifespan:17 - Application shutting down
+2026-08-03 15:18:39 | INFO | app.main:lifespan:15 - 🚀 Starting AI Document Chatbot...
+2026-08-03 15:18:40 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-03 15:19:12 | INFO | app.main:lifespan:21 - 🛑 Shutting down AI Document Chatbot...
+2026-08-03 15:19:12 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
