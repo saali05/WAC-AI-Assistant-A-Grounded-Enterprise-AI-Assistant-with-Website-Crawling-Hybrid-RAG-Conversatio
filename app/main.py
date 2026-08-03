@@ -5,6 +5,7 @@ from fastapi import FastAPI
 from app.core.config import settings
 from app.core.database import connect_db, disconnect_db
 from app.core.logging import logger
+from app.api.chat import router as chat_router
 
 
 @asynccontextmanager
@@ -30,12 +31,11 @@ app = FastAPI(
 )
 
 
+app.include_router(chat_router)
+
+
 @app.get("/")
 async def root():
-    logger.info("Root endpoint accessed")
-
     return {
-        "app": settings.APP_NAME,
-        "version": settings.APP_VERSION,
-        "debug": settings.DEBUG,
+        "message": "AI Document Chatbot API"
     }
