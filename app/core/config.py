@@ -7,21 +7,20 @@ class Settings(BaseSettings):
     APP_VERSION: str
     DEBUG: bool
 
-    # Gemini
+    # AI Providers
+    DEFAULT_PROVIDER: str
+
     GEMINI_API_KEY: str
-    MODEL_NAME: str
-    EMBEDDING_MODEL: str
+    GEMINI_MODEL: str
+
+    GROQ_API_KEY: str
+    GROQ_MODEL: str
 
     # MongoDB
     MONGODB_URI: str
     DATABASE_NAME: str
 
-    # ChromaDB
-    CHROMA_PATH: str
-
-    # -------------------------
     # Upload
-    # -------------------------
     UPLOAD_DIR: str
     MAX_FILE_SIZE: int
 

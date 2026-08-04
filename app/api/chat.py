@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 
-from app.ai.chatbot import ChatBotService
+from app.ai.service import AIService
 from app.schemas.chat import ChatRequest, ChatResponse
 
 router = APIRouter(
@@ -8,7 +8,7 @@ router = APIRouter(
     tags=["Chat"],
 )
 
-chatbot = ChatBotService()
+ai_service = AIService()
 
 
 @router.post(
@@ -16,19 +16,15 @@ chatbot = ChatBotService()
     response_model=ChatResponse,
 )
 async def chat(request: ChatRequest):
-    """
-    Chat with Gemini AI.
-    """
     try:
-
-        response = await chatbot.chat(request.message)
-
-        return ChatResponse(
-            response=response
+        response = await ai_service.chat(
+            provider=request.provider,
+            message=request.message,
         )
 
-    except Exception as e:
+        return ChatResponse(response=response)
 
+    except Exception as e:
         raise HTTPException(
             status_code=500,
             detail=str(e),
