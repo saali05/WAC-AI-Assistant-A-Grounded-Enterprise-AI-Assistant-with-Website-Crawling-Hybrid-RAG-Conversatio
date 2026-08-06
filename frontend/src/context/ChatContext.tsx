@@ -37,6 +37,7 @@ interface ChatContextType {
   conversationId: string | null;
 
   send: (
+    
     message: string,
     provider: Provider
   ) => Promise<void>;
@@ -145,17 +146,38 @@ response.conversation_id
 await reloadConversations();
 
 }
+console.log("Backend response:", response);
 
-setMessages(prev=>[
-...prev,
-{
-role:"assistant",
-content:response.response,
-},
-]);
+setMessages(prev => {
+  const updated = [
+    ...prev,
+    {
+      role: "assistant" as const,
+      content: response.response,
+    },
+  ];
 
-}
-finally{
+  console.log("Updated messages:", updated);
+
+  return updated;
+});
+
+}catch (error) {
+
+    const message =
+        error instanceof Error
+            ? error.message
+            : "Something went wrong.";
+
+    setMessages(prev => [
+        ...prev,
+        {
+            role: "assistant",
+            content: message,
+        },
+    ]);
+
+}finally{
 
 setLoading(false);
 

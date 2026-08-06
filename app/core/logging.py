@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from loguru import logger
+import traceback
 
 # Create logs directory if it doesn't exist
 LOG_DIR = Path("logs")
@@ -31,3 +32,5 @@ logger.add(
 )
 
 __all__ = ["logger"]
+
+print(traceback.format_exc())

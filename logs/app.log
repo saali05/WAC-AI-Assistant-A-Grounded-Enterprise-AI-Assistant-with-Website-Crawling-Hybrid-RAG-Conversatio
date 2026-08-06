@@ -139,3 +139,1786 @@
 2026-08-04 11:52:20 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
 2026-08-04 11:53:48 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
 2026-08-04 11:53:48 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-04 12:12:14 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-04 12:12:14 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-04 12:13:03 | INFO | app.ai.providers.gemini:__init__:19 - Gemini Provider initialized
+2026-08-04 12:13:06 | INFO | app.ai.providers.gemini:generate:32 - Gemini response generated
+2026-08-04 12:15:07 | INFO | app.ai.providers.gemini:__init__:19 - Gemini Provider initialized
+2026-08-04 12:15:10 | INFO | app.ai.providers.gemini:generate:32 - Gemini response generated
+2026-08-04 12:21:22 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-04 12:21:22 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-04 12:21:25 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-04 12:21:25 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-04 12:22:42 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-04 12:22:42 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-04 12:22:45 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-04 12:22:45 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-04 12:24:36 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-04 12:24:36 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-04 12:24:39 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-04 12:24:39 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-04 12:24:40 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-04 12:24:40 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-04 12:24:43 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-04 12:24:43 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-04 12:26:12 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-04 12:26:12 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-04 12:26:15 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-04 12:26:15 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-04 12:26:16 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-04 12:26:16 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-04 12:26:19 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-04 12:26:19 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-04 12:26:29 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-04 12:26:29 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-04 12:26:32 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-04 12:26:32 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-04 12:27:01 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-04 12:27:01 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-04 12:27:15 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-04 12:27:15 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-04 12:29:05 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-04 12:29:05 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-04 12:37:35 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-04 12:37:35 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-04 12:38:59 | INFO | app.ai.providers.gemini:__init__:19 - Gemini Provider initialized
+2026-08-04 12:39:01 | INFO | app.ai.providers.gemini:generate:32 - Gemini response generated
+2026-08-04 12:39:23 | INFO | app.ai.providers.gemini:__init__:19 - Gemini Provider initialized
+2026-08-04 12:39:29 | INFO | app.ai.providers.gemini:generate:32 - Gemini response generated
+2026-08-04 12:40:59 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-04 12:40:59 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-04 12:41:02 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-04 12:41:02 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-04 12:41:13 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-04 12:41:13 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-04 12:41:16 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-04 12:41:16 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-04 12:41:21 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-04 12:41:21 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-04 12:41:24 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-04 12:41:24 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-04 12:41:30 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-04 12:41:30 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-04 12:41:33 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-04 12:41:33 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-04 12:41:33 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-04 12:41:33 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-04 12:41:36 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-04 12:41:36 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-04 12:42:16 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-04 12:42:16 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-04 12:42:19 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-04 12:42:19 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-04 12:42:24 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-04 12:42:24 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-04 12:42:27 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-04 12:42:27 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-04 12:42:29 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-04 12:42:29 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-04 12:42:32 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-04 12:42:32 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-04 12:43:24 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-04 12:43:24 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-04 12:43:27 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-04 12:43:27 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-04 12:43:27 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-04 12:43:27 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-04 12:43:30 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-04 12:43:30 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-04 12:43:32 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-04 12:43:32 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-04 12:43:36 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-04 12:43:36 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-04 12:43:41 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-04 12:43:41 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-04 12:43:44 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-04 12:43:44 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-04 12:48:43 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-04 12:48:43 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-04 12:48:47 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-04 12:48:47 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-04 12:49:03 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-04 12:49:03 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-04 12:49:07 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-04 12:49:07 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-04 12:49:14 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-04 12:49:14 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-04 12:49:17 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-04 12:49:17 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-04 12:49:21 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-04 12:49:21 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-04 12:49:24 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-04 12:49:24 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-04 12:49:25 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-04 12:49:25 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-04 12:49:28 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-04 12:49:28 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-04 12:50:52 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-04 12:50:52 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-04 12:54:30 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-04 12:54:30 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-04 12:54:30 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-04 12:54:30 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-04 12:54:34 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-04 12:54:34 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-04 12:54:34 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-04 12:54:34 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-04 12:54:37 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-04 12:54:37 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-04 14:46:50 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-04 14:46:50 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-04 14:46:59 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-04 14:46:59 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-04 14:47:07 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-04 14:47:07 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-04 14:47:11 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-04 14:47:11 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-04 14:49:19 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-04 14:49:19 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-04 14:49:23 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-04 14:49:23 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-04 14:51:33 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-04 14:51:33 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-04 14:51:36 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-04 14:51:36 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-04 14:53:57 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-04 14:53:57 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-04 15:20:46 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-04 15:20:46 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-05 10:26:51 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-05 10:26:51 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-05 14:35:07 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-05 14:35:07 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-05 14:35:11 | INFO | app.main:lifespan:18 - 🚀 Starting AI Document Chatbot...
+2026-08-05 14:35:12 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-05 14:35:44 | INFO | app.main:lifespan:24 - 🛑 Shutting down AI Document Chatbot...
+2026-08-05 14:35:44 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-05 14:35:48 | INFO | app.main:lifespan:31 - 🚀 Starting AI Document Chatbot...
+2026-08-05 14:35:48 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-05 14:35:53 | INFO | app.main:lifespan:37 - 🛑 Shutting down AI Document Chatbot...
+2026-08-05 14:35:53 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-05 14:35:59 | INFO | app.main:lifespan:31 - 🚀 Starting AI Document Chatbot...
+2026-08-05 14:35:59 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-05 14:37:15 | INFO | app.main:lifespan:37 - 🛑 Shutting down AI Document Chatbot...
+2026-08-05 14:37:15 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-05 14:37:18 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-05 14:37:18 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-05 14:37:27 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-05 14:37:27 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-05 14:37:32 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-05 14:37:32 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-05 14:37:43 | INFO | app.ai.providers.gemini:__init__:19 - Gemini Provider initialized
+2026-08-05 14:37:45 | INFO | app.ai.providers.gemini:generate:32 - Gemini response generated
+2026-08-05 14:38:02 | INFO | app.ai.providers.gemini:__init__:19 - Gemini Provider initialized
+2026-08-05 14:38:05 | INFO | app.ai.providers.gemini:generate:32 - Gemini response generated
+2026-08-05 14:38:21 | INFO | app.ai.providers.gemini:__init__:19 - Gemini Provider initialized
+2026-08-05 14:38:31 | INFO | app.ai.providers.gemini:generate:32 - Gemini response generated
+2026-08-05 14:39:09 | INFO | app.ai.providers.gemini:__init__:19 - Gemini Provider initialized
+2026-08-05 14:39:21 | INFO | app.ai.providers.gemini:generate:32 - Gemini response generated
+2026-08-05 14:40:13 | INFO | app.ai.providers.gemini:__init__:19 - Gemini Provider initialized
+2026-08-05 14:40:26 | INFO | app.ai.providers.gemini:generate:32 - Gemini response generated
+2026-08-05 14:41:57 | INFO | app.ai.providers.gemini:__init__:19 - Gemini Provider initialized
+2026-08-05 14:42:07 | INFO | app.ai.providers.gemini:generate:32 - Gemini response generated
+2026-08-05 14:42:38 | INFO | app.ai.providers.groq:__init__:20 - Groq Provider initialized
+2026-08-05 14:42:40 | INFO | app.ai.providers.groq:generate:38 - Groq response generated
+2026-08-05 14:50:21 | INFO | app.ai.providers.gemini:__init__:19 - Gemini Provider initialized
+2026-08-05 14:50:24 | INFO | app.ai.providers.gemini:generate:32 - Gemini response generated
+2026-08-05 15:03:00 | INFO | app.ai.providers.gemini:__init__:19 - Gemini Provider initialized
+2026-08-05 15:03:12 | INFO | app.ai.providers.gemini:generate:32 - Gemini response generated
+2026-08-05 15:03:34 | INFO | app.ai.providers.gemini:__init__:19 - Gemini Provider initialized
+2026-08-05 15:03:40 | INFO | app.ai.providers.gemini:generate:32 - Gemini response generated
+2026-08-05 15:04:14 | INFO | app.ai.providers.gemini:__init__:19 - Gemini Provider initialized
+2026-08-05 15:04:22 | INFO | app.ai.providers.gemini:generate:32 - Gemini response generated
+2026-08-05 15:04:51 | INFO | app.ai.providers.gemini:__init__:19 - Gemini Provider initialized
+2026-08-05 15:04:55 | INFO | app.ai.providers.gemini:generate:32 - Gemini response generated
+2026-08-05 15:25:47 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-05 15:25:47 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-05 15:26:06 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-05 15:26:06 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-05 15:26:06 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-05 15:26:06 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-05 15:26:09 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-05 15:26:09 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-05 15:26:10 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-05 15:26:10 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-05 15:26:21 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-05 15:26:21 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-05 15:26:25 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-05 15:26:25 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-05 15:26:28 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-05 15:26:28 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-05 15:26:28 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-05 15:26:28 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-05 15:26:31 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-05 15:26:31 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-05 15:27:27 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-05 15:27:27 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-05 15:27:30 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-05 15:27:30 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-05 15:27:43 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-05 15:27:43 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-05 15:27:46 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-05 15:27:46 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-05 15:29:51 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-05 15:29:51 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-05 15:29:54 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-05 15:29:54 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-05 16:06:04 | INFO | app.ai.providers.gemini:__init__:19 - Gemini Provider initialized
+2026-08-05 16:06:07 | INFO | app.ai.providers.gemini:generate:32 - Gemini response generated
+2026-08-05 16:07:07 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-05 16:07:07 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-05 16:07:13 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-05 16:07:13 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-05 16:07:13 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-05 16:07:13 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-05 16:07:17 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-05 16:07:17 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-05 16:07:17 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-05 16:07:17 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-05 16:07:21 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-05 16:07:21 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-05 16:07:21 | INFO | app.ai.providers.gemini:__init__:19 - Gemini Provider initialized
+2026-08-05 16:07:23 | INFO | app.ai.providers.gemini:generate:32 - Gemini response generated
+2026-08-05 16:07:59 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-05 16:07:59 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-05 16:08:02 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-05 16:08:02 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-05 16:08:03 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-05 16:08:03 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-05 16:08:06 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-05 16:08:06 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-05 16:08:06 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-05 16:08:06 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-05 16:08:09 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-05 16:08:09 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-05 16:08:09 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-05 16:08:09 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-05 16:08:13 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-05 16:08:13 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-05 16:08:13 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-05 16:08:13 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-05 16:08:16 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-05 16:08:16 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-05 16:08:16 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-05 16:08:16 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-05 16:08:19 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-05 16:08:19 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-05 16:08:19 | INFO | app.ai.providers.gemini:__init__:19 - Gemini Provider initialized
+2026-08-05 16:08:21 | INFO | app.ai.providers.gemini:generate:33 - Gemini response generated
+2026-08-05 16:09:39 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-05 16:09:39 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-05 16:09:42 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-05 16:09:42 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-05 16:09:42 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-05 16:09:42 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-05 16:09:46 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-05 16:09:46 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-05 16:09:46 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-05 16:09:46 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-05 16:09:49 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-05 16:09:49 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-05 16:09:49 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-05 16:09:49 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-05 16:09:52 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-05 16:09:52 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-05 16:09:54 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-05 16:09:54 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-05 16:09:57 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-05 16:09:57 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-05 16:10:47 | INFO | app.ai.providers.groq:__init__:20 - Groq Provider initialized
+2026-08-05 16:10:47 | INFO | app.ai.providers.groq:generate:38 - Groq response generated
+2026-08-05 16:11:16 | INFO | app.ai.providers.gemini:__init__:19 - Gemini Provider initialized
+2026-08-05 16:11:18 | INFO | app.ai.providers.gemini:generate:33 - Gemini response generated
+2026-08-05 16:11:32 | INFO | app.ai.providers.gemini:__init__:19 - Gemini Provider initialized
+2026-08-05 16:11:42 | INFO | app.ai.providers.gemini:generate:33 - Gemini response generated
+2026-08-05 16:11:44 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-05 16:11:44 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-05 16:11:47 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-05 16:11:47 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-05 16:11:57 | INFO | app.ai.providers.gemini:__init__:19 - Gemini Provider initialized
+2026-08-05 16:11:59 | INFO | app.ai.providers.gemini:generate:33 - Gemini response generated
+2026-08-06 11:10:47 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-06 11:10:48 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 11:13:34 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 11:13:34 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 11:13:40 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-06 11:13:40 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 11:17:44 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 11:17:44 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 11:28:56 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-06 11:28:57 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 11:29:28 | INFO | app.ai.providers.gemini:__init__:19 - Gemini Provider initialized
+2026-08-06 11:30:41 | ERROR | app.ai.providers.gemini:generate:38 - Gemini provider failed
+Traceback (most recent call last):
+
+  File "<string>", line 1, in <module>
+  File "C:\Program Files\Python314\Lib\multiprocessing\spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+               │     │   └ 348
+               │     └ 3
+               └ <function _main at 0x0000027E32F97CC0>
+  File "C:\Program Files\Python314\Lib\multiprocessing\spawn.py", line 135, in _main
+    return self._bootstrap(parent_sentinel)
+           │    │          └ 348
+           │    └ <function BaseProcess._bootstrap at 0x0000027E32E69DD0>
+           └ <SpawnProcess name='SpawnProcess-45' parent=14232 started>
+  File "C:\Program Files\Python314\Lib\multiprocessing\process.py", line 320, in _bootstrap
+    self.run()
+    │    └ <function BaseProcess.run at 0x0000027E32E69170>
+    └ <SpawnProcess name='SpawnProcess-45' parent=14232 started>
+  File "C:\Program Files\Python314\Lib\multiprocessing\process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {'config': <uvicorn.config.Config object at 0x0000027E3547C6E0>, 'target': <bound method Server.run of <uvicorn.server.Server...
+    │    │        │    │        └ <SpawnProcess name='SpawnProcess-45' parent=14232 started>
+    │    │        │    └ ()
+    │    │        └ <SpawnProcess name='SpawnProcess-45' parent=14232 started>
+    │    └ <function subprocess_started at 0x0000027E352712D0>
+    └ <SpawnProcess name='SpawnProcess-45' parent=14232 started>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\uvicorn\_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+    │              └ [<socket.socket fd=608, family=2, type=1, proto=6, laddr=('127.0.0.1', 8000)>]
+    └ <bound method Server.run of <uvicorn.server.Server object at 0x0000027E3547C830>>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\uvicorn\server.py", line 77, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+           │           │    │             │                      │    │      └ <function Config.get_loop_factory at 0x0000027E3508D170>
+           │           │    │             │                      │    └ <uvicorn.config.Config object at 0x0000027E3547C6E0>
+           │           │    │             │                      └ <uvicorn.server.Server object at 0x0000027E3547C830>
+           │           │    │             └ [<socket.socket fd=608, family=2, type=1, proto=6, laddr=('127.0.0.1', 8000)>]
+           │           │    └ <function Server.serve at 0x0000027E35250720>
+           │           └ <uvicorn.server.Server object at 0x0000027E3547C830>
+           └ <function run at 0x0000027E34E77480>
+  File "C:\Program Files\Python314\Lib\asyncio\runners.py", line 205, in run
+    return runner.run(main)
+           │      │   └ <coroutine object Server.serve at 0x0000027E353D62F0>
+           │      └ <function Runner.run at 0x0000027E34E778A0>
+           └ <asyncio.runners.Runner object at 0x0000027E3547D6A0>
+  File "C:\Program Files\Python314\Lib\asyncio\runners.py", line 128, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task pending name='Task-1' coro=<Server.serve() running at C:\WAC\AI Chat_Bot\venv\Lib\site-packages\uvicorn\server.py:81> w...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x0000027E34E73D70>
+           │    └ <_WindowsSelectorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x0000027E3547D6A0>
+  File "C:\Program Files\Python314\Lib\asyncio\base_events.py", line 706, in run_until_complete
+    self.run_forever()
+    │    └ <function BaseEventLoop.run_forever at 0x0000027E34E73CC0>
+    └ <_WindowsSelectorEventLoop running=True closed=False debug=False>
+  File "C:\Program Files\Python314\Lib\asyncio\base_events.py", line 677, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x0000027E34E75E80>
+    └ <_WindowsSelectorEventLoop running=True closed=False debug=False>
+  File "C:\Program Files\Python314\Lib\asyncio\base_events.py", line 2056, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x0000027E335E64B0>
+    └ <Handle Task.task_wakeup()>
+  File "C:\Program Files\Python314\Lib\asyncio\events.py", line 94, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Task.task_wakeup()>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Task.task_wakeup()>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Task.task_wakeup()>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\uvicorn\protocols\http\httptools_impl.py", line 422, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+                   └ <uvicorn.middleware.proxy_headers.ProxyHeadersMiddleware object at 0x0000027E3B980D70>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 63, in __call__
+    return await self.app(scope, receive, send)
+                 │    │   │      │        └ <bound method RequestResponseCycle.send of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027E3B...
+                 │    │   │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+                 │    │   └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+                 │    └ <fastapi.applications.FastAPI object at 0x0000027E3B980440>
+                 └ <uvicorn.middleware.proxy_headers.ProxyHeadersMiddleware object at 0x0000027E3B980D70>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\fastapi\applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+                           │      │        └ <bound method RequestResponseCycle.send of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027E3B...
+                           │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+                           └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\starlette\applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+          │    │                │      │        └ <bound method RequestResponseCycle.send of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027E3B...
+          │    │                │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+          │    │                └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+          │    └ <starlette.middleware.errors.ServerErrorMiddleware object at 0x0000027E3B9817F0>
+          └ <fastapi.applications.FastAPI object at 0x0000027E3B980440>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+          │    │   │      │        └ <function ServerErrorMiddleware.__call__.<locals>._send at 0x0000027E3BAE16F0>
+          │    │   │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+          │    │   └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+          │    └ <starlette.middleware.cors.CORSMiddleware object at 0x0000027E3B9816A0>
+          └ <starlette.middleware.errors.ServerErrorMiddleware object at 0x0000027E3B9817F0>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\starlette\middleware\cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+          │    │               │      │        │                     └ Headers({'host': '127.0.0.1:8000', 'connection': 'keep-alive', 'content-length': '36', 'sec-ch-ua-platform': '"Windows"', 'us...
+          │    │               │      │        └ <function ServerErrorMiddleware.__call__.<locals>._send at 0x0000027E3BAE16F0>
+          │    │               │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+          │    │               └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+          │    └ <function CORSMiddleware.simple_response at 0x0000027E3665E610>
+          └ <starlette.middleware.cors.CORSMiddleware object at 0x0000027E3B9816A0>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\starlette\middleware\cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+          │    │   │      │        └ functools.partial(<bound method CORSMiddleware.send of <starlette.middleware.cors.CORSMiddleware object at 0x0000027E3B9816A0...
+          │    │   │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+          │    │   └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+          │    └ <starlette.middleware.exceptions.ExceptionMiddleware object at 0x0000027E3B981550>
+          └ <starlette.middleware.cors.CORSMiddleware object at 0x0000027E3B9816A0>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+          │                            │    │    │     │      │        └ functools.partial(<bound method CORSMiddleware.send of <starlette.middleware.cors.CORSMiddleware object at 0x0000027E3B9816A0...
+          │                            │    │    │     │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+          │                            │    │    │     └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+          │                            │    │    └ <starlette.requests.Request object at 0x0000027E3B983230>
+          │                            │    └ <fastapi.middleware.asyncexitstack.AsyncExitStackMiddleware object at 0x0000027E3B981400>
+          │                            └ <starlette.middleware.exceptions.ExceptionMiddleware object at 0x0000027E3B981550>
+          └ <function wrap_app_handling_exceptions at 0x0000027E36579900>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+          │   │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000027E3BAE19B0>
+          │   │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+          │   └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+          └ <fastapi.middleware.asyncexitstack.AsyncExitStackMiddleware object at 0x0000027E3B981400>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+          │    │   │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000027E3BAE19B0>
+          │    │   │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+          │    │   └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+          │    └ <fastapi.routing.APIRouter object at 0x0000027E3B9036F0>
+          └ <fastapi.middleware.asyncexitstack.AsyncExitStackMiddleware object at 0x0000027E3B981400>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+          │    │                │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000027E3BAE19B0>
+          │    │                │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+          │    │                └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+          │    └ <bound method APIRouter.app of <fastapi.routing.APIRouter object at 0x0000027E3B9036F0>>
+          └ <fastapi.routing.APIRouter object at 0x0000027E3B9036F0>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\fastapi\routing.py", line 2734, in app
+    await route.handle(scope, receive, send)
+          │     │      │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000027E3BAE19B0>
+          │     │      │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+          │     │      └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+          │     └ <function _IncludedRouter.handle at 0x0000027E365C6980>
+          └ _IncludedRouter(original_router=<fastapi.routing.APIRouter object at 0x0000027E3B5F2CF0>, include_context=_RouterIncludeConte...
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\fastapi\routing.py", line 1780, in handle
+    await self.original_router.handle(scope, receive, send)
+          │    │               │      │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000027E3BAE19B0>
+          │    │               │      │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+          │    │               │      └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+          │    │               └ <function APIRouter.handle at 0x0000027E365D6F00>
+          │    └ <fastapi.routing.APIRouter object at 0x0000027E3B5F2CF0>
+          └ _IncludedRouter(original_router=<fastapi.routing.APIRouter object at 0x0000027E3B5F2CF0>, include_context=_RouterIncludeConte...
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\fastapi\routing.py", line 2789, in handle
+    await included_router._handle_selected(scope, receive, send)
+          │               │                │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000027E3BAE19B0>
+          │               │                │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+          │               │                └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+          │               └ <function _IncludedRouter._handle_selected at 0x0000027E365C6AE0>
+          └ _IncludedRouter(original_router=<fastapi.routing.APIRouter object at 0x0000027E3B5F2CF0>, include_context=_RouterIncludeConte...
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\fastapi\routing.py", line 1800, in _handle_selected
+    await original_route.handle(scope, receive, send)
+          │              │      │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000027E3BAE19B0>
+          │              │      │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+          │              │      └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+          │              └ <function APIRoute.handle at 0x0000027E365B38A0>
+          └ APIRoute(path='/chat', name='chat', methods=['POST'])
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\fastapi\routing.py", line 1279, in handle
+    await app(scope, receive, send)
+          │   │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000027E3BAE19B0>
+          │   │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+          │   └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+          └ <function request_response.<locals>.app at 0x0000027E3BAE1C70>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\fastapi\routing.py", line 158, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+          │                            │    │        │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000027E3BAE19B0>
+          │                            │    │        │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+          │                            │    │        └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+          │                            │    └ <starlette.requests.Request object at 0x0000027E3B9A5D10>
+          │                            └ <function request_response.<locals>.app.<locals>.app at 0x0000027E3BAE1DD0>
+          └ <function wrap_app_handling_exceptions at 0x0000027E36579900>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+          │   │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000027E3BAE2090>
+          │   │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+          │   └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+          └ <function request_response.<locals>.app.<locals>.app at 0x0000027E3BAE1DD0>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\fastapi\routing.py", line 144, in app
+    response = await f(request)
+                     │ └ <starlette.requests.Request object at 0x0000027E3B9A5D10>
+                     └ <function get_request_handler.<locals>.app at 0x0000027E3BAE1B10>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\fastapi\routing.py", line 706, in app
+    raw_response = await run_endpoint_function(
+                         └ <function run_endpoint_function at 0x0000027E365B1DD0>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\fastapi\routing.py", line 352, in run_endpoint_function
+    return await dependant.call(**values)
+                 │         │      └ {'request': ChatRequest(conversation_id=None, provider='gemini', message='hi')}
+                 │         └ <member 'call' of 'Dependant' objects>
+                 └ Dependant(path_params=[], query_params=[], header_params=[], cookie_params=[], body_params=[ModelField(field_info=Body(Pydant...
+
+  File "C:\WAC\AI Chat_Bot\app\api\chat.py", line 23, in chat
+    result = await chat_service.send_message(
+                   │            └ <function ChatService.send_message at 0x0000027E3B817690>
+                   └ <app.services.chat_service.ChatService object at 0x0000027E3BB9CD70>
+
+  File "C:\WAC\AI Chat_Bot\app\services\chat_service.py", line 62, in send_message
+    response = await self.ai_service.chat(
+                     │    └ <property object at 0x0000027E363C26B0>
+                     └ <app.services.chat_service.ChatService object at 0x0000027E3BB9CD70>
+
+  File "C:\WAC\AI Chat_Bot\app\ai\service.py", line 36, in chat
+    return await ai_provider.generate(prompt)
+                 │           │        └ '\n\n# IDENTITY\n\nYou are WAC AI.\n\nYou are the official AI Assistant for Web and Craft.\n\nYou represent Web and Craft pro...
+                 │           └ <function GeminiProvider.generate at 0x0000027E38D2C930>
+                 └ <app.ai.providers.gemini.GeminiProvider object at 0x0000027E3BB9D160>
+
+> File "C:\WAC\AI Chat_Bot\app\ai\providers\gemini.py", line 27, in generate
+    response = self.client.models.generate_content(
+               │    │      └ <property object at 0x0000027E3B675120>
+               │    └ <google.genai.client.Client object at 0x0000027E3BB9D2B0>
+               └ <app.ai.providers.gemini.GeminiProvider object at 0x0000027E3BB9D160>
+
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\google\genai\models.py", line 6602, in generate_content
+    response = self._generate_content(
+               │    └ <function Models._generate_content at 0x0000027E3B544670>
+               └ <google.genai.models.Models object at 0x0000027E3BCBD010>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\google\genai\models.py", line 5028, in _generate_content
+    response = self._api_client.request(
+               │    │           └ <function BaseApiClient.request at 0x0000027E3B450300>
+               │    └ <google.genai._api_client.BaseApiClient object at 0x0000027E3BB9D400>
+               └ <google.genai.models.Models object at 0x0000027E3BCBD010>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\google\genai\_api_client.py", line 1708, in request
+    response = self._request(http_request, http_options, stream=False)
+               │    │        │             └ None
+               │    │        └ HttpRequest(headers={'Content-Type': 'application/json', 'x-goog-api-key': 'AQ.Ab8RN6JCJPOG7Wi3tMyj4oJE1tvo1JL1dn-Wj8aDMRVRHW...
+               │    └ <function BaseApiClient._request at 0x0000027E3B44BCC0>
+               └ <google.genai._api_client.BaseApiClient object at 0x0000027E3BB9D400>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\google\genai\_api_client.py", line 1495, in _request
+    return self._retry(self._request_once, http_request, stream)  # type: ignore[no-any-return]
+           │    │      │    │              │             └ False
+           │    │      │    │              └ HttpRequest(headers={'Content-Type': 'application/json', 'x-goog-api-key': 'AQ.Ab8RN6JCJPOG7Wi3tMyj4oJE1tvo1JL1dn-Wj8aDMRVRHW...
+           │    │      │    └ <function BaseApiClient._request_once at 0x0000027E3B44BB60>
+           │    │      └ <google.genai._api_client.BaseApiClient object at 0x0000027E3BB9D400>
+           │    └ <Retrying object at 0x27e3bb9fe00 (stop=<tenacity.stop.stop_after_attempt object at 0x0000027E3BB9FCB0>, wait=<tenacity.wait....
+           └ <google.genai._api_client.BaseApiClient object at 0x0000027E3BB9D400>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\tenacity\__init__.py", line 470, in __call__
+    do = self.iter(retry_state=retry_state)
+         │    │                └ <RetryCallState 2741192350688: attempt #1; slept for 0.0; last result: failed (ServerError 503 UNAVAILABLE. {'error': {'code'...
+         │    └ <function BaseRetrying.iter at 0x0000027E3B3FD170>
+         └ <Retrying object at 0x27e3bb9fe00 (stop=<tenacity.stop.stop_after_attempt object at 0x0000027E3BB9FCB0>, wait=<tenacity.wait....
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\tenacity\__init__.py", line 371, in iter
+    result = action(retry_state)
+             │      └ <RetryCallState 2741192350688: attempt #1; slept for 0.0; last result: failed (ServerError 503 UNAVAILABLE. {'error': {'code'...
+             └ <function BaseRetrying._post_stop_check_actions.<locals>.exc_check at 0x0000027E3BAE24B0>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\tenacity\__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          │         └ <function RetryError.reraise at 0x0000027E3B3E7A00>
+          └ RetryError(<Future at 0x27e3bcbe120 state=finished raised ServerError>)
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\tenacity\__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          │    │            └ <function Future.result at 0x0000027E33565B10>
+          │    └ <Future at 0x27e3bcbe120 state=finished raised ServerError>
+          └ RetryError(<Future at 0x27e3bcbe120 state=finished raised ServerError>)
+  File "C:\Program Files\Python314\Lib\concurrent\futures\_base.py", line 447, in result
+    return self.__get_result()
+           └ None
+  File "C:\Program Files\Python314\Lib\concurrent\futures\_base.py", line 396, in __get_result
+    raise self._exception
+          └ None
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\tenacity\__init__.py", line 473, in __call__
+    result = fn(*args, **kwargs)
+             │   │       └ {}
+             │   └ (HttpRequest(headers={'Content-Type': 'application/json', 'x-goog-api-key': 'AQ.Ab8RN6JCJPOG7Wi3tMyj4oJE1tvo1JL1dn-Wj8aDMRVRH...
+             └ <bound method BaseApiClient._request_once of <google.genai._api_client.BaseApiClient object at 0x0000027E3BB9D400>>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\google\genai\_api_client.py", line 1472, in _request_once
+    errors.APIError.raise_for_response(response)
+    │      │        │                  └ <Response [503 Service Unavailable]>
+    │      │        └ <classmethod(<function APIError.raise_for_response at 0x0000027E3B4022A0>)>
+    │      └ <class 'google.genai.errors.APIError'>
+    └ <module 'google.genai.errors' from 'C:\\WAC\\AI Chat_Bot\\venv\\Lib\\site-packages\\google\\genai\\errors.py'>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\google\genai\errors.py", line 155, in raise_for_response
+    cls.raise_error(response.status_code, response_json, response)
+    │   │           │        │            │              └ <Response [503 Service Unavailable]>
+    │   │           │        │            └ {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary....
+    │   │           │        └ 503
+    │   │           └ <Response [503 Service Unavailable]>
+    │   └ <classmethod(<function APIError.raise_error at 0x0000027E3B402400>)>
+    └ <class 'google.genai.errors.APIError'>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\google\genai\errors.py", line 186, in raise_error
+    raise ServerError(status_code, response_json, response)
+          │           │            │              └ <Response [503 Service Unavailable]>
+          │           │            └ {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary....
+          │           └ 503
+          └ <class 'google.genai.errors.ServerError'>
+
+google.genai.errors.ServerError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}
+2026-08-06 11:34:32 | INFO | app.ai.providers.groq:__init__:20 - Groq Provider initialized
+2026-08-06 11:34:33 | INFO | app.ai.providers.groq:generate:38 - Groq response generated
+2026-08-06 11:35:04 | INFO | app.ai.providers.gemini:__init__:19 - Gemini Provider initialized
+2026-08-06 11:35:27 | ERROR | app.ai.providers.gemini:generate:38 - Gemini provider failed
+Traceback (most recent call last):
+
+  File "<string>", line 1, in <module>
+  File "C:\Program Files\Python314\Lib\multiprocessing\spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+               │     │   └ 348
+               │     └ 3
+               └ <function _main at 0x0000027E32F97CC0>
+  File "C:\Program Files\Python314\Lib\multiprocessing\spawn.py", line 135, in _main
+    return self._bootstrap(parent_sentinel)
+           │    │          └ 348
+           │    └ <function BaseProcess._bootstrap at 0x0000027E32E69DD0>
+           └ <SpawnProcess name='SpawnProcess-45' parent=14232 started>
+  File "C:\Program Files\Python314\Lib\multiprocessing\process.py", line 320, in _bootstrap
+    self.run()
+    │    └ <function BaseProcess.run at 0x0000027E32E69170>
+    └ <SpawnProcess name='SpawnProcess-45' parent=14232 started>
+  File "C:\Program Files\Python314\Lib\multiprocessing\process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {'config': <uvicorn.config.Config object at 0x0000027E3547C6E0>, 'target': <bound method Server.run of <uvicorn.server.Server...
+    │    │        │    │        └ <SpawnProcess name='SpawnProcess-45' parent=14232 started>
+    │    │        │    └ ()
+    │    │        └ <SpawnProcess name='SpawnProcess-45' parent=14232 started>
+    │    └ <function subprocess_started at 0x0000027E352712D0>
+    └ <SpawnProcess name='SpawnProcess-45' parent=14232 started>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\uvicorn\_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+    │              └ [<socket.socket fd=608, family=2, type=1, proto=6, laddr=('127.0.0.1', 8000)>]
+    └ <bound method Server.run of <uvicorn.server.Server object at 0x0000027E3547C830>>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\uvicorn\server.py", line 77, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+           │           │    │             │                      │    │      └ <function Config.get_loop_factory at 0x0000027E3508D170>
+           │           │    │             │                      │    └ <uvicorn.config.Config object at 0x0000027E3547C6E0>
+           │           │    │             │                      └ <uvicorn.server.Server object at 0x0000027E3547C830>
+           │           │    │             └ [<socket.socket fd=608, family=2, type=1, proto=6, laddr=('127.0.0.1', 8000)>]
+           │           │    └ <function Server.serve at 0x0000027E35250720>
+           │           └ <uvicorn.server.Server object at 0x0000027E3547C830>
+           └ <function run at 0x0000027E34E77480>
+  File "C:\Program Files\Python314\Lib\asyncio\runners.py", line 205, in run
+    return runner.run(main)
+           │      │   └ <coroutine object Server.serve at 0x0000027E353D62F0>
+           │      └ <function Runner.run at 0x0000027E34E778A0>
+           └ <asyncio.runners.Runner object at 0x0000027E3547D6A0>
+  File "C:\Program Files\Python314\Lib\asyncio\runners.py", line 128, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task pending name='Task-1' coro=<Server.serve() running at C:\WAC\AI Chat_Bot\venv\Lib\site-packages\uvicorn\server.py:81> w...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x0000027E34E73D70>
+           │    └ <_WindowsSelectorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x0000027E3547D6A0>
+  File "C:\Program Files\Python314\Lib\asyncio\base_events.py", line 706, in run_until_complete
+    self.run_forever()
+    │    └ <function BaseEventLoop.run_forever at 0x0000027E34E73CC0>
+    └ <_WindowsSelectorEventLoop running=True closed=False debug=False>
+  File "C:\Program Files\Python314\Lib\asyncio\base_events.py", line 677, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x0000027E34E75E80>
+    └ <_WindowsSelectorEventLoop running=True closed=False debug=False>
+  File "C:\Program Files\Python314\Lib\asyncio\base_events.py", line 2056, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x0000027E335E64B0>
+    └ <Handle Task.task_wakeup()>
+  File "C:\Program Files\Python314\Lib\asyncio\events.py", line 94, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Task.task_wakeup()>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Task.task_wakeup()>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Task.task_wakeup()>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\uvicorn\protocols\http\httptools_impl.py", line 422, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+                   └ <uvicorn.middleware.proxy_headers.ProxyHeadersMiddleware object at 0x0000027E3B980D70>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 63, in __call__
+    return await self.app(scope, receive, send)
+                 │    │   │      │        └ <bound method RequestResponseCycle.send of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027E3B...
+                 │    │   │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+                 │    │   └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+                 │    └ <fastapi.applications.FastAPI object at 0x0000027E3B980440>
+                 └ <uvicorn.middleware.proxy_headers.ProxyHeadersMiddleware object at 0x0000027E3B980D70>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\fastapi\applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+                           │      │        └ <bound method RequestResponseCycle.send of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027E3B...
+                           │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+                           └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\starlette\applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+          │    │                │      │        └ <bound method RequestResponseCycle.send of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027E3B...
+          │    │                │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+          │    │                └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+          │    └ <starlette.middleware.errors.ServerErrorMiddleware object at 0x0000027E3B9817F0>
+          └ <fastapi.applications.FastAPI object at 0x0000027E3B980440>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+          │    │   │      │        └ <function ServerErrorMiddleware.__call__.<locals>._send at 0x0000027E3BAE19B0>
+          │    │   │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+          │    │   └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+          │    └ <starlette.middleware.cors.CORSMiddleware object at 0x0000027E3B9816A0>
+          └ <starlette.middleware.errors.ServerErrorMiddleware object at 0x0000027E3B9817F0>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\starlette\middleware\cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+          │    │               │      │        │                     └ Headers({'host': '127.0.0.1:8000', 'connection': 'keep-alive', 'content-length': '108', 'sec-ch-ua-platform': '"Windows"', 'u...
+          │    │               │      │        └ <function ServerErrorMiddleware.__call__.<locals>._send at 0x0000027E3BAE19B0>
+          │    │               │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+          │    │               └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+          │    └ <function CORSMiddleware.simple_response at 0x0000027E3665E610>
+          └ <starlette.middleware.cors.CORSMiddleware object at 0x0000027E3B9816A0>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\starlette\middleware\cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+          │    │   │      │        └ functools.partial(<bound method CORSMiddleware.send of <starlette.middleware.cors.CORSMiddleware object at 0x0000027E3B9816A0...
+          │    │   │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+          │    │   └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+          │    └ <starlette.middleware.exceptions.ExceptionMiddleware object at 0x0000027E3B981550>
+          └ <starlette.middleware.cors.CORSMiddleware object at 0x0000027E3B9816A0>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+          │                            │    │    │     │      │        └ functools.partial(<bound method CORSMiddleware.send of <starlette.middleware.cors.CORSMiddleware object at 0x0000027E3B9816A0...
+          │                            │    │    │     │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+          │                            │    │    │     └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+          │                            │    │    └ <starlette.requests.Request object at 0x0000027E3BB01C70>
+          │                            │    └ <fastapi.middleware.asyncexitstack.AsyncExitStackMiddleware object at 0x0000027E3B981400>
+          │                            └ <starlette.middleware.exceptions.ExceptionMiddleware object at 0x0000027E3B981550>
+          └ <function wrap_app_handling_exceptions at 0x0000027E36579900>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+          │   │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000027E3BAE1A60>
+          │   │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+          │   └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+          └ <fastapi.middleware.asyncexitstack.AsyncExitStackMiddleware object at 0x0000027E3B981400>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+          │    │   │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000027E3BAE1A60>
+          │    │   │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+          │    │   └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+          │    └ <fastapi.routing.APIRouter object at 0x0000027E3B9036F0>
+          └ <fastapi.middleware.asyncexitstack.AsyncExitStackMiddleware object at 0x0000027E3B981400>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+          │    │                │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000027E3BAE1A60>
+          │    │                │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+          │    │                └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+          │    └ <bound method APIRouter.app of <fastapi.routing.APIRouter object at 0x0000027E3B9036F0>>
+          └ <fastapi.routing.APIRouter object at 0x0000027E3B9036F0>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\fastapi\routing.py", line 2734, in app
+    await route.handle(scope, receive, send)
+          │     │      │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000027E3BAE1A60>
+          │     │      │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+          │     │      └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+          │     └ <function _IncludedRouter.handle at 0x0000027E365C6980>
+          └ _IncludedRouter(original_router=<fastapi.routing.APIRouter object at 0x0000027E3B5F2CF0>, include_context=_RouterIncludeConte...
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\fastapi\routing.py", line 1780, in handle
+    await self.original_router.handle(scope, receive, send)
+          │    │               │      │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000027E3BAE1A60>
+          │    │               │      │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+          │    │               │      └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+          │    │               └ <function APIRouter.handle at 0x0000027E365D6F00>
+          │    └ <fastapi.routing.APIRouter object at 0x0000027E3B5F2CF0>
+          └ _IncludedRouter(original_router=<fastapi.routing.APIRouter object at 0x0000027E3B5F2CF0>, include_context=_RouterIncludeConte...
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\fastapi\routing.py", line 2789, in handle
+    await included_router._handle_selected(scope, receive, send)
+          │               │                │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000027E3BAE1A60>
+          │               │                │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+          │               │                └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+          │               └ <function _IncludedRouter._handle_selected at 0x0000027E365C6AE0>
+          └ _IncludedRouter(original_router=<fastapi.routing.APIRouter object at 0x0000027E3B5F2CF0>, include_context=_RouterIncludeConte...
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\fastapi\routing.py", line 1800, in _handle_selected
+    await original_route.handle(scope, receive, send)
+          │              │      │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000027E3BAE1A60>
+          │              │      │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+          │              │      └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+          │              └ <function APIRoute.handle at 0x0000027E365B38A0>
+          └ APIRoute(path='/chat', name='chat', methods=['POST'])
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\fastapi\routing.py", line 1279, in handle
+    await app(scope, receive, send)
+          │   │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000027E3BAE1A60>
+          │   │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+          │   └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+          └ <function request_response.<locals>.app at 0x0000027E3BAE1E80>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\fastapi\routing.py", line 158, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+          │                            │    │        │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000027E3BAE1A60>
+          │                            │    │        │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+          │                            │    │        └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+          │                            │    └ <starlette.requests.Request object at 0x0000027E3CF00B90>
+          │                            └ <function request_response.<locals>.app.<locals>.app at 0x0000027E3BAE21F0>
+          └ <function wrap_app_handling_exceptions at 0x0000027E36579900>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+          │   │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000027E3BAE1850>
+          │   │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+          │   └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+          └ <function request_response.<locals>.app.<locals>.app at 0x0000027E3BAE21F0>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\fastapi\routing.py", line 144, in app
+    response = await f(request)
+                     │ └ <starlette.requests.Request object at 0x0000027E3CF00B90>
+                     └ <function get_request_handler.<locals>.app at 0x0000027E3BAE1FE0>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\fastapi\routing.py", line 706, in app
+    raw_response = await run_endpoint_function(
+                         └ <function run_endpoint_function at 0x0000027E365B1DD0>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\fastapi\routing.py", line 352, in run_endpoint_function
+    return await dependant.call(**values)
+                 │         │      └ {'request': ChatRequest(conversation_id='6a7423f05fc2f2ea29991c20', provider='gemini', message='how is the working of the wac')}
+                 │         └ <member 'call' of 'Dependant' objects>
+                 └ Dependant(path_params=[], query_params=[], header_params=[], cookie_params=[], body_params=[ModelField(field_info=Body(Pydant...
+
+  File "C:\WAC\AI Chat_Bot\app\api\chat.py", line 23, in chat
+    result = await chat_service.send_message(
+                   │            └ <function ChatService.send_message at 0x0000027E3B817690>
+                   └ <app.services.chat_service.ChatService object at 0x0000027E3BC2B110>
+
+  File "C:\WAC\AI Chat_Bot\app\services\chat_service.py", line 62, in send_message
+    response = await self.ai_service.chat(
+                     │    └ <property object at 0x0000027E363C26B0>
+                     └ <app.services.chat_service.ChatService object at 0x0000027E3BC2B110>
+
+  File "C:\WAC\AI Chat_Bot\app\ai\service.py", line 36, in chat
+    return await ai_provider.generate(prompt)
+                 │           │        └ '\n\n# IDENTITY\n\nYou are WAC AI.\n\nYou are the official AI Assistant for Web and Craft.\n\nYou represent Web and Craft pro...
+                 │           └ <function GeminiProvider.generate at 0x0000027E38D2C930>
+                 └ <app.ai.providers.gemini.GeminiProvider object at 0x0000027E3BC2AFD0>
+
+> File "C:\WAC\AI Chat_Bot\app\ai\providers\gemini.py", line 27, in generate
+    response = self.client.models.generate_content(
+               │    │      └ <property object at 0x0000027E3B675120>
+               │    └ <google.genai.client.Client object at 0x0000027E3BC29810>
+               └ <app.ai.providers.gemini.GeminiProvider object at 0x0000027E3BC2AFD0>
+
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\google\genai\models.py", line 6602, in generate_content
+    response = self._generate_content(
+               │    └ <function Models._generate_content at 0x0000027E3B544670>
+               └ <google.genai.models.Models object at 0x0000027E3CF44910>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\google\genai\models.py", line 5028, in _generate_content
+    response = self._api_client.request(
+               │    │           └ <function BaseApiClient.request at 0x0000027E3B450300>
+               │    └ <google.genai._api_client.BaseApiClient object at 0x0000027E3BC296D0>
+               └ <google.genai.models.Models object at 0x0000027E3CF44910>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\google\genai\_api_client.py", line 1708, in request
+    response = self._request(http_request, http_options, stream=False)
+               │    │        │             └ None
+               │    │        └ HttpRequest(headers={'Content-Type': 'application/json', 'x-goog-api-key': 'AQ.Ab8RN6JCJPOG7Wi3tMyj4oJE1tvo1JL1dn-Wj8aDMRVRHW...
+               │    └ <function BaseApiClient._request at 0x0000027E3B44BCC0>
+               └ <google.genai._api_client.BaseApiClient object at 0x0000027E3BC296D0>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\google\genai\_api_client.py", line 1495, in _request
+    return self._retry(self._request_once, http_request, stream)  # type: ignore[no-any-return]
+           │    │      │    │              │             └ False
+           │    │      │    │              └ HttpRequest(headers={'Content-Type': 'application/json', 'x-goog-api-key': 'AQ.Ab8RN6JCJPOG7Wi3tMyj4oJE1tvo1JL1dn-Wj8aDMRVRHW...
+           │    │      │    └ <function BaseApiClient._request_once at 0x0000027E3B44BB60>
+           │    │      └ <google.genai._api_client.BaseApiClient object at 0x0000027E3BC296D0>
+           │    └ <Retrying object at 0x27e3cdd7890 (stop=<tenacity.stop.stop_after_attempt object at 0x0000027E3CDD7750>, wait=<tenacity.wait....
+           └ <google.genai._api_client.BaseApiClient object at 0x0000027E3BC296D0>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\tenacity\__init__.py", line 470, in __call__
+    do = self.iter(retry_state=retry_state)
+         │    │                └ <RetryCallState 2741211780176: attempt #1; slept for 0.0; last result: failed (ServerError 503 UNAVAILABLE. {'error': {'code'...
+         │    └ <function BaseRetrying.iter at 0x0000027E3B3FD170>
+         └ <Retrying object at 0x27e3cdd7890 (stop=<tenacity.stop.stop_after_attempt object at 0x0000027E3CDD7750>, wait=<tenacity.wait....
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\tenacity\__init__.py", line 371, in iter
+    result = action(retry_state)
+             │      └ <RetryCallState 2741211780176: attempt #1; slept for 0.0; last result: failed (ServerError 503 UNAVAILABLE. {'error': {'code'...
+             └ <function BaseRetrying._post_stop_check_actions.<locals>.exc_check at 0x0000027E3CE5B3D0>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\tenacity\__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          │         └ <function RetryError.reraise at 0x0000027E3B3E7A00>
+          └ RetryError(<Future at 0x27e3cf45950 state=finished raised ServerError>)
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\tenacity\__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          │    │            └ <function Future.result at 0x0000027E33565B10>
+          │    └ <Future at 0x27e3cf45950 state=finished raised ServerError>
+          └ RetryError(<Future at 0x27e3cf45950 state=finished raised ServerError>)
+  File "C:\Program Files\Python314\Lib\concurrent\futures\_base.py", line 447, in result
+    return self.__get_result()
+           └ None
+  File "C:\Program Files\Python314\Lib\concurrent\futures\_base.py", line 396, in __get_result
+    raise self._exception
+          └ None
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\tenacity\__init__.py", line 473, in __call__
+    result = fn(*args, **kwargs)
+             │   │       └ {}
+             │   └ (HttpRequest(headers={'Content-Type': 'application/json', 'x-goog-api-key': 'AQ.Ab8RN6JCJPOG7Wi3tMyj4oJE1tvo1JL1dn-Wj8aDMRVRH...
+             └ <bound method BaseApiClient._request_once of <google.genai._api_client.BaseApiClient object at 0x0000027E3BC296D0>>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\google\genai\_api_client.py", line 1472, in _request_once
+    errors.APIError.raise_for_response(response)
+    │      │        │                  └ <Response [503 Service Unavailable]>
+    │      │        └ <classmethod(<function APIError.raise_for_response at 0x0000027E3B4022A0>)>
+    │      └ <class 'google.genai.errors.APIError'>
+    └ <module 'google.genai.errors' from 'C:\\WAC\\AI Chat_Bot\\venv\\Lib\\site-packages\\google\\genai\\errors.py'>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\google\genai\errors.py", line 155, in raise_for_response
+    cls.raise_error(response.status_code, response_json, response)
+    │   │           │        │            │              └ <Response [503 Service Unavailable]>
+    │   │           │        │            └ {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary....
+    │   │           │        └ 503
+    │   │           └ <Response [503 Service Unavailable]>
+    │   └ <classmethod(<function APIError.raise_error at 0x0000027E3B402400>)>
+    └ <class 'google.genai.errors.APIError'>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\google\genai\errors.py", line 186, in raise_error
+    raise ServerError(status_code, response_json, response)
+          │           │            │              └ <Response [503 Service Unavailable]>
+          │           │            └ {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary....
+          │           └ 503
+          └ <class 'google.genai.errors.ServerError'>
+
+google.genai.errors.ServerError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}
+2026-08-06 11:35:41 | INFO | app.ai.providers.groq:__init__:20 - Groq Provider initialized
+2026-08-06 11:35:41 | INFO | app.ai.providers.groq:generate:38 - Groq response generated
+2026-08-06 11:36:11 | INFO | app.ai.providers.groq:__init__:20 - Groq Provider initialized
+2026-08-06 11:36:12 | INFO | app.ai.providers.groq:generate:38 - Groq response generated
+2026-08-06 11:37:08 | INFO | app.ai.providers.groq:__init__:20 - Groq Provider initialized
+2026-08-06 11:37:09 | INFO | app.ai.providers.groq:generate:38 - Groq response generated
+2026-08-06 11:37:35 | INFO | app.ai.providers.gemini:__init__:19 - Gemini Provider initialized
+2026-08-06 11:37:39 | ERROR | app.ai.providers.gemini:generate:38 - Gemini provider failed
+Traceback (most recent call last):
+
+  File "<string>", line 1, in <module>
+  File "C:\Program Files\Python314\Lib\multiprocessing\spawn.py", line 122, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+               │     │   └ 348
+               │     └ 3
+               └ <function _main at 0x0000027E32F97CC0>
+  File "C:\Program Files\Python314\Lib\multiprocessing\spawn.py", line 135, in _main
+    return self._bootstrap(parent_sentinel)
+           │    │          └ 348
+           │    └ <function BaseProcess._bootstrap at 0x0000027E32E69DD0>
+           └ <SpawnProcess name='SpawnProcess-45' parent=14232 started>
+  File "C:\Program Files\Python314\Lib\multiprocessing\process.py", line 320, in _bootstrap
+    self.run()
+    │    └ <function BaseProcess.run at 0x0000027E32E69170>
+    └ <SpawnProcess name='SpawnProcess-45' parent=14232 started>
+  File "C:\Program Files\Python314\Lib\multiprocessing\process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {'config': <uvicorn.config.Config object at 0x0000027E3547C6E0>, 'target': <bound method Server.run of <uvicorn.server.Server...
+    │    │        │    │        └ <SpawnProcess name='SpawnProcess-45' parent=14232 started>
+    │    │        │    └ ()
+    │    │        └ <SpawnProcess name='SpawnProcess-45' parent=14232 started>
+    │    └ <function subprocess_started at 0x0000027E352712D0>
+    └ <SpawnProcess name='SpawnProcess-45' parent=14232 started>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\uvicorn\_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+    │              └ [<socket.socket fd=608, family=2, type=1, proto=6, laddr=('127.0.0.1', 8000)>]
+    └ <bound method Server.run of <uvicorn.server.Server object at 0x0000027E3547C830>>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\uvicorn\server.py", line 77, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+           │           │    │             │                      │    │      └ <function Config.get_loop_factory at 0x0000027E3508D170>
+           │           │    │             │                      │    └ <uvicorn.config.Config object at 0x0000027E3547C6E0>
+           │           │    │             │                      └ <uvicorn.server.Server object at 0x0000027E3547C830>
+           │           │    │             └ [<socket.socket fd=608, family=2, type=1, proto=6, laddr=('127.0.0.1', 8000)>]
+           │           │    └ <function Server.serve at 0x0000027E35250720>
+           │           └ <uvicorn.server.Server object at 0x0000027E3547C830>
+           └ <function run at 0x0000027E34E77480>
+  File "C:\Program Files\Python314\Lib\asyncio\runners.py", line 205, in run
+    return runner.run(main)
+           │      │   └ <coroutine object Server.serve at 0x0000027E353D62F0>
+           │      └ <function Runner.run at 0x0000027E34E778A0>
+           └ <asyncio.runners.Runner object at 0x0000027E3547D6A0>
+  File "C:\Program Files\Python314\Lib\asyncio\runners.py", line 128, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task pending name='Task-1' coro=<Server.serve() running at C:\WAC\AI Chat_Bot\venv\Lib\site-packages\uvicorn\server.py:81> w...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x0000027E34E73D70>
+           │    └ <_WindowsSelectorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x0000027E3547D6A0>
+  File "C:\Program Files\Python314\Lib\asyncio\base_events.py", line 706, in run_until_complete
+    self.run_forever()
+    │    └ <function BaseEventLoop.run_forever at 0x0000027E34E73CC0>
+    └ <_WindowsSelectorEventLoop running=True closed=False debug=False>
+  File "C:\Program Files\Python314\Lib\asyncio\base_events.py", line 677, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x0000027E34E75E80>
+    └ <_WindowsSelectorEventLoop running=True closed=False debug=False>
+  File "C:\Program Files\Python314\Lib\asyncio\base_events.py", line 2056, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x0000027E335E64B0>
+    └ <Handle Task.task_wakeup()>
+  File "C:\Program Files\Python314\Lib\asyncio\events.py", line 94, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Task.task_wakeup()>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Task.task_wakeup()>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Task.task_wakeup()>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\uvicorn\protocols\http\httptools_impl.py", line 422, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+                   └ <uvicorn.middleware.proxy_headers.ProxyHeadersMiddleware object at 0x0000027E3B980D70>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 63, in __call__
+    return await self.app(scope, receive, send)
+                 │    │   │      │        └ <bound method RequestResponseCycle.send of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027E3B...
+                 │    │   │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+                 │    │   └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+                 │    └ <fastapi.applications.FastAPI object at 0x0000027E3B980440>
+                 └ <uvicorn.middleware.proxy_headers.ProxyHeadersMiddleware object at 0x0000027E3B980D70>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\fastapi\applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+                           │      │        └ <bound method RequestResponseCycle.send of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027E3B...
+                           │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+                           └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\starlette\applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+          │    │                │      │        └ <bound method RequestResponseCycle.send of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027E3B...
+          │    │                │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+          │    │                └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+          │    └ <starlette.middleware.errors.ServerErrorMiddleware object at 0x0000027E3B9817F0>
+          └ <fastapi.applications.FastAPI object at 0x0000027E3B980440>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+          │    │   │      │        └ <function ServerErrorMiddleware.__call__.<locals>._send at 0x0000027E3B999C70>
+          │    │   │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+          │    │   └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+          │    └ <starlette.middleware.cors.CORSMiddleware object at 0x0000027E3B9816A0>
+          └ <starlette.middleware.errors.ServerErrorMiddleware object at 0x0000027E3B9817F0>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\starlette\middleware\cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+          │    │               │      │        │                     └ Headers({'host': '127.0.0.1:8000', 'connection': 'keep-alive', 'content-length': '93', 'sec-ch-ua-platform': '"Windows"', 'us...
+          │    │               │      │        └ <function ServerErrorMiddleware.__call__.<locals>._send at 0x0000027E3B999C70>
+          │    │               │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+          │    │               └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+          │    └ <function CORSMiddleware.simple_response at 0x0000027E3665E610>
+          └ <starlette.middleware.cors.CORSMiddleware object at 0x0000027E3B9816A0>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\starlette\middleware\cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+          │    │   │      │        └ functools.partial(<bound method CORSMiddleware.send of <starlette.middleware.cors.CORSMiddleware object at 0x0000027E3B9816A0...
+          │    │   │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+          │    │   └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+          │    └ <starlette.middleware.exceptions.ExceptionMiddleware object at 0x0000027E3B981550>
+          └ <starlette.middleware.cors.CORSMiddleware object at 0x0000027E3B9816A0>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+          │                            │    │    │     │      │        └ functools.partial(<bound method CORSMiddleware.send of <starlette.middleware.cors.CORSMiddleware object at 0x0000027E3B9816A0...
+          │                            │    │    │     │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+          │                            │    │    │     └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+          │                            │    │    └ <starlette.requests.Request object at 0x0000027E3CE5B330>
+          │                            │    └ <fastapi.middleware.asyncexitstack.AsyncExitStackMiddleware object at 0x0000027E3B981400>
+          │                            └ <starlette.middleware.exceptions.ExceptionMiddleware object at 0x0000027E3B981550>
+          └ <function wrap_app_handling_exceptions at 0x0000027E36579900>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+          │   │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000027E3CE5B270>
+          │   │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+          │   └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+          └ <fastapi.middleware.asyncexitstack.AsyncExitStackMiddleware object at 0x0000027E3B981400>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+          │    │   │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000027E3CE5B270>
+          │    │   │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+          │    │   └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+          │    └ <fastapi.routing.APIRouter object at 0x0000027E3B9036F0>
+          └ <fastapi.middleware.asyncexitstack.AsyncExitStackMiddleware object at 0x0000027E3B981400>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+          │    │                │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000027E3CE5B270>
+          │    │                │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+          │    │                └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+          │    └ <bound method APIRouter.app of <fastapi.routing.APIRouter object at 0x0000027E3B9036F0>>
+          └ <fastapi.routing.APIRouter object at 0x0000027E3B9036F0>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\fastapi\routing.py", line 2734, in app
+    await route.handle(scope, receive, send)
+          │     │      │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000027E3CE5B270>
+          │     │      │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+          │     │      └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+          │     └ <function _IncludedRouter.handle at 0x0000027E365C6980>
+          └ _IncludedRouter(original_router=<fastapi.routing.APIRouter object at 0x0000027E3B5F2CF0>, include_context=_RouterIncludeConte...
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\fastapi\routing.py", line 1780, in handle
+    await self.original_router.handle(scope, receive, send)
+          │    │               │      │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000027E3CE5B270>
+          │    │               │      │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+          │    │               │      └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+          │    │               └ <function APIRouter.handle at 0x0000027E365D6F00>
+          │    └ <fastapi.routing.APIRouter object at 0x0000027E3B5F2CF0>
+          └ _IncludedRouter(original_router=<fastapi.routing.APIRouter object at 0x0000027E3B5F2CF0>, include_context=_RouterIncludeConte...
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\fastapi\routing.py", line 2789, in handle
+    await included_router._handle_selected(scope, receive, send)
+          │               │                │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000027E3CE5B270>
+          │               │                │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+          │               │                └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+          │               └ <function _IncludedRouter._handle_selected at 0x0000027E365C6AE0>
+          └ _IncludedRouter(original_router=<fastapi.routing.APIRouter object at 0x0000027E3B5F2CF0>, include_context=_RouterIncludeConte...
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\fastapi\routing.py", line 1800, in _handle_selected
+    await original_route.handle(scope, receive, send)
+          │              │      │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000027E3CE5B270>
+          │              │      │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+          │              │      └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+          │              └ <function APIRoute.handle at 0x0000027E365B38A0>
+          └ APIRoute(path='/chat', name='chat', methods=['POST'])
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\fastapi\routing.py", line 1279, in handle
+    await app(scope, receive, send)
+          │   │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000027E3CE5B270>
+          │   │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+          │   └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+          └ <function request_response.<locals>.app at 0x0000027E3BAE1DD0>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\fastapi\routing.py", line 158, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+          │                            │    │        │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000027E3CE5B270>
+          │                            │    │        │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+          │                            │    │        └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+          │                            │    └ <starlette.requests.Request object at 0x0000027E3BAE19C0>
+          │                            └ <function request_response.<locals>.app.<locals>.app at 0x0000027E3BAE1E80>
+          └ <function wrap_app_handling_exceptions at 0x0000027E36579900>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+          │   │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000027E3BAE1FE0>
+          │   │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.httptools_impl.RequestResponseCycle object at 0x0000027...
+          │   └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('127.0.0.1', 8000), 'cl...
+          └ <function request_response.<locals>.app.<locals>.app at 0x0000027E3BAE1E80>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\fastapi\routing.py", line 144, in app
+    response = await f(request)
+                     │ └ <starlette.requests.Request object at 0x0000027E3BAE19C0>
+                     └ <function get_request_handler.<locals>.app at 0x0000027E3CE5B5E0>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\fastapi\routing.py", line 706, in app
+    raw_response = await run_endpoint_function(
+                         └ <function run_endpoint_function at 0x0000027E365B1DD0>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\fastapi\routing.py", line 352, in run_endpoint_function
+    return await dependant.call(**values)
+                 │         │      └ {'request': ChatRequest(conversation_id='6a7423f05fc2f2ea29991c20', provider='gemini', message='who is the ceo')}
+                 │         └ <member 'call' of 'Dependant' objects>
+                 └ Dependant(path_params=[], query_params=[], header_params=[], cookie_params=[], body_params=[ModelField(field_info=Body(Pydant...
+
+  File "C:\WAC\AI Chat_Bot\app\api\chat.py", line 23, in chat
+    result = await chat_service.send_message(
+                   │            └ <function ChatService.send_message at 0x0000027E3B817690>
+                   └ <app.services.chat_service.ChatService object at 0x0000027E3BC9D590>
+
+  File "C:\WAC\AI Chat_Bot\app\services\chat_service.py", line 62, in send_message
+    response = await self.ai_service.chat(
+                     │    └ <property object at 0x0000027E363C26B0>
+                     └ <app.services.chat_service.ChatService object at 0x0000027E3BC9D590>
+
+  File "C:\WAC\AI Chat_Bot\app\ai\service.py", line 36, in chat
+    return await ai_provider.generate(prompt)
+                 │           │        └ '\n\n# IDENTITY\n\nYou are WAC AI.\n\nYou are the official AI Assistant for Web and Craft.\n\nYou represent Web and Craft pro...
+                 │           └ <function GeminiProvider.generate at 0x0000027E38D2C930>
+                 └ <app.ai.providers.gemini.GeminiProvider object at 0x0000027E3B9A60D0>
+
+> File "C:\WAC\AI Chat_Bot\app\ai\providers\gemini.py", line 27, in generate
+    response = self.client.models.generate_content(
+               │    │      └ <property object at 0x0000027E3B675120>
+               │    └ <google.genai.client.Client object at 0x0000027E3CF47110>
+               └ <app.ai.providers.gemini.GeminiProvider object at 0x0000027E3B9A60D0>
+
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\google\genai\models.py", line 6602, in generate_content
+    response = self._generate_content(
+               │    └ <function Models._generate_content at 0x0000027E3B544670>
+               └ <google.genai.models.Models object at 0x0000027E3CF60CD0>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\google\genai\models.py", line 5028, in _generate_content
+    response = self._api_client.request(
+               │    │           └ <function BaseApiClient.request at 0x0000027E3B450300>
+               │    └ <google.genai._api_client.BaseApiClient object at 0x0000027E3CF47750>
+               └ <google.genai.models.Models object at 0x0000027E3CF60CD0>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\google\genai\_api_client.py", line 1708, in request
+    response = self._request(http_request, http_options, stream=False)
+               │    │        │             └ None
+               │    │        └ HttpRequest(headers={'Content-Type': 'application/json', 'x-goog-api-key': 'AQ.Ab8RN6JCJPOG7Wi3tMyj4oJE1tvo1JL1dn-Wj8aDMRVRHW...
+               │    └ <function BaseApiClient._request at 0x0000027E3B44BCC0>
+               └ <google.genai._api_client.BaseApiClient object at 0x0000027E3CF47750>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\google\genai\_api_client.py", line 1495, in _request
+    return self._retry(self._request_once, http_request, stream)  # type: ignore[no-any-return]
+           │    │      │    │              │             └ False
+           │    │      │    │              └ HttpRequest(headers={'Content-Type': 'application/json', 'x-goog-api-key': 'AQ.Ab8RN6JCJPOG7Wi3tMyj4oJE1tvo1JL1dn-Wj8aDMRVRHW...
+           │    │      │    └ <function BaseApiClient._request_once at 0x0000027E3B44BB60>
+           │    │      └ <google.genai._api_client.BaseApiClient object at 0x0000027E3CF47750>
+           │    └ <Retrying object at 0x27e3cf47d90 (stop=<tenacity.stop.stop_after_attempt object at 0x0000027E3CF47C50>, wait=<tenacity.wait....
+           └ <google.genai._api_client.BaseApiClient object at 0x0000027E3CF47750>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\tenacity\__init__.py", line 470, in __call__
+    do = self.iter(retry_state=retry_state)
+         │    │                └ <RetryCallState 2741211895824: attempt #1; slept for 0.0; last result: failed (ServerError 503 UNAVAILABLE. {'error': {'code'...
+         │    └ <function BaseRetrying.iter at 0x0000027E3B3FD170>
+         └ <Retrying object at 0x27e3cf47d90 (stop=<tenacity.stop.stop_after_attempt object at 0x0000027E3CF47C50>, wait=<tenacity.wait....
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\tenacity\__init__.py", line 371, in iter
+    result = action(retry_state)
+             │      └ <RetryCallState 2741211895824: attempt #1; slept for 0.0; last result: failed (ServerError 503 UNAVAILABLE. {'error': {'code'...
+             └ <function BaseRetrying._post_stop_check_actions.<locals>.exc_check at 0x0000027E3BAE2400>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\tenacity\__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          │         └ <function RetryError.reraise at 0x0000027E3B3E7A00>
+          └ RetryError(<Future at 0x27e3b9a5bd0 state=finished raised ServerError>)
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\tenacity\__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          │    │            └ <function Future.result at 0x0000027E33565B10>
+          │    └ <Future at 0x27e3b9a5bd0 state=finished raised ServerError>
+          └ RetryError(<Future at 0x27e3b9a5bd0 state=finished raised ServerError>)
+  File "C:\Program Files\Python314\Lib\concurrent\futures\_base.py", line 447, in result
+    return self.__get_result()
+           └ None
+  File "C:\Program Files\Python314\Lib\concurrent\futures\_base.py", line 396, in __get_result
+    raise self._exception
+          └ None
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\tenacity\__init__.py", line 473, in __call__
+    result = fn(*args, **kwargs)
+             │   │       └ {}
+             │   └ (HttpRequest(headers={'Content-Type': 'application/json', 'x-goog-api-key': 'AQ.Ab8RN6JCJPOG7Wi3tMyj4oJE1tvo1JL1dn-Wj8aDMRVRH...
+             └ <bound method BaseApiClient._request_once of <google.genai._api_client.BaseApiClient object at 0x0000027E3CF47750>>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\google\genai\_api_client.py", line 1472, in _request_once
+    errors.APIError.raise_for_response(response)
+    │      │        │                  └ <Response [503 Service Unavailable]>
+    │      │        └ <classmethod(<function APIError.raise_for_response at 0x0000027E3B4022A0>)>
+    │      └ <class 'google.genai.errors.APIError'>
+    └ <module 'google.genai.errors' from 'C:\\WAC\\AI Chat_Bot\\venv\\Lib\\site-packages\\google\\genai\\errors.py'>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\google\genai\errors.py", line 155, in raise_for_response
+    cls.raise_error(response.status_code, response_json, response)
+    │   │           │        │            │              └ <Response [503 Service Unavailable]>
+    │   │           │        │            └ {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary....
+    │   │           │        └ 503
+    │   │           └ <Response [503 Service Unavailable]>
+    │   └ <classmethod(<function APIError.raise_error at 0x0000027E3B402400>)>
+    └ <class 'google.genai.errors.APIError'>
+  File "C:\WAC\AI Chat_Bot\venv\Lib\site-packages\google\genai\errors.py", line 186, in raise_error
+    raise ServerError(status_code, response_json, response)
+          │           │            │              └ <Response [503 Service Unavailable]>
+          │           │            └ {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary....
+          │           └ 503
+          └ <class 'google.genai.errors.ServerError'>
+
+google.genai.errors.ServerError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}
+2026-08-06 11:40:21 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 11:40:21 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 11:40:24 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-06 11:40:25 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 11:43:54 | INFO | app.ai.providers.gemini:__init__:24 - Gemini Provider initialized with model: %s
+2026-08-06 11:43:56 | WARNING | app.ai.providers.gemini:generate:58 - Gemini attempt %s/%s failed: %s
+2026-08-06 11:45:49 | INFO | app.ai.providers.gemini:generate:48 - Gemini response generated successfully.
+2026-08-06 11:45:49 | INFO | app.ai.providers.groq:__init__:20 - Groq Provider initialized
+2026-08-06 11:45:50 | INFO | app.ai.providers.groq:generate:38 - Groq response generated
+2026-08-06 11:47:57 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 11:47:57 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 11:48:00 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-06 11:48:00 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 11:48:46 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 11:48:46 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 11:51:59 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-06 11:51:59 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 11:52:12 | INFO | app.ai.providers.gemini:__init__:24 - Gemini Provider initialized with model: %s
+2026-08-06 11:52:13 | WARNING | app.ai.providers.gemini:generate:58 - Gemini attempt %s/%s failed: %s
+2026-08-06 11:52:16 | WARNING | app.ai.providers.gemini:generate:58 - Gemini attempt %s/%s failed: %s
+2026-08-06 11:52:20 | WARNING | app.ai.providers.gemini:generate:58 - Gemini attempt %s/%s failed: %s
+2026-08-06 11:52:20 | ERROR | app.ai.providers.gemini:generate:68 - Gemini provider failed after retries.
+NoneType: None
+2026-08-06 11:53:50 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 11:53:50 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 11:53:53 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-06 11:53:53 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 11:53:59 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 11:53:59 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 11:54:02 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-06 11:54:02 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 11:54:12 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 11:54:12 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 12:07:08 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-06 12:07:08 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 12:08:18 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 12:08:18 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 12:08:21 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-06 12:08:21 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 12:08:22 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 12:08:22 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 12:08:25 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-06 12:08:25 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 12:08:25 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 12:08:25 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 12:08:32 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-06 12:08:32 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 12:09:04 | INFO | app.ai.providers.groq:__init__:20 - Groq Provider initialized
+2026-08-06 12:09:05 | INFO | app.ai.providers.groq:generate:38 - Groq response generated
+2026-08-06 12:11:10 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 12:11:10 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 12:11:19 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-06 12:11:19 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 12:11:20 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 12:11:20 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 12:11:23 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-06 12:11:23 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 12:11:49 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 12:11:49 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 12:11:52 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-06 12:11:52 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 12:14:06 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 12:14:06 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 12:14:09 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-06 12:14:09 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 12:14:28 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 12:14:28 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 12:14:31 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-06 12:14:31 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 12:14:32 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 12:14:32 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 12:14:35 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-06 12:14:35 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 12:14:35 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 12:14:35 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 12:14:38 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-06 12:14:38 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 12:16:40 | INFO | app.ai.providers.gemini:__init__:25 - Gemini Provider initialized with model: gemini-2.5-flash
+2026-08-06 12:17:23 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 12:17:23 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 12:17:28 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-06 12:17:28 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 12:17:35 | INFO | app.ai.providers.gemini:__init__:25 - Gemini Provider initialized with model: gemini-3.6-flash
+2026-08-06 12:18:29 | INFO | app.ai.providers.groq:__init__:20 - Groq Provider initialized
+2026-08-06 12:18:29 | INFO | app.ai.providers.groq:generate:38 - Groq response generated
+2026-08-06 12:25:52 | INFO | app.ai.providers.groq:__init__:20 - Groq Provider initialized
+2026-08-06 12:25:53 | INFO | app.ai.providers.groq:generate:38 - Groq response generated
+2026-08-06 12:26:37 | INFO | app.ai.providers.gemini:__init__:25 - Gemini Provider initialized with model: gemini-3.6-flash
+2026-08-06 12:29:10 | INFO | app.ai.providers.groq:__init__:20 - Groq Provider initialized
+2026-08-06 12:29:10 | INFO | app.ai.providers.groq:generate:38 - Groq response generated
+2026-08-06 12:35:48 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 12:35:48 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 12:35:56 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-06 12:35:56 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 12:36:30 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 12:36:30 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 12:37:49 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-06 12:37:49 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 12:37:51 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 12:37:51 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 12:37:55 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-06 12:37:55 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 12:37:55 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 12:37:55 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 12:37:58 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-06 12:37:58 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 12:38:10 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 12:38:10 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 12:38:13 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-06 12:38:13 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 12:38:32 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 12:38:32 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 12:38:35 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-06 12:38:35 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 12:38:38 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 12:38:38 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 12:38:41 | INFO | app.main:lifespan:16 - 🚀 Starting AI Document Chatbot...
+2026-08-06 12:38:41 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 12:39:23 | INFO | app.main:lifespan:22 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 12:39:23 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 12:39:25 | INFO | app.main:lifespan:22 - 🚀 Starting AI Document Chatbot...
+2026-08-06 12:39:25 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 12:39:40 | INFO | app.main:lifespan:28 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 12:39:40 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 12:40:55 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 12:40:55 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 12:40:57 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 12:40:57 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 12:41:01 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 12:41:01 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 12:41:17 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 12:41:17 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 12:41:20 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 12:41:20 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 12:41:20 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 12:41:20 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 12:41:24 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 12:41:24 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 12:42:06 | INFO | app.ai.providers.gemini:__init__:25 - Gemini Provider initialized with model: gemini-3.6-flash
+2026-08-06 12:42:37 | INFO | app.ai.providers.gemini:generate:51 - Gemini response generated successfully.
+2026-08-06 12:44:00 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 12:44:00 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 12:44:49 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 12:44:49 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 12:44:53 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 12:44:53 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 12:45:03 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 12:45:03 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 12:45:12 | INFO | app.ai.providers.gemini:__init__:31 - Gemini Provider initialized with model: gemini-3.6-flash
+2026-08-06 12:45:12 | INFO | app.ai.providers.gemini:generate:40 - Sending prompt to Gemini (14867 characters)
+2026-08-06 12:45:28 | INFO | app.ai.providers.gemini:generate:55 - Gemini response generated successfully.
+2026-08-06 12:45:56 | INFO | app.ai.providers.gemini:__init__:31 - Gemini Provider initialized with model: gemini-3.6-flash
+2026-08-06 12:45:56 | INFO | app.ai.providers.gemini:generate:40 - Sending prompt to Gemini (15194 characters)
+2026-08-06 12:46:35 | INFO | app.ai.providers.gemini:generate:55 - Gemini response generated successfully.
+2026-08-06 12:46:49 | INFO | app.ai.providers.gemini:__init__:31 - Gemini Provider initialized with model: gemini-3.6-flash
+2026-08-06 12:46:49 | INFO | app.ai.providers.gemini:generate:40 - Sending prompt to Gemini (16223 characters)
+2026-08-06 12:47:17 | INFO | app.ai.providers.gemini:generate:55 - Gemini response generated successfully.
+2026-08-06 12:54:37 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 12:54:37 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 12:54:40 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 12:54:41 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 12:54:56 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 12:54:56 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 12:54:59 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 12:55:00 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 12:55:00 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 12:55:00 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 12:55:03 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 12:55:03 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 12:55:04 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 12:55:04 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 12:55:07 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 12:55:07 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 12:56:02 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 12:56:02 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 12:56:05 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 12:56:05 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 12:56:06 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 12:56:06 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 12:56:09 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 12:56:09 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 12:56:17 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 12:56:17 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 12:56:20 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 12:56:20 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 12:56:20 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 12:56:20 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 12:56:23 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 12:56:23 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 12:57:37 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 12:57:37 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 12:57:45 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 12:57:45 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 12:58:16 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 12:58:16 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 12:58:23 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 12:58:23 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 12:58:32 | INFO | app.ai.providers.gemini:__init__:31 - Gemini Provider initialized with model: gemini-3.6-flash
+2026-08-06 12:58:32 | INFO | app.ai.providers.gemini:generate:40 - Sending prompt to Gemini (15704 characters)
+2026-08-06 12:59:05 | INFO | app.ai.providers.gemini:generate:55 - Gemini response generated successfully.
+2026-08-06 13:00:49 | INFO | app.ai.providers.gemini:__init__:31 - Gemini Provider initialized with model: gemini-3.6-flash
+2026-08-06 13:00:49 | INFO | app.ai.providers.gemini:generate:40 - Sending prompt to Gemini (15704 characters)
+2026-08-06 13:01:23 | INFO | app.ai.providers.gemini:generate:55 - Gemini response generated successfully.
+2026-08-06 13:01:32 | INFO | app.ai.providers.groq:__init__:20 - Groq Provider initialized
+2026-08-06 13:01:34 | INFO | app.ai.providers.groq:generate:38 - Groq response generated
+2026-08-06 13:01:57 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 13:01:57 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 13:02:00 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 13:02:00 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 13:02:05 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 13:02:05 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 13:02:08 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 13:02:09 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 13:02:09 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 13:02:09 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 13:02:12 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 13:02:12 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 13:02:12 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 13:02:12 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 13:02:16 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 13:02:16 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 13:02:16 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 13:02:16 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 13:02:19 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 13:02:19 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 13:02:23 | INFO | app.ai.providers.groq:__init__:20 - Groq Provider initialized
+2026-08-06 13:02:24 | INFO | app.ai.providers.groq:generate:38 - Groq response generated
+2026-08-06 14:26:55 | INFO | app.ai.providers.gemini:__init__:31 - Gemini Provider initialized with model: gemini-3.6-flash
+2026-08-06 14:26:55 | INFO | app.ai.providers.gemini:generate:40 - Sending prompt to Gemini (15684 characters)
+2026-08-06 14:27:09 | INFO | app.ai.providers.gemini:generate:55 - Gemini response generated successfully.
+2026-08-06 14:29:48 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 14:29:48 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 14:29:52 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 14:29:52 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 14:29:52 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 14:29:52 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 14:29:56 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 14:29:56 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 14:30:02 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 14:30:02 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 14:30:06 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 14:30:06 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 14:30:16 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 14:30:16 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 14:30:20 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 14:30:20 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 14:30:20 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 14:30:20 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 14:30:24 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 14:30:24 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 14:30:32 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 14:30:32 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 14:30:42 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 14:30:42 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 14:31:03 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 14:31:03 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 14:31:07 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 14:31:07 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 14:31:24 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 14:31:24 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 14:31:31 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 14:31:31 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 14:31:44 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 14:31:44 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 14:31:47 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 14:31:47 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 14:31:47 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 14:31:47 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 14:31:50 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 14:31:50 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 14:31:51 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 14:31:51 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 14:31:54 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 14:31:54 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 14:31:54 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 14:31:54 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 14:31:57 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 14:31:57 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 14:31:58 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 14:31:58 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 14:32:01 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 14:32:01 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 14:32:09 | INFO | app.ai.providers.gemini:__init__:31 - Gemini Provider initialized with model: gemini-3.6-flash
+2026-08-06 14:32:09 | INFO | app.ai.providers.gemini:generate:40 - Sending prompt to Gemini (15684 characters)
+2026-08-06 14:32:50 | INFO | app.ai.providers.gemini:generate:55 - Gemini response generated successfully.
+2026-08-06 14:33:28 | INFO | app.ai.providers.gemini:__init__:31 - Gemini Provider initialized with model: gemini-3.6-flash
+2026-08-06 14:33:28 | INFO | app.ai.providers.gemini:generate:40 - Sending prompt to Gemini (20924 characters)
+2026-08-06 14:33:30 | WARNING | app.ai.providers.gemini:generate:67 - Gemini attempt 1/3 failed: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}
+2026-08-06 14:33:34 | WARNING | app.ai.providers.gemini:generate:67 - Gemini attempt 2/3 failed: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}
+2026-08-06 14:33:54 | INFO | app.ai.providers.gemini:generate:55 - Gemini response generated successfully.
+2026-08-06 14:35:08 | INFO | app.ai.providers.gemini:__init__:31 - Gemini Provider initialized with model: gemini-3.6-flash
+2026-08-06 14:35:08 | INFO | app.ai.providers.gemini:generate:40 - Sending prompt to Gemini (15684 characters)
+2026-08-06 14:35:18 | INFO | app.ai.providers.gemini:generate:55 - Gemini response generated successfully.
+2026-08-06 14:50:08 | INFO | app.ai.providers.gemini:__init__:31 - Gemini Provider initialized with model: gemini-3.6-flash
+2026-08-06 14:50:08 | INFO | app.ai.providers.gemini:generate:40 - Sending prompt to Gemini (15684 characters)
+2026-08-06 14:50:35 | INFO | app.ai.providers.gemini:generate:55 - Gemini response generated successfully.
+2026-08-06 14:52:52 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 14:52:52 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 14:52:56 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 14:52:56 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 14:52:56 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 14:52:56 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 14:53:00 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 14:53:00 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 14:53:00 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 14:53:00 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 14:53:04 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 14:53:04 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 14:53:06 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 14:53:06 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 14:53:09 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 14:53:09 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 14:53:12 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 14:53:12 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 14:53:15 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 14:53:15 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 14:53:19 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 14:53:19 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 14:53:23 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 14:53:23 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 14:53:23 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 14:53:23 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 14:53:26 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 14:53:26 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 14:53:41 | INFO | app.ai.providers.gemini:__init__:31 - Gemini Provider initialized with model: gemini-3.6-flash
+2026-08-06 14:53:41 | INFO | app.ai.providers.gemini:generate:40 - Sending prompt to Gemini (17088 characters)
+2026-08-06 14:54:03 | INFO | app.ai.providers.gemini:generate:55 - Gemini response generated successfully.
+2026-08-06 15:10:31 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 15:10:31 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 15:10:35 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 15:10:35 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 15:12:25 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 15:12:25 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 15:12:30 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 15:12:30 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 15:12:38 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 15:12:38 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 15:12:42 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 15:12:42 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 15:12:57 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 15:12:57 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 15:13:01 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 15:13:01 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 15:13:02 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 15:13:02 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 15:13:05 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 15:13:05 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 15:13:12 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 15:13:12 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 15:13:22 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 15:13:22 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 15:13:23 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 15:13:23 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 15:13:27 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 15:13:27 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 15:13:50 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 15:13:50 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 15:13:56 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 15:13:56 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 15:13:59 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 15:13:59 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 15:14:11 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 15:14:11 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 15:14:13 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 15:14:13 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 15:14:17 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 15:14:17 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 15:14:17 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 15:14:17 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 15:14:20 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 15:14:20 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 15:14:25 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 15:14:25 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 15:14:28 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 15:14:28 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 15:14:29 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 15:14:29 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 15:14:32 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 15:14:32 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 15:25:05 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 15:25:05 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 15:25:17 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 15:25:17 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 15:25:20 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 15:25:20 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 15:29:00 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 15:29:00 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 15:31:26 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 15:31:26 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 15:31:29 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 15:31:29 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 15:32:51 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 15:32:51 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 15:32:54 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 15:32:54 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 15:32:56 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 15:32:56 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 15:32:59 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 15:32:59 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 15:33:43 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 15:33:43 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 15:33:49 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 15:33:49 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 15:33:49 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 15:33:49 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 15:33:52 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 15:33:52 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 15:34:21 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 15:34:21 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 15:34:24 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 15:34:24 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 15:34:24 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 15:34:24 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 15:34:28 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 15:34:28 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 15:34:54 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 15:34:54 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 15:34:57 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 15:34:58 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 15:35:00 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 15:35:00 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 15:35:03 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 15:35:03 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 15:35:11 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 15:35:11 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 15:35:15 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 15:35:15 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 15:36:54 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 15:36:54 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 15:37:19 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 15:37:19 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 15:48:13 | INFO | app.ai.providers.gemini:__init__:31 - Gemini Provider initialized with model: gemini-3.6-flash
+2026-08-06 15:48:13 | INFO | app.ai.providers.gemini:generate:40 - Sending prompt to Gemini (9137 characters)
+2026-08-06 15:48:26 | INFO | app.ai.providers.gemini:generate:55 - Gemini response generated successfully.
+2026-08-06 15:49:29 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 15:49:29 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 15:49:33 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 15:49:33 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 15:51:15 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 15:51:15 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 15:51:19 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 15:51:19 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 15:51:19 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 15:51:19 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 15:51:22 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 15:51:22 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 15:51:22 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 15:51:22 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 15:51:25 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 15:51:25 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 15:51:27 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 15:51:27 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 15:51:31 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 15:51:31 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 15:52:09 | INFO | app.ai.providers.gemini:__init__:31 - Gemini Provider initialized with model: gemini-3.6-flash
+2026-08-06 15:52:09 | INFO | app.ai.providers.gemini:generate:40 - Sending prompt to Gemini (2997 characters)
+2026-08-06 15:52:13 | INFO | app.ai.providers.gemini:generate:55 - Gemini response generated successfully.
+2026-08-06 15:52:44 | INFO | app.ai.providers.gemini:__init__:31 - Gemini Provider initialized with model: gemini-3.6-flash
+2026-08-06 15:52:44 | INFO | app.ai.providers.gemini:generate:40 - Sending prompt to Gemini (3336 characters)
+2026-08-06 15:52:54 | INFO | app.ai.providers.gemini:generate:55 - Gemini response generated successfully.
+2026-08-06 15:54:20 | INFO | app.ai.providers.gemini:__init__:31 - Gemini Provider initialized with model: gemini-3.6-flash
+2026-08-06 15:54:20 | INFO | app.ai.providers.gemini:generate:40 - Sending prompt to Gemini (3825 characters)
+2026-08-06 15:54:38 | INFO | app.ai.providers.gemini:generate:55 - Gemini response generated successfully.
+2026-08-06 15:56:12 | INFO | app.ai.providers.gemini:__init__:31 - Gemini Provider initialized with model: gemini-3.6-flash
+2026-08-06 15:56:12 | INFO | app.ai.providers.gemini:generate:40 - Sending prompt to Gemini (3421 characters)
+2026-08-06 15:56:15 | INFO | app.ai.providers.gemini:generate:55 - Gemini response generated successfully.
+2026-08-06 15:57:47 | INFO | app.ai.providers.gemini:__init__:31 - Gemini Provider initialized with model: gemini-3.6-flash
+2026-08-06 15:57:47 | INFO | app.ai.providers.gemini:generate:40 - Sending prompt to Gemini (3071 characters)
+2026-08-06 15:57:51 | INFO | app.ai.providers.gemini:generate:55 - Gemini response generated successfully.
+2026-08-06 15:58:09 | INFO | app.ai.providers.gemini:__init__:31 - Gemini Provider initialized with model: gemini-3.6-flash
+2026-08-06 15:58:09 | INFO | app.ai.providers.gemini:generate:40 - Sending prompt to Gemini (3767 characters)
+2026-08-06 15:58:16 | INFO | app.ai.providers.gemini:generate:55 - Gemini response generated successfully.
+2026-08-06 15:58:44 | INFO | app.ai.providers.gemini:__init__:31 - Gemini Provider initialized with model: gemini-3.6-flash
+2026-08-06 15:58:44 | INFO | app.ai.providers.gemini:generate:40 - Sending prompt to Gemini (3904 characters)
+2026-08-06 15:58:54 | INFO | app.ai.providers.gemini:generate:55 - Gemini response generated successfully.
+2026-08-06 15:59:53 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 15:59:53 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 15:59:56 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 15:59:56 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 16:00:43 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 16:00:43 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 16:00:47 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 16:00:47 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 16:00:47 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 16:00:47 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 16:00:50 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 16:00:50 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 16:01:01 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 16:01:01 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 16:01:04 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 16:01:04 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 16:01:04 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 16:01:04 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 16:01:07 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 16:01:07 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 16:01:08 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 16:01:08 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 16:01:11 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 16:01:11 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 16:01:22 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 16:01:22 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 16:01:25 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 16:01:25 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 16:01:25 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 16:01:25 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 16:01:28 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 16:01:29 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 16:01:32 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 16:01:32 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 16:01:35 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 16:01:35 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 16:01:36 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 16:01:36 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 16:01:39 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 16:01:39 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 16:01:39 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 16:01:39 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 16:01:42 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 16:01:42 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 16:02:40 | INFO | app.ai.providers.gemini:__init__:31 - Gemini Provider initialized with model: gemini-3.6-flash
+2026-08-06 16:02:40 | INFO | app.ai.providers.gemini:generate:40 - Sending prompt to Gemini (4909 characters)
+2026-08-06 16:02:41 | WARNING | app.ai.providers.gemini:generate:67 - Gemini attempt 1/3 failed: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-3.6-flash\nPlease retry in 20.143324407s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-3.6-flash'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '20s'}]}}
+2026-08-06 16:02:56 | INFO | app.ai.providers.gemini:__init__:31 - Gemini Provider initialized with model: gemini-3.6-flash
+2026-08-06 16:02:56 | INFO | app.ai.providers.gemini:generate:40 - Sending prompt to Gemini (4937 characters)
+2026-08-06 16:02:57 | WARNING | app.ai.providers.gemini:generate:67 - Gemini attempt 1/3 failed: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-3.6-flash\nPlease retry in 4.147842517s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-3.6-flash'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '4s'}]}}
+2026-08-06 16:04:22 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 16:04:22 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 16:04:26 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 16:04:27 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 16:04:27 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 16:04:27 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 16:04:30 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 16:04:30 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 16:09:40 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 16:09:40 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 16:14:20 | INFO | app.main:lifespan:23 - 🚀 Starting AI Document Chatbot...
+2026-08-06 16:14:20 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 16:14:27 | INFO | app.main:lifespan:29 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 16:14:27 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 16:14:31 | INFO | app.main:lifespan:22 - 🚀 Starting AI Document Chatbot...
+2026-08-06 16:14:31 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 16:22:32 | INFO | app.main:lifespan:28 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 16:22:32 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-06 16:22:35 | INFO | app.main:lifespan:22 - 🚀 Starting AI Document Chatbot...
+2026-08-06 16:22:35 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-06 16:23:35 | INFO | app.ai.providers.gemini:__init__:31 - Gemini Provider initialized with model: gemini-3.6-flash
+2026-08-06 16:23:35 | INFO | app.ai.providers.gemini:generate:40 - Sending prompt to Gemini (3037 characters)
+2026-08-06 16:23:36 | WARNING | app.ai.providers.gemini:generate:63 - Gemini attempt 1/3 failed: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-3.6-flash\nPlease retry in 25.268226181s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-3.6-flash'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '25s'}]}}
+2026-08-06 16:23:47 | INFO | app.ai.providers.groq:__init__:20 - Groq Provider initialized
+2026-08-06 16:23:47 | INFO | app.ai.providers.groq:generate:38 - Groq response generated
+2026-08-06 16:24:27 | INFO | app.ai.providers.groq:__init__:20 - Groq Provider initialized
+2026-08-06 16:24:27 | INFO | app.ai.providers.groq:generate:38 - Groq response generated
+2026-08-06 16:25:36 | INFO | app.ai.providers.groq:__init__:20 - Groq Provider initialized
+2026-08-06 16:25:36 | INFO | app.ai.providers.groq:generate:38 - Groq response generated
+2026-08-06 16:27:34 | INFO | app.ai.providers.groq:__init__:20 - Groq Provider initialized
+2026-08-06 16:27:34 | INFO | app.ai.providers.groq:generate:38 - Groq response generated
+2026-08-06 16:29:23 | INFO | app.ai.providers.gemini:__init__:31 - Gemini Provider initialized with model: gemini-3.6-flash
+2026-08-06 16:29:23 | INFO | app.ai.providers.gemini:generate:40 - Sending prompt to Gemini (3889 characters)
+2026-08-06 16:29:23 | WARNING | app.ai.providers.gemini:generate:63 - Gemini attempt 1/3 failed: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-3.6-flash\nPlease retry in 37.324081666s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-3.6-flash'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '37s'}]}}
+2026-08-06 16:31:40 | INFO | app.main:lifespan:28 - 🛑 Shutting down AI Document Chatbot...
+2026-08-06 16:31:40 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed

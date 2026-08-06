@@ -1,28 +1,32 @@
 from fastapi import APIRouter, HTTPException
 
-from app.ai.service import AIService
 from app.schemas.chat import ChatRequest, ChatResponse
+from app.services.chat_service import ChatService
 
 router = APIRouter(
     prefix="/chat",
     tags=["Chat"],
 )
 
-ai_service = AIService()
+
 
 
 @router.post(
     "",
     response_model=ChatResponse,
 )
-async def chat(request: ChatRequest):
+async def chat(
+    request: ChatRequest,):
+    chat_service = ChatService()
     try:
-        response = await ai_service.chat(
+
+        result = await chat_service.send_message(
             provider=request.provider,
             message=request.message,
+            conversation_id=request.conversation_id,
         )
 
-        return ChatResponse(response=response)
+        return ChatResponse(**result)
 
     except Exception as e:
         raise HTTPException(

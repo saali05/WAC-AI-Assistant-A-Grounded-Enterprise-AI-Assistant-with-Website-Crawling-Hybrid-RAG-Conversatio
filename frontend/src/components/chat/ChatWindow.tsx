@@ -1,3 +1,8 @@
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+
+
+
 interface ChatWindowProps {
   messages: {
     role: "user" | "assistant";
@@ -20,7 +25,9 @@ export default function ChatWindow({
               : "mr-auto max-w-[75%] rounded-3xl bg-white px-5 py-3 shadow"
           }
         >
-          {message.content}
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+            {message.content}
+          </ReactMarkdown>
         </div>
       ))}
 

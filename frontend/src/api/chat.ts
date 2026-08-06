@@ -15,10 +15,26 @@ export interface ChatResponse {
 export async function sendMessage(
   data: ChatRequest
 ): Promise<ChatResponse> {
-  const response = await api.post<ChatResponse>(
-    "/chat",
-    data
-  );
 
-  return response.data;
+  try {
+
+    const response =
+      await api.post("/chat", data);
+
+    return response.data;
+
+  } catch (error: any) {
+
+    if (error.response?.data?.error) {
+
+      throw new Error(
+        error.response.data.error.message
+      );
+
+    }
+
+    throw new Error(
+      "Unable to connect to the AI service."
+    );
+  }
 }

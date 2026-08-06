@@ -1,13 +1,16 @@
+
 import Welcome from "../components/chat/Welcome";
 import ChatWindow from "../components/chat/ChatWindow";
 import ChatInput from "../components/input/ChatInput";
 
 import { useChat } from "../context/ChatContext";
 
+
 export default function ChatPage() {
   const {
     messages,
   } = useChat();
+  console.log(messages);
 
   const hasMessages =
     messages.length > 0;
