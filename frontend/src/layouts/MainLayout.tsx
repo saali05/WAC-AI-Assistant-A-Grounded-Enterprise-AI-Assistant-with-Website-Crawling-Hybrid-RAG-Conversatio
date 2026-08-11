@@ -1,6 +1,4 @@
-import { type ReactNode, useState } from "react";
-
-import Sidebar from "../components/sidebar/sidebar";
+import { type ReactNode } from "react";
 
 interface Props {
   children: ReactNode;
@@ -9,25 +7,11 @@ interface Props {
 export default function MainLayout({
   children,
 }: Props) {
-  const [collapsed, setCollapsed] =
-    useState(false);
-
   return (
-    <div className="flex h-screen bg-[#F8FAFC]">
-
-      <Sidebar
-        collapsed={collapsed}
-        onToggle={() =>
-          setCollapsed(!collapsed)
-        }
-      />
-
-      <main className="flex flex-1 justify-center overflow-hidden">
-        <div className="flex h-full w-full max-w-7xl">
-          {children}
-        </div>
+    <div className="h-screen w-full overflow-hidden bg-[#F8FAFC]">
+      <main className="h-full w-full">
+        {children}
       </main>
-
     </div>
   );
 }

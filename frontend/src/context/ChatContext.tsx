@@ -7,231 +7,149 @@ import {
 
 import type { Provider } from "../types/chat";
 
-import {
-  sendMessage,
-} from "../api/chat";
-
-import {
-  getConversation,
-  getConversations,
-} from "../api/conversation";
+import { sendMessage } from "../api/chat";
 
 interface Message {
   role: "user" | "assistant";
   content: string;
 }
 
-interface Conversation {
-  id: string;
-  title: string;
-}
-
 interface ChatContextType {
-
   messages: Message[];
-
-  conversations: Conversation[];
 
   loading: boolean;
 
   conversationId: string | null;
 
   send: (
-    
     message: string,
     provider: Provider
   ) => Promise<void>;
 
-  loadConversation: (
-    id: string
-  ) => Promise<void>;
-
-  reloadConversations: () => Promise<void>;
-
   newChat: () => void;
-
 }
 
 const ChatContext =
-createContext<ChatContextType | null>(
-null
-);
+  createContext<ChatContextType | null>(null);
 
 export function ChatProvider({
-children,
-}:{
-children:ReactNode;
-}){
+  children,
+}: {
+  children: ReactNode;
+}) {
+  const [messages, setMessages] =
+    useState<Message[]>([]);
 
-const [messages,setMessages]=
-useState<Message[]>([]);
+  const [loading, setLoading] =
+    useState(false);
 
-const [conversations,setConversations]=
-useState<Conversation[]>([]);
+  const [conversationId, setConversationId] =
+    useState<string | null>(null);
 
-const [loading,setLoading]=
-useState(false);
+  /**
+   * Start a completely new chat session.
+   *
+   * The previous session is intentionally
+   * not loaded again.
+   */
+  const newChat = () => {
+    setConversationId(null);
+    setMessages([]);
+  };
 
-const [conversationId,setConversationId]=
-useState<string|null>(null);
+  /**
+   * Send a message inside the current session.
+   */
+  const send = async (
+    text: string,
+    provider: Provider
+  ) => {
+    if (!text.trim() || loading) {
+      return;
+    }
 
-const reloadConversations=
-async()=>{
+    const userMessage: Message = {
+      role: "user",
+      content: text.trim(),
+    };
 
-const data=
-await getConversations();
-
-setConversations(data);
-
-};
-
-const newChat=()=>{
-
-setConversationId(null);
-
-setMessages([]);
-
-};
-
-const loadConversation=
-async(id:string)=>{
-
-const data=
-await getConversation(id);
-
-setConversationId(id);
-
-setMessages(data.messages);
-
-};
-
-const send=
-async(
-text:string,
-provider:Provider,
-)=>{
-
-if(!text.trim()) return;
-
-setMessages(prev=>[
-...prev,
-{
-role:"user",
-content:text,
-},
-]);
-
-setLoading(true);
-
-try{
-
-const response=
-await sendMessage({
-
-conversation_id:
-conversationId ?? undefined,
-
-provider,
-
-message:text,
-
-});
-
-if(!conversationId){
-
-setConversationId(
-response.conversation_id
-);
-
-await reloadConversations();
-
-}
-console.log("Backend response:", response);
-
-setMessages(prev => {
-  const updated = [
-    ...prev,
-    {
-      role: "assistant" as const,
-      content: response.response,
-    },
-  ];
-
-  console.log("Updated messages:", updated);
-
-  return updated;
-});
-
-}catch (error) {
-
-    const message =
-        error instanceof Error
-            ? error.message
-            : "Something went wrong.";
-
-    setMessages(prev => [
-        ...prev,
-        {
-            role: "assistant",
-            content: message,
-        },
+    // Immediately show user message.
+    setMessages((prev) => [
+      ...prev,
+      userMessage,
     ]);
 
-}finally{
+    setLoading(true);
 
-setLoading(false);
+    try {
+      const response = await sendMessage({
+        conversation_id:
+          conversationId ?? undefined,
 
+        provider,
+
+        message: text.trim(),
+      });
+
+      /*
+       * If this is the first message of the session,
+       * backend creates the conversation.
+       */
+      if (!conversationId) {
+        setConversationId(
+          response.conversation_id
+        );
+      }
+
+      // Add assistant response to THIS session only.
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          content: response.response,
+        },
+      ]);
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Something went wrong while generating the response.";
+
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          content: errorMessage,
+        },
+      ]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <ChatContext.Provider
+      value={{
+        messages,
+        loading,
+        conversationId,
+        send,
+        newChat,
+      }}
+    >
+      {children}
+    </ChatContext.Provider>
+  );
 }
 
-};
+export function useChat() {
+  const context = useContext(ChatContext);
 
-return(
+  if (!context) {
+    throw new Error(
+      "useChat must be used inside ChatProvider"
+    );
+  }
 
-<ChatContext.Provider
-
-value={{
-
-messages,
-
-conversations,
-
-loading,
-
-conversationId,
-
-send,
-
-loadConversation,
-
-reloadConversations,
-
-newChat,
-
-}}
-
->
-
-{children}
-
-</ChatContext.Provider>
-
-);
-
-}
-
-export function useChat(){
-
-const context=
-useContext(ChatContext);
-
-if(!context){
-
-throw new Error(
-"useChat must be used inside ChatProvider"
-);
-
-}
-
-return context;
-
+  return context;
 }
