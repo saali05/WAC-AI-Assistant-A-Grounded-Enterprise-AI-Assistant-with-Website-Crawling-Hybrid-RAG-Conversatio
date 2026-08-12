@@ -22,14 +22,10 @@ export default function MessageInput({
     if (!textarea) return;
 
     textarea.style.height = "auto";
-
-    textarea.style.height =
-      Math.min(textarea.scrollHeight, 180) + "px";
+    textarea.style.height = Math.min(textarea.scrollHeight, 180) + "px";
   }, [value]);
 
-  const handleKeyDown = (
-    e: KeyboardEvent<HTMLTextAreaElement>
-  ) => {
+  const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
 
@@ -47,18 +43,22 @@ export default function MessageInput({
       disabled={disabled}
       onChange={(e) => onChange(e.target.value)}
       onKeyDown={handleKeyDown}
-      placeholder="Type your message..."
+      placeholder="ask anything..."
       className="
         w-full
         resize-none
         border-0
         bg-transparent
         outline-none
-        min-h-[48px]
+        min-h-[40px]
         max-h-[180px]
+        py-2
         overflow-y-auto
-        text-gray-800
-        placeholder:text-gray-400
+        text-sm
+        font-normal
+        text-slate-100
+        placeholder:text-slate-500
+        disabled:opacity-50
       "
     />
   );

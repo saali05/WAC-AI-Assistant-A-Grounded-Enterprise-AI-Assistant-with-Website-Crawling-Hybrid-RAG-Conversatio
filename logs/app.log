@@ -1922,3 +1922,28 @@ NoneType: None
 2026-08-06 16:29:23 | WARNING | app.ai.providers.gemini:generate:63 - Gemini attempt 1/3 failed: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-3.6-flash\nPlease retry in 37.324081666s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-3.6-flash'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '37s'}]}}
 2026-08-06 16:31:40 | INFO | app.main:lifespan:28 - 🛑 Shutting down AI Document Chatbot...
 2026-08-06 16:31:40 | INFO | app.core.database:disconnect_db:36 - 🔌 MongoDB connection closed
+2026-08-11 10:38:14 | INFO | app.main:lifespan:22 - 🚀 Starting AI Document Chatbot...
+2026-08-11 10:38:14 | INFO | app.core.database:connect_db:22 - ✅ Connected to MongoDB
+2026-08-11 10:38:40 | INFO | app.ai.providers.gemini:__init__:31 - Gemini Provider initialized with model: gemini-3.6-flash
+2026-08-11 10:38:40 | INFO | app.ai.providers.gemini:generate:40 - Sending prompt to Gemini (3037 characters)
+2026-08-11 10:38:45 | INFO | app.ai.providers.gemini:generate:53 - Gemini response generated successfully.
+2026-08-11 10:42:26 | INFO | app.ai.providers.gemini:__init__:31 - Gemini Provider initialized with model: gemini-3.6-flash
+2026-08-11 10:42:26 | INFO | app.ai.providers.gemini:generate:40 - Sending prompt to Gemini (3405 characters)
+2026-08-11 10:42:29 | INFO | app.ai.providers.gemini:generate:53 - Gemini response generated successfully.
+2026-08-11 10:43:00 | INFO | app.ai.providers.gemini:__init__:31 - Gemini Provider initialized with model: gemini-3.6-flash
+2026-08-11 10:43:00 | INFO | app.ai.providers.gemini:generate:40 - Sending prompt to Gemini (4086 characters)
+2026-08-11 10:43:05 | INFO | app.ai.providers.gemini:generate:53 - Gemini response generated successfully.
+2026-08-11 10:43:43 | INFO | app.ai.providers.gemini:__init__:31 - Gemini Provider initialized with model: gemini-3.6-flash
+2026-08-11 10:43:43 | INFO | app.ai.providers.gemini:generate:40 - Sending prompt to Gemini (4306 characters)
+2026-08-11 10:43:51 | INFO | app.ai.providers.gemini:generate:53 - Gemini response generated successfully.
+2026-08-11 10:53:32 | INFO | app.ai.providers.gemini:__init__:31 - Gemini Provider initialized with model: gemini-3.6-flash
+2026-08-11 10:53:32 | INFO | app.ai.providers.gemini:generate:40 - Sending prompt to Gemini (3037 characters)
+2026-08-11 10:53:37 | INFO | app.ai.providers.gemini:generate:53 - Gemini response generated successfully.
+2026-08-11 10:53:52 | INFO | app.ai.providers.gemini:__init__:31 - Gemini Provider initialized with model: gemini-3.6-flash
+2026-08-11 10:53:52 | INFO | app.ai.providers.gemini:generate:40 - Sending prompt to Gemini (3037 characters)
+2026-08-11 10:53:55 | INFO | app.ai.providers.gemini:generate:53 - Gemini response generated successfully.
+2026-08-11 10:58:06 | INFO | app.ai.providers.gemini:__init__:31 - Gemini Provider initialized with model: gemini-3.6-flash
+2026-08-11 10:58:06 | INFO | app.ai.providers.gemini:generate:40 - Sending prompt to Gemini (3037 characters)
+2026-08-11 10:58:10 | INFO | app.ai.providers.gemini:generate:53 - Gemini response generated successfully.
+2026-08-11 14:34:25 | INFO | app.ai.providers.groq:__init__:20 - Groq Provider initialized
+2026-08-11 14:34:26 | INFO | app.ai.providers.groq:generate:38 - Groq response generated

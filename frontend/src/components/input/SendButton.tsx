@@ -16,7 +16,7 @@ export default function SendButton({
       type="button"
       disabled={disabled || loading}
       onClick={onClick}
-      className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-600 text-white transition hover:bg-blue-500 hover:scale-105 transition-all disabled:cursor-not-allowed disabled:bg-gray-300"
+      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-r from-red-600 via-rose-500 to-violet-600 text-white shadow-lg shadow-red-600/30 transition-all duration-200 hover:scale-105 hover:shadow-red-500/40 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100 disabled:shadow-none"
     >
       {loading ? (
         <LoaderCircle
@@ -24,7 +24,7 @@ export default function SendButton({
           className="animate-spin"
         />
       ) : (
-        <ArrowUp size={18} />
+        <ArrowUp size={18} className="stroke-[2.5]" />
       )}
     </button>
   );

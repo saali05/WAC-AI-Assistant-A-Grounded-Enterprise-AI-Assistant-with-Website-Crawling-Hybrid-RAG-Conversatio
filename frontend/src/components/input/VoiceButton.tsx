@@ -11,10 +11,10 @@ export default function VoiceButton({
     <button
       type="button"
       onClick={onClick}
-      className="rounded-xl border border-gray-200 bg-white p-3 transition hover:bg-gray-100"
-      title="Voice (Coming Soon)"
+      className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-[#121929] text-slate-300 transition-all hover:border-red-500/30 hover:bg-[#182236] hover:text-white"
+      title="Voice Input (Coming Soon)"
     >
-      <Mic size={18} />
+      <Mic size={16} />
     </button>
   );
 }
