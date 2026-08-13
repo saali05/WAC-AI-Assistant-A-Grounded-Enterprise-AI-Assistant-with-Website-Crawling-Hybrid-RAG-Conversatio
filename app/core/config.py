@@ -12,6 +12,7 @@ class Settings(BaseSettings):
 
     GEMINI_API_KEY: str
     GEMINI_MODEL: str
+    GEMINI_LIVE_MODEL: str = "gemini-3.1-flash-live-preview"
 
     GROQ_API_KEY: str
     GROQ_MODEL: str

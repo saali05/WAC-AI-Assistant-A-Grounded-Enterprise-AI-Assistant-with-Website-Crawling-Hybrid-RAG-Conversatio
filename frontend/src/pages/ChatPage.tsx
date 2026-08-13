@@ -28,6 +28,7 @@ export default function ChatPage() {
               <span className="font-extrabold text-xs tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-rose-300">
                 WAC
               </span>
+            
             </div>
           </div>
 
