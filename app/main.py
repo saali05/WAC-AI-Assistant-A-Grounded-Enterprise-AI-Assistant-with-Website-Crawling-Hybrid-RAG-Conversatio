@@ -12,8 +12,7 @@ from app.api.chat import router as chat_router
 from app.api.conversation import router as conversation_router
 from app.ai.exceptions import AIException
 from app.api.voice import router as voice_router
-
-
+from app.api.analytics import router as analytics_router
 
 
 @asynccontextmanager
@@ -53,6 +52,8 @@ app.add_exception_handler(
 app.include_router(chat_router)
 app.include_router(conversation_router)
 app.include_router(voice_router)
+app.include_router(analytics_router)
+
 
 
 @app.get("/")

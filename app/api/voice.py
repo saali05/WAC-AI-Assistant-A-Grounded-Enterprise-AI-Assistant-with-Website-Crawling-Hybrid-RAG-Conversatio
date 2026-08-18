@@ -20,6 +20,12 @@ class VoiceMessageRequest(BaseModel):
     conversation_id: str | None = None
     user_message: str
     assistant_message: str
+    audio_input_seconds: float | None = None
+    audio_output_seconds: float | None = None
+    input_tokens: int | None = None
+    output_tokens: int | None = None
+    latency_ms: float | None = None
+    live_session_id: str | None = None
 
 
 @router.get("/token")
@@ -143,6 +149,7 @@ You are a WAC-specific AI assistant.
         )
 
 
+
 @router.post("/message")
 async def save_voice_message(
     request: VoiceMessageRequest,
@@ -151,7 +158,6 @@ async def save_voice_message(
     try:
 
         conversation_service = ConversationService()
-
         message_repository = MessageRepository()
 
         # ----------------------------------------
@@ -182,15 +188,64 @@ async def save_voice_message(
         # Save assistant message
         # ----------------------------------------
 
-        await message_repository.create(
+        msg_id = await message_repository.create(
             conversation_id=conversation_id,
             role="assistant",
             provider="gemini-live",
             content=request.assistant_message,
         )
 
+        # ----------------------------------------
+        # Record Gemini Live Usage
+        # ----------------------------------------
+        from app.ai.pricing import calculate_cost, MODEL_PRICING
+        from app.ai.schemas import AIUsage
+        from app.services.usage_service import UsageService
+
+        model = settings.GEMINI_LIVE_MODEL
+        model_spec = MODEL_PRICING.get(model, {})
+        context_limit = model_spec.get("context_limit", 131072)
+
+        input_toks = request.input_tokens
+        output_toks = request.output_tokens
+        total_toks = (input_toks + output_toks) if (input_toks is not None and output_toks is not None) else None
+
+        cost = calculate_cost(
+            model=model,
+            input_tokens=input_toks,
+            output_tokens=output_toks,
+            audio_input_seconds=request.audio_input_seconds,
+            audio_output_seconds=request.audio_output_seconds,
+        )
+
+        usage = AIUsage(
+            provider="gemini",
+            model=model,
+            request_type="voice",
+            input_tokens=input_toks,
+            output_tokens=output_toks,
+            total_tokens=total_toks,
+            estimated_cost=cost,
+            currency="USD",
+            latency_ms=request.latency_ms,
+            audio_input_seconds=request.audio_input_seconds,
+            audio_output_seconds=request.audio_output_seconds,
+            live_session_id=request.live_session_id,
+            context_limit=context_limit,
+            context_remaining=(context_limit - input_toks) if input_toks is not None else None,
+            usage_source="provider_metadata" if (input_toks is not None or request.audio_input_seconds is not None) else "unavailable",
+            quota_scope="unknown",
+        )
+
+        usage_service = UsageService()
+        await usage_service.record_usage(
+            conversation_id=conversation_id,
+            usage=usage,
+            message_id=msg_id,
+        )
+
         logger.info(
-            f"Voice conversation saved: {conversation_id}"
+            f"Voice conversation and analytics saved: {conversation_id}"
         )
 
         return {
@@ -208,4 +263,4 @@ async def save_voice_message(
         raise HTTPException(
             status_code=500,
             detail="Failed to save voice conversation.",
-        ) from exc
+        ) from exc

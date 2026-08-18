@@ -9,9 +9,11 @@ class MessageRepository:
     Repository responsible for chat message persistence.
     """
 
-    def __init__(self) -> None:
+    @property
+    def collection(self) -> AsyncIOMotorCollection:
         db = get_database()
-        self.collection: AsyncIOMotorCollection = db.messages
+        return db.messages
+
 
     async def create(
         self,
