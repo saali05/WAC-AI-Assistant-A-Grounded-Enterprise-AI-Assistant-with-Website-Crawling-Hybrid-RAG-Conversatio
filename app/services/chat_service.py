@@ -34,14 +34,14 @@ class ChatService:
         conversation_id: str | None = None,
     ) -> dict:
         """
-        Complete chat flow.
+        Complete chat flow with RAG grounded context & source citations.
 
         1. Get or create conversation
         2. Save user message
-        3. Generate AI response
+        3. Generate AI response + RAG context
         4. Save assistant message
         5. Record AI usage
-        6. Return response
+        6. Return response + sources + rag_used metadata
         """
 
         conversation = await self.conversation_service.get_or_create(
@@ -59,9 +59,9 @@ class ChatService:
             content=message,
         )
 
-        # Generate AI response
+        # Generate AI response with RAG
         history = await self.session_memory_service.build_history(conversation_id)
-        ai_response = await self.ai_service.chat(
+        ai_response, rag_result = await self.ai_service.chat(
             provider=provider,
             message=message,
             history=history,
@@ -85,12 +85,25 @@ class ChatService:
                     usage=ai_response.usage,
                     message_id=msg_id,
                 )
-            except Exception as exc:
-                # Logging error without breaking chat response flow
+            except Exception:
                 pass
+
+        # Prepare source citation response objects
+        sources_list = [
+            {
+                "title": s.title,
+                "url": s.url,
+                "heading": s.heading,
+                "score": s.score
+            }
+            for s in rag_result.sources
+        ] if rag_result.sources else []
 
         return {
             "conversation_id": conversation_id,
             "title": conversation["title"],
             "response": formatted_content,
-        }
+            "sources": sources_list,
+            "rag_used": rag_result.has_context,
+            "retrieval_score": rag_result.retrieval_score if rag_result.has_context else None
+        }

@@ -1,7 +1,6 @@
+import sys
 from pathlib import Path
-
 from loguru import logger
-import traceback
 
 # Create logs directory if it doesn't exist
 LOG_DIR = Path("logs")
@@ -10,9 +9,17 @@ LOG_DIR.mkdir(exist_ok=True)
 # Remove default logger
 logger.remove()
 
+def _safe_print(msg: str) -> None:
+    try:
+        sys.stdout.write(msg)
+        sys.stdout.flush()
+    except UnicodeEncodeError:
+        sys.stdout.write(msg.encode(sys.stdout.encoding or "utf-8", errors="replace").decode(sys.stdout.encoding or "utf-8"))
+        sys.stdout.flush()
+
 # Console Logger
 logger.add(
-    sink=lambda msg: print(msg, end=""),
+    sink=_safe_print,
     level="INFO",
     colorize=True,
     format="<green>{time:YYYY-MM-DD HH:mm:ss}</green> | "
@@ -32,5 +39,3 @@ logger.add(
 )
 
 __all__ = ["logger"]
-
-print(traceback.format_exc())
