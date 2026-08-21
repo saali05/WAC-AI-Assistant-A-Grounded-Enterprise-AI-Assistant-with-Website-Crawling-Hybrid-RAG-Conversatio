@@ -1,11 +1,10 @@
 from app.ai.service import AIService
-
 from app.repositories.message_repository import MessageRepository
-
 from app.services.response_formatter import ResponseFormatter
 from app.services.conversation_service import ConversationService
 from app.services.session_memory_service import SessionMemoryService
-from app.services.response_formatter import ResponseFormatter
+from app.services.usage_service import UsageService
+
 
 class ChatService:
     @property
@@ -24,6 +23,10 @@ class ChatService:
     def message_repository(self) -> MessageRepository:
         return MessageRepository()
 
+    @property
+    def usage_service(self) -> UsageService:
+        return UsageService()
+
     async def send_message(
         self,
         provider: str,
@@ -37,7 +40,8 @@ class ChatService:
         2. Save user message
         3. Generate AI response
         4. Save assistant message
-        5. Return response
+        5. Record AI usage
+        6. Return response
         """
 
         conversation = await self.conversation_service.get_or_create(
@@ -46,7 +50,7 @@ class ChatService:
         )
 
         conversation_id = conversation["id"]
-        # print("1. Conversation created")
+
         # Save user message
         await self.message_repository.create(
             conversation_id=conversation_id,
@@ -54,41 +58,39 @@ class ChatService:
             provider=provider,
             content=message,
         )
-        # print("2. User message saved")
+
         # Generate AI response
-        history = await self.session_memory_service.build_history(
-            conversation_id
-  )
-        # print("3. History loaded")
-        response = await self.ai_service.chat(
+        history = await self.session_memory_service.build_history(conversation_id)
+        ai_response = await self.ai_service.chat(
             provider=provider,
             message=message,
             history=history,
-            )
-        response = ResponseFormatter.format(response)
-        # print("4. AI response received")
-        # print(response)
+        )
 
+        formatted_content = ResponseFormatter.format(ai_response.content)
 
-        # Save assistant response
-        await self.message_repository.create(
+        # Save assistant response message
+        msg_id = await self.message_repository.create(
             conversation_id=conversation_id,
             role="assistant",
             provider=provider,
-            content=response,
+            content=formatted_content,
         )
-        # print("5. Assistant message saved")
-        result = {
-        "conversation_id": conversation_id,
-        "title": conversation["title"],
-        "response": response,
-        }
 
-        # print("6. Returning response")
-        # print(result)
+        # Record usage
+        if hasattr(ai_response, "usage") and ai_response.usage:
+            try:
+                await self.usage_service.record_usage(
+                    conversation_id=conversation_id,
+                    usage=ai_response.usage,
+                    message_id=msg_id,
+                )
+            except Exception as exc:
+                # Logging error without breaking chat response flow
+                pass
 
         return {
             "conversation_id": conversation_id,
             "title": conversation["title"],
-            "response": response,
-        }
+            "response": formatted_content,
+        }

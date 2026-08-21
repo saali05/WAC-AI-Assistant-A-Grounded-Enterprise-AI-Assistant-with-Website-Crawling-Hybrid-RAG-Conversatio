@@ -3,7 +3,8 @@ from app.core.config import settings
 from app.prompts.prompt_builder import PromptBuilder
 from app.prompts.system_prompt import SYSTEM_PROMPT
 from app.services.company_service import CompanyService
-from app.ai.schemas import AIRequest
+from app.ai.schemas import AIRequest, AIResponse
+
 
 class AIService:
 
@@ -16,7 +17,7 @@ class AIService:
         message: str,
         history: str = "",
         provider: str | None = None,
-    ) -> str:
+    ) -> AIResponse:
 
         selected_provider = provider or settings.DEFAULT_PROVIDER
 
@@ -35,4 +36,4 @@ class AIService:
 
         ai_provider = ProviderFactory.get_provider(selected_provider)
 
-        return await ai_provider.generate(prompt)
+        return await ai_provider.generate(prompt)

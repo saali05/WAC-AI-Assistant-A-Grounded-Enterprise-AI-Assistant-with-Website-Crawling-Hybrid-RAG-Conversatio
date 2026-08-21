@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from app.ai.schemas import AIResponse
 
 
 class BaseAIProvider(ABC):
@@ -7,8 +8,8 @@ class BaseAIProvider(ABC):
     """
 
     @abstractmethod
-    async def generate(self, message: str) -> str:
+    async def generate(self, message: str) -> AIResponse:
         """
-        Generate a response from the AI provider.
+        Generate a normalized AIResponse from the AI provider.
         """
-        pass
+        pass

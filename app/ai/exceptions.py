@@ -9,7 +9,20 @@ class AIException(Exception):
 
 
 class RateLimitException(AIException):
-    pass
+    def __init__(
+        self,
+        message: str,
+        provider: str | None = None,
+        model: str | None = None,
+        retry_after_seconds: int | None = None,
+        limit_type: str | None = None,
+    ):
+        super().__init__(message)
+        self.provider = provider
+        self.model = model
+        self.retry_after_seconds = retry_after_seconds
+        self.limit_type = limit_type
+
 
 
 class InvalidAPIKeyException(AIException):

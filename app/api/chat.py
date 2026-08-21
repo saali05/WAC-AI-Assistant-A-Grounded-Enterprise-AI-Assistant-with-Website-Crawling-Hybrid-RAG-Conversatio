@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException
 
 from app.schemas.chat import ChatRequest, ChatResponse
 from app.services.chat_service import ChatService
+from app.ai.exceptions import AIException
 
 router = APIRouter(
     prefix="/chat",
@@ -9,14 +10,13 @@ router = APIRouter(
 )
 
 
-
-
 @router.post(
     "",
     response_model=ChatResponse,
 )
 async def chat(
-    request: ChatRequest,):
+    request: ChatRequest,
+):
     chat_service = ChatService()
     try:
 
@@ -28,8 +28,10 @@ async def chat(
 
         return ChatResponse(**result)
 
+    except AIException:
+        raise
     except Exception as e:
         raise HTTPException(
             status_code=500,
             detail=str(e),
-        )
+        )
