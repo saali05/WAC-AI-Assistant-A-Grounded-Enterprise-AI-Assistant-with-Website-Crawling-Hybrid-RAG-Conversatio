@@ -5,7 +5,7 @@ import {
   type ReactNode,
 } from "react";
 
-import type { Provider } from "../types/chat";
+import type { Provider, SourceItem } from "../types/chat";
 
 import { sendMessage } from "../api/chat";
 
@@ -22,6 +22,7 @@ import {
 export interface Message {
   role: "user" | "assistant";
   content: string;
+  sources?: SourceItem[];
 }
 
 export interface Conversation {
@@ -244,6 +245,8 @@ export function ChatProvider({
               role: "assistant",
               content:
                 response.response,
+              sources:
+                response.sources,
             },
           ]
         );

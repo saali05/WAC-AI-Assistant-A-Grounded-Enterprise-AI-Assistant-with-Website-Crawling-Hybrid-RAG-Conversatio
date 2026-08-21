@@ -21,6 +21,11 @@ async def connect_db() -> None:
 
         logger.info("✅ Connected to MongoDB")
 
+        # Initialize RAG collection indexes
+        if settings.RAG_ENABLED:
+            from app.repositories.rag_repository import initialize_rag_indexes
+            await initialize_rag_indexes(database)
+
     except Exception as e:
         logger.error(f"❌ MongoDB Connection Failed: {e}")
         raise

@@ -39,6 +39,12 @@ MODEL_PRICING: dict[str, dict[str, Any]] = {
         "context_limit": 131_072,
     },
 
+    "llama-3.3-70b-versatile": {
+        "input_per_1m": 0.59,
+        "output_per_1m": 0.79,
+        "context_limit": 131_072,
+    },
+
     # --------------------------------------------------------
     # Gemini Live
     # --------------------------------------------------------
@@ -105,7 +111,18 @@ def calculate_model_cost(
     model_spec = MODEL_PRICING.get(model)
 
     if not model_spec:
-        return 0.0
+        if "llama" in model.lower() or "groq" in model.lower():
+            model_spec = {
+                "input_per_1m": settings.GROQ_INPUT_PRICE_PER_1M,
+                "output_per_1m": settings.GROQ_OUTPUT_PRICE_PER_1M,
+            }
+        elif "gemini" in model.lower():
+            model_spec = {
+                "input_per_1m": settings.GEMINI_INPUT_PRICE_PER_1M,
+                "output_per_1m": settings.GEMINI_OUTPUT_PRICE_PER_1M,
+            }
+        else:
+            return 0.0
 
     return calculate_token_cost(
         input_tokens=input_tokens,
@@ -129,18 +146,25 @@ def calculate_cost(
     model: str,
     input_tokens: int = 0,
     output_tokens: int = 0,
+    pricing_tier: str = "paid",
+    audio_input_seconds: float | None = None,
+    audio_output_seconds: float | None = None,
+    **kwargs,
 ) -> float:
     """
     Backward-compatible cost calculation.
 
-    Existing provider code can continue calling:
+    Existing provider code and tests can continue calling:
 
         calculate_cost(
             model,
             input_tokens,
             output_tokens,
+            pricing_tier=...,
         )
     """
+    if pricing_tier == "free":
+        return 0.0
 
     return calculate_model_cost(
         model=model,

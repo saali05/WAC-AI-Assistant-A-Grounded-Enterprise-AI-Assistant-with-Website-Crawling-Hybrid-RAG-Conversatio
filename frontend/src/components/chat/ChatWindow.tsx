@@ -3,12 +3,10 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { User, Sparkles, Copy, Check, Terminal } from "lucide-react";
 import { useChat } from "../../context/ChatContext";
+import type { Message } from "../../types/chat";
 
 interface ChatWindowProps {
-  messages: {
-    role: "user" | "assistant";
-    content: string;
-  }[];
+  messages: Message[];
 }
 
 export default function ChatWindow({ messages }: ChatWindowProps) {
@@ -88,6 +86,39 @@ export default function ChatWindow({ messages }: ChatWindowProps) {
                   {message.content}
                 </ReactMarkdown>
               </div>
+
+              {/* RAG Sources Section */}
+              {message.sources && message.sources.length > 0 && (
+                <div className="mt-4 pt-3 border-t border-white/10">
+                  <div className="text-[11px] font-semibold text-slate-400 mb-2 tracking-wide uppercase flex items-center gap-1.5">
+                    <span className="h-1.5 w-1.5 rounded-full bg-red-400"></span>
+                    Sources
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {message.sources.map((source, sIdx) => (
+                      <a
+                        key={sIdx}
+                        href={source.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group flex flex-col p-2 rounded-xl bg-white/5 border border-white/10 hover:border-red-500/40 hover:bg-white/10 transition-all text-xs max-w-xs"
+                      >
+                        <span className="font-semibold text-slate-200 group-hover:text-red-300 truncate">
+                          {source.title}
+                        </span>
+                        {source.heading && (
+                          <span className="text-[10px] text-slate-400 truncate">
+                            {source.heading}
+                          </span>
+                        )}
+                        <span className="text-[10px] text-red-400/80 truncate mt-0.5 font-mono">
+                          {source.url.replace(/^https?:\/\//, "")}
+                        </span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         );

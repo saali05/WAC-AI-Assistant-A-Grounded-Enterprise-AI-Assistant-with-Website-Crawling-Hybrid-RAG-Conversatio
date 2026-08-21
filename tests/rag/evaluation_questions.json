@@ -1,0 +1,31 @@
+{
+  "wac_questions": [
+    "What services does WAC provide?",
+    "What AI capabilities does WAC offer?",
+    "What software engineering solutions does WAC build?",
+    "What cloud and DevOps services does WAC offer?",
+    "What digital marketing services does WAC provide?",
+    "What branding solutions does WAC deliver?",
+    "What industries does WAC serve?",
+    "Which clients does WAC work with?",
+    "What case studies feature WAC's work?",
+    "What career opportunities are available at WAC?",
+    "How can I apply for a job at WAC?",
+    "Where are WAC's offices located?",
+    "How do I contact Web and Crafts?",
+    "What is the history of WAC?",
+    "What technologies does WAC specialize in?",
+    "Does WAC use Python and FastAPI?",
+    "Does WAC build React web applications?",
+    "What company values guide WAC?",
+    "What is the vision and mission of WAC?",
+    "Does WAC provide custom enterprise AI development?"
+  ],
+  "out_of_domain_questions": [
+    "What is the capital of France?",
+    "How do I cook biryani?",
+    "What is Python?",
+    "Who won the world cup?",
+    "Tell me a joke about cats."
+  ]
+}

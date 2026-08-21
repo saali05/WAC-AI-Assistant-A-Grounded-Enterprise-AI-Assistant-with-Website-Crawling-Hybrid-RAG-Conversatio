@@ -1,5 +1,5 @@
 import api from "./axios";
-import type { Provider } from "../types/chat";
+import type { Provider, SourceItem } from "../types/chat";
 
 export interface ChatRequest {
   conversation_id?: string;
@@ -10,6 +10,7 @@ export interface ChatRequest {
 export interface ChatResponse {
   conversation_id: string;
   response: string;
+  sources?: SourceItem[];
 }
 
 export async function sendMessage(

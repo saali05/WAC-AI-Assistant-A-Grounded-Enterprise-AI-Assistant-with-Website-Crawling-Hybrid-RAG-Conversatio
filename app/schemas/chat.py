@@ -15,9 +15,22 @@ class ChatRequest(BaseModel):
     )
 
 
+class SourceItem(BaseModel):
+    title: str
+    url: str
+    heading: str | None = None
+    score: float = 0.0
+
+
 class ChatResponse(BaseModel):
     conversation_id: str
 
     title: str
 
     response: str
+
+    sources: list[SourceItem] = []
+
+    rag_used: bool = False
+
+    retrieval_score: float | None = None
