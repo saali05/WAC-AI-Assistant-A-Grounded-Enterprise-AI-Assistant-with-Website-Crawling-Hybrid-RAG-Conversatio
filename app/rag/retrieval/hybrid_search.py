@@ -4,7 +4,6 @@ from app.rag.models import RetrievedChunk
 from app.rag.retrieval.keyword_search import KeywordSearch
 from app.rag.retrieval.vector_search import VectorSearch
 
-
 class HybridSearch:
     """Hybrid Search using Reciprocal Rank Fusion (RRF) combining vector search and keyword search."""
 

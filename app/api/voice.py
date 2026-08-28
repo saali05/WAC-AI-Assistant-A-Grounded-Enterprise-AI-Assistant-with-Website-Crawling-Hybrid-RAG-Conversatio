@@ -9,6 +9,9 @@ from app.core.logging import logger
 from app.repositories.message_repository import MessageRepository
 from app.services.conversation_service import ConversationService
 
+from typing import Any
+from app.services.rag_service import RAGService
+from app.ai.tools.live_definitions import WAC_LIVE_TOOLS
 
 router = APIRouter(
     prefix="/voice",
@@ -62,6 +65,8 @@ async def create_live_token():
                         "input_audio_transcription": {},
 
                         "output_audio_transcription": {},
+
+                        "tools": WAC_LIVE_TOOLS,
 
                         "system_instruction": {
                             "parts": [
@@ -133,6 +138,7 @@ You are a WAC-specific AI assistant.
         return {
             "token": token.name,
             "model": settings.GEMINI_LIVE_MODEL,
+            "tools": WAC_LIVE_TOOLS,
         }
 
     except Exception:
@@ -263,4 +269,115 @@ async def save_voice_message(
         raise HTTPException(
             status_code=500,
             detail="Failed to save voice conversation.",
-        ) from exc
+        ) from exc
+
+class VoiceToolRequest(BaseModel):
+    name: str
+    arguments: dict[str, Any] = {}
+    conversation_id: str | None = None
+
+
+@router.post("/tool")
+async def execute_voice_tool(
+    request: VoiceToolRequest,
+):
+    """
+    Execute an approved Gemini Live function call.
+
+    Currently only search_wac_knowledge is allowed.
+    """
+
+    if request.name != "search_wac_knowledge":
+        raise HTTPException(
+            status_code=400,
+            detail=f"Unsupported voice tool: {request.name}",
+        )
+
+    query = request.arguments.get("query")
+
+    if not isinstance(query, str) or not query.strip():
+        raise HTTPException(
+            status_code=400,
+            detail="Tool argument 'query' is required.",
+        )
+
+    try:
+        rag_service = RAGService()
+
+        rag_result = await rag_service.get_grounded_context(
+            user_message=query,
+            conversation_history="",
+        )
+
+        # --------------------------------------------------
+        # Out-of-domain
+        # --------------------------------------------------
+
+        if not rag_result.is_relevant:
+            return {
+                "success": True,
+                "is_relevant": False,
+                "has_context": False,
+                "retrieval_score": 0.0,
+                "answer": (
+                    rag_result.refusal_reason
+                    or (
+                        "I'm WAC AI, a specialized AI assistant for "
+                        "Web and Craft. I can only help with questions "
+                        "related to Web and Craft."
+                    )
+                ),
+                "context": "",
+                "sources": [],
+            }
+
+        # --------------------------------------------------
+        # No reliable evidence
+        # --------------------------------------------------
+
+        if not rag_result.has_context:
+
+            return {
+                "success": True,
+                "is_relevant": True,
+                "has_context": False,
+                "retrieval_score": rag_result.retrieval_score,
+                "answer": (
+                    rag_result.refusal_reason
+                    or (
+                        "I couldn't find reliable information about "
+                        "that in WAC's current knowledge base."
+                    )
+                ),
+                "context": "",
+                "sources": [],
+            }
+
+        # --------------------------------------------------
+        # Grounded WAC context
+        # --------------------------------------------------
+
+        return {
+            "success": True,
+            "is_relevant": True,
+            "has_context": True,
+            "retrieval_score": rag_result.retrieval_score,
+            "context": rag_result.context,
+            "sources": [
+                source.model_dump()
+                if hasattr(source, "model_dump")
+                else source
+                for source in rag_result.sources
+            ],
+        }
+
+    except Exception as exc:
+
+        logger.exception(
+            "Gemini Live RAG tool failed"
+        )
+
+        raise HTTPException(
+            status_code=500,
+            detail="WAC knowledge search failed.",
+        ) from exc

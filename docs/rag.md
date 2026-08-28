@@ -1,128 +1,200 @@
-# Grounded RAG Subsystem via Website Crawling
+# WAC AI Assistant --- RAG
 
-## Overview
+## Purpose
 
-The Grounded RAG System turns the WAC AI Assistant into an enterprise-grade assistant grounded directly in official website content (`webandcrafts.com`).
+Retrieval-Augmented Generation (RAG) supplies grounded WAC knowledge to
+the language model.
 
----
+The system crawls the WAC website, extracts useful content, chunks it,
+generates embeddings, stores searchable chunks in MongoDB, and retrieves
+relevant information for user questions.
 
-## Architecture
+## Ingestion Pipeline
 
+``` text
+WAC Website
+    |
+    v
+WebCrawler
+    |
+    v
+HTML Extraction
+    |
+    v
+Metadata Extraction
+    |
+    v
+Semantic Chunker
+    |
+    v
+Gemini Embedding Model
+    |
+    v
+MongoDB rag_chunks
 ```
+
+## Retrieval Pipeline
+
+``` text
 User Query
-   │
-   ▼
-Chat API / ChatService
-   │
-   ▼
-WAC Relevance Gate (Out-of-Domain Refusal check)
-   │
-   ▼
-Query Rewriter (Session memory context)
-   │
-   ▼
+    |
+    v
+Query Rewriter
+    |
+    v
 Hybrid Search
-   ├── Vector Search (MongoDB Atlas $vectorSearch / Cosine fallback)
-   └── Keyword Search (Full-Text Search / Regex)
-   │
-   ▼
-Reciprocal Rank Fusion (RRF) & Fusion Reranker
-   │
-   ▼
-Relevance Threshold Check (RAG_MIN_RELEVANCE_SCORE)
-   │
-   ▼
-Context Builder (Formatted WAC Knowledge Context)
-   │
-   ▼
-PromptBuilder (SYSTEM, RESPONSE, COMPANY, MEMORY, RAG KNOWLEDGE)
-   │
-   ▼
-AIService (Gemini / Groq)
-   │
-   ▼
-Grounded Answer + Source Citations Card Display
+   /   /   Vector Keyword
+Search Search
+  \   /
+   \ /
+ Fusion / Reranking
+      |
+      v
+Relevance Threshold
+      |
+      v
+Context Builder
+      |
+      +---- Context
+      |
+      +---- Sources
 ```
 
----
+## Website Crawling
 
-## Crawler Architecture & Security
+`WebCrawler` discovers pages under configured allowed domains.
+`CrawlService` tracks crawl runs, URLs discovered/crawled, documents
+changed/skipped, chunks created, and errors.
 
-1. **URL Normalization (`url_normalizer.py`):**
-   - Canonicalizes scheme, host, path, and removes tracking params (`utm_*`, `fbclid`, `gclid`).
-   - **SSRF Protection:** Rejects `localhost`, `127.0.0.1`, private IP ranges (`10.x`, `172.16-31.x`, `192.168.x`, `169.254.x`), metadata endpoints, and invalid URI schemes (`file://`, `javascript:`).
-   - Domain Allowlist check (`RAG_ALLOWED_DOMAINS`).
+## Document Indexing
 
-2. **Robots.txt (`robots.py`):**
-   - Parses `/robots.txt` per domain, respects `Crawl-delay` and extracts sitemaps.
+For a new document:
 
-3. **Sitemap Parsing (`sitemap.py`):**
-   - Parses `<urlset>` and `<sitemapindex>` XML structures and sorts URLs by `<lastmod>` timestamps.
-
-4. **Heading-Aware Semantic Chunker (`semantic_chunker.py`):**
-   - Splits content into 400–800 token chunks with 50–100 token overlap.
-   - Retains structural heading hierarchy (`heading_path`).
-
-5. **Document Versioning & Indexing (`indexer.py`):**
-   - SHA-256 content hashing (`old_hash == new_hash` -> skips re-embedding).
-   - Increments document version and updates active chunks in `rag_chunks`.
-
----
-
-## MongoDB Atlas Vector Search Index Setup
-
-Create an Atlas Vector Search index on collection `rag_chunks`:
-
-Index Name: `vector_index`
-
-```json
-{
-  "fields": [
-    {
-      "numDimensions": 768,
-      "path": "embedding",
-      "similarity": "cosine",
-      "type": "vector"
-    },
-    {
-      "path": "status",
-      "type": "filter"
-    }
-  ]
-}
+``` text
+Document -> Chunks -> Embeddings -> MongoDB
 ```
 
----
+For an existing document, the content hash is checked.
 
-## Environment Configuration
+If unchanged:
 
-```ini
-RAG_ENABLED=True
-RAG_ALLOWED_DOMAINS=webandcrafts.com,www.webandcrafts.com
-RAG_EMBEDDING_MODEL=text-embedding-004
-RAG_EMBEDDING_DIMENSIONS=768
-RAG_VECTOR_WEIGHT=0.7
-RAG_KEYWORD_WEIGHT=0.3
-RAG_MIN_RELEVANCE_SCORE=0.65
-RAG_TOP_K_VECTOR=20
-RAG_TOP_K_KEYWORD=20
-RAG_TOP_K_FINAL=5
-RAG_CHUNK_SIZE=800
-RAG_CHUNK_OVERLAP=100
-RAG_MAX_PAGES=1000
-RAG_MAX_DEPTH=5
-RAG_REQUEST_TIMEOUT=15
-RAG_CRAWL_DELAY=1.0
-RAG_CONCURRENCY=5
+``` text
+Skip re-embedding
+Update crawl timestamp
 ```
 
----
+If changed:
 
-## Admin Endpoints
+``` text
+Create new version
+Deactivate previous active chunks
+Re-chunk
+Generate embeddings
+Store new chunks
+Update document
+```
 
-- `POST /rag/crawl`: Trigger manual website crawl run.
-- `GET /rag/crawl/status`: Check current or latest crawl status and stats.
-- `POST /rag/reindex`: Re-chunk and re-embed active documents.
-- `GET /rag/documents`: List indexed documents.
-- `GET /rag/documents/{id}`: View document details.
-- `DELETE /rag/documents/{id}`: Delete indexed document & chunks.
+## Embeddings
+
+The project uses:
+
+``` text
+gemini-embedding-001
+```
+
+with the configured embedding dimension:
+
+``` text
+768
+```
+
+An embedding converts text into a numerical vector.
+
+There are two uses of the same embedding process:
+
+1.  During indexing, each stored chunk is embedded.
+2.  During retrieval, the user query is embedded.
+
+The query vector is compared with stored vectors to find semantically
+similar chunks.
+
+## Hybrid Search
+
+### Vector Search
+
+Finds semantically similar content using embeddings.
+
+### Keyword Search
+
+Finds content using textual matching. This is useful for exact names,
+technologies, services, and other lexical terms.
+
+### Hybrid Retrieval
+
+Combines both signals to improve retrieval quality.
+
+## Reranking
+
+Retrieved candidates are reranked so the most useful chunks are placed
+first before context is sent to the model.
+
+## Relevance Threshold
+
+The top retrieval score is compared with the configured minimum
+relevance score. If the result is not sufficiently relevant, the system
+returns a controlled knowledge-base refusal rather than presenting weak
+retrieval as reliable information.
+
+## Context and Sources
+
+`ContextBuilder` converts selected chunks into model-ready context and
+source information. The frontend can display the supporting sources with
+the response.
+
+## Function Calling + RAG
+
+RAG is exposed through the tool:
+
+``` text
+search_wac_knowledge
+```
+
+Function calling does not replace RAG.
+
+``` text
+LLM
+ |
+ | function call
+ v
+ToolExecutor
+ |
+ v
+search_wac_knowledge
+ |
+ v
+RAGService
+ |
+ v
+Hybrid Retrieval
+ |
+ v
+Grounded Context
+ |
+ v
+LLM
+ |
+ v
+Final Answer
+```
+
+## Reindexing
+
+Reindexing is useful when chunking logic, embedding configuration, or
+indexed knowledge needs to be regenerated. Large embedding operations
+must account for provider request quotas.
+
+## Benefits
+
+RAG provides current website knowledge, grounding, source-backed
+answers, easier knowledge updates, and a controlled company-knowledge
+boundary.

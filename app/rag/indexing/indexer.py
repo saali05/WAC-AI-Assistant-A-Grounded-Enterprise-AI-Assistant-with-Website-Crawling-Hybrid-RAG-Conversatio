@@ -2,7 +2,7 @@ from datetime import datetime, UTC
 from typing import Optional
 from app.core.logging import logger
 from app.rag.chunking.semantic_chunker import SemanticChunker
-from app.rag.embeddings.embedding_service import EmbeddingService
+# from app.rag.embeddings.embedding_service import EmbeddingService
 from app.rag.extraction.html_extractor import ExtractedHTML
 from app.rag.models import RAGDocumentModel, RAGChunkModel
 from app.repositories.rag_repository import RAGDocumentRepository, RAGChunkRepository

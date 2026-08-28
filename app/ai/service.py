@@ -1,23 +1,43 @@
 from typing import Optional
+
+from google.genai import types
+
 from app.ai.factory import ProviderFactory
-from app.ai.schemas import AIRequest, AIResponse, AIUsage
+from app.ai.schemas import AIRequest, AIResponse
+from app.ai.tools.definitions import WAC_TOOLS
+from app.ai.tools.executor import ToolExecutor
 from app.core.config import settings
+from app.core.logging import logger
 from app.prompts.prompt_builder import PromptBuilder
 from app.prompts.system_prompt import SYSTEM_PROMPT
 from app.rag.models import RAGResult
 from app.services.company_service import CompanyService
-from app.services.rag_service import RAGService
 
 
 class AIService:
+    """
+    Main AI orchestration service.
+
+    Gemini:
+        Gemini decides whether WAC knowledge is required.
+        If required, Gemini calls search_wac_knowledge.
+        The backend executes the RAG pipeline.
+        The RAG result is returned to Gemini.
+        Gemini produces the final grounded answer.
+
+    Other providers:
+        Normal text generation without Gemini-specific tool calling.
+    """
+
+    MAX_TOOL_ROUNDS = 3
 
     @property
     def company_service(self) -> CompanyService:
         return CompanyService()
 
     @property
-    def rag_service(self) -> RAGService:
-        return RAGService()
+    def tool_executor(self) -> ToolExecutor:
+        return ToolExecutor()
 
     async def chat(
         self,
@@ -26,23 +46,28 @@ class AIService:
         provider: Optional[str] = None,
     ) -> tuple[AIResponse, RAGResult]:
 
-        selected_provider = provider or settings.DEFAULT_PROVIDER
-
-        # Execute RAG Retrieval Pipeline
-        rag_result = await self.rag_service.get_grounded_context(
-            user_message=message,
-            conversation_history=history,
+        selected_provider = (
+            provider or settings.DEFAULT_PROVIDER
         )
 
-        # 1. Check out-of-domain refusal from relevance gate
-        if not rag_result.is_relevant and rag_result.refusal_reason:
-            usage = AIUsage(provider=selected_provider, model="none", request_type="text")
-            return AIResponse(content=rag_result.refusal_reason, usage=usage), rag_result
+        logger.info(
+            f"AIService chat started | "
+            f"provider={selected_provider}"
+        )
 
-        # 2. Dynamic context selection: RAG context if available, otherwise CompanyService context fallback
-        company_context = rag_result.context if rag_result.has_context else self.company_service.get_context(message)
+        # --------------------------------------------------
+        # Build initial prompt.
+        #
+        # IMPORTANT:
+        # RAG is NOT called here.
+        #
+        # Gemini decides whether it needs the RAG tool.
+        # --------------------------------------------------
 
-        # 3. Build prompt using existing PromptBuilder architecture
+        company_context = (
+            self.company_service.get_context(message)
+        )
+
         request = AIRequest(
             user_message=message,
             conversation_history=history,
@@ -52,8 +77,248 @@ class AIService:
 
         prompt = PromptBuilder.build(request)
 
-        # 4. Generate AI response from selected provider (Gemini / Groq)
-        ai_provider = ProviderFactory.get_provider(selected_provider)
-        response = await ai_provider.generate(prompt)
+        ai_provider = ProviderFactory.get_provider(
+            selected_provider
+        )
 
-        return response, rag_result
+        # --------------------------------------------------
+        # Non-Gemini providers
+        #
+        # Function calling is currently implemented only
+        # for Gemini.
+        # --------------------------------------------------
+
+        if selected_provider != "gemini":
+
+            response = await ai_provider.generate(
+                prompt
+            )
+
+            empty_rag_result = RAGResult(
+                is_relevant=True,
+                has_context=False,
+                context="",
+                sources=[],
+                retrieval_score=0.0,
+            )
+
+            return response, empty_rag_result
+
+        # --------------------------------------------------
+        # FIRST GEMINI REQUEST
+        # --------------------------------------------------
+
+        logger.info(
+            "Sending initial request to Gemini with WAC tools"
+        )
+
+        response = await ai_provider.generate(
+            prompt,
+            tools=WAC_TOOLS,
+        )
+
+        latest_rag_result = RAGResult(
+            is_relevant=True,
+            has_context=False,
+            context="",
+            sources=[],
+            retrieval_score=0.0,
+        )
+
+        # --------------------------------------------------
+        # TOOL LOOP
+        # --------------------------------------------------
+
+        for round_number in range(
+            self.MAX_TOOL_ROUNDS
+        ):
+
+            # ------------------------------------------------
+            # Gemini decided that no tool is required.
+            # This is the normal final-answer path.
+            # ------------------------------------------------
+
+            if not response.tool_calls:
+
+                logger.info(
+                    "Gemini returned final response | "
+                    "no tool call"
+                )
+
+                return response, latest_rag_result
+
+            logger.info(
+                f"Gemini requested "
+                f"{len(response.tool_calls)} tool call(s) | "
+                f"round={round_number + 1}"
+            )
+
+            # ------------------------------------------------
+            # IMPORTANT
+            #
+            # Preserve Gemini's exact model response.
+            #
+            # The response contains the original function_call
+            # part generated by Gemini.
+            # ------------------------------------------------
+
+            raw_response = response.raw_response
+
+            if raw_response is None:
+
+                logger.error(
+                    "Gemini tool call detected but raw_response "
+                    "is unavailable."
+                )
+
+                raise RuntimeError(
+                    "Gemini raw response is required "
+                    "for function calling."
+                )
+
+            if not raw_response.candidates:
+
+                logger.error(
+                    "Gemini returned no candidates "
+                    "for tool call response."
+                )
+
+                raise RuntimeError(
+                    "Gemini returned no candidates."
+                )
+
+            model_content = (
+                raw_response.candidates[0].content
+            )
+
+            # ------------------------------------------------
+            # Start conversation with original user prompt
+            # and exact Gemini model response.
+            # ------------------------------------------------
+
+            contents = [
+                types.Content(
+                    role="user",
+                    parts=[
+                        types.Part.from_text(
+                            text=prompt
+                        )
+                    ],
+                ),
+                model_content,
+            ]
+
+            # ------------------------------------------------
+            # Execute every requested tool.
+            # ------------------------------------------------
+
+            function_response_parts = []
+
+            for tool_call in response.tool_calls:
+
+                logger.info(
+                    f"Executing tool | "
+                    f"name={tool_call.name} | "
+                    f"arguments={tool_call.arguments}"
+                )
+
+                try:
+
+                    result, rag_result = (
+                        await self.tool_executor.execute(
+                            name=tool_call.name,
+                            arguments=tool_call.arguments,
+                            conversation_history=history,
+                        )
+                    )
+
+                    # ----------------------------------------
+                    # Preserve latest RAG result so ChatService
+                    # can return sources to frontend.
+                    # ----------------------------------------
+
+                    if rag_result is not None:
+
+                        latest_rag_result = rag_result
+
+                    # ----------------------------------------
+                    # Convert Python result into Gemini's
+                    # function response.
+                    # ----------------------------------------
+
+                    function_response_parts.append(
+                        types.Part.from_function_response(
+                            name=tool_call.name,
+                            response=result,
+                        )
+                    )
+
+                    logger.info(
+                        f"Tool completed successfully | "
+                        f"name={tool_call.name}"
+                    )
+
+                except Exception as exc:
+
+                    logger.exception(
+                        f"Tool execution failed | "
+                        f"tool={tool_call.name}"
+                    )
+
+                    function_response_parts.append(
+                        types.Part.from_function_response(
+                            name=tool_call.name,
+                            response={
+                                "error": (
+                                    "The WAC knowledge search "
+                                    "failed internally. "
+                                    "Do not invent an answer."
+                                )
+                            },
+                        )
+                    )
+
+            # ------------------------------------------------
+            # Add tool response as the next user turn.
+            # ------------------------------------------------
+
+            contents.append(
+                types.Content(
+                    role="user",
+                    parts=function_response_parts,
+                )
+            )
+
+            logger.info(
+                "Sending function response back to Gemini"
+            )
+
+            # ------------------------------------------------
+            # SECOND GEMINI REQUEST
+            #
+            # Gemini now sees:
+            #
+            # USER
+            #   ↓
+            # MODEL function_call
+            #   ↓
+            # USER function_response
+            #   ↓
+            # MODEL final answer
+            # ------------------------------------------------
+
+            response = await ai_provider.generate_tool_response(
+                contents=contents,
+                tools=WAC_TOOLS,
+            )
+
+        # --------------------------------------------------
+        # Safety protection against infinite tool loops.
+        # --------------------------------------------------
+
+        logger.warning(
+            f"Maximum Gemini tool rounds reached | "
+            f"max={self.MAX_TOOL_ROUNDS}"
+        )
+
+        return response, latest_rag_result
