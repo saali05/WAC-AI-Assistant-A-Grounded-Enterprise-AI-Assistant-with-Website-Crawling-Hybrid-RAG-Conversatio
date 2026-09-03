@@ -26,8 +26,17 @@ interface GeminiLiveCallbacks {
     text: string
   ) => void;
 
+  onUserTranscript?: (
+    text: string
+  ) => void;
+
   onAssistantMessage?: (
     text: string
+  ) => void;
+
+  onTranscriptDelta?: (
+    deltaText: string,
+    isDone: boolean
   ) => void;
 
   onConversationCreated?: (
@@ -132,6 +141,60 @@ export class GeminiLiveService {
   // ==========================================================
   // CONSTRUCTOR
   // ==========================================================
+
+  public onTranscriptDelta?: (
+    deltaText: string,
+    isDone: boolean
+  ) => void;
+
+  public onUserTranscript?: (
+    text: string
+  ) => void;
+
+  private isSessionReady = false;
+
+  private pendingAudioBuffer: Array<string> = [];
+
+  private emitTranscriptDelta(
+    deltaText: string,
+    isDone: boolean
+  ) {
+    this.onTranscriptDelta?.(deltaText, isDone);
+    this.callbacks.onTranscriptDelta?.(deltaText, isDone);
+  }
+
+  private flushAudioBuffer(): void {
+    if (
+      !this.session ||
+      !this.isSessionReady ||
+      this.pendingAudioBuffer.length === 0
+    ) {
+      return;
+    }
+
+    console.log(
+      `Flushing ${this.pendingAudioBuffer.length} buffered audio chunks to Gemini Live.`
+    );
+
+    while (this.pendingAudioBuffer.length > 0) {
+      const base64 = this.pendingAudioBuffer.shift();
+      if (base64) {
+        try {
+          this.session.sendRealtimeInput({
+            audio: {
+              data: base64,
+              mimeType: "audio/pcm;rate=16000",
+            },
+          });
+        } catch (error) {
+          console.warn(
+            "Failed to send buffered audio chunk:",
+            error
+          );
+        }
+      }
+    }
+  }
 
   constructor(
     callbacks: GeminiLiveCallbacks = {}
@@ -546,6 +609,9 @@ in WAC's current knowledge base.
                 "Gemini Live connected."
               );
 
+              this.isSessionReady = true;
+
+              this.flushAudioBuffer();
 
               this.setState(
                 "listening"
@@ -1122,44 +1188,44 @@ in WAC's current knowledge base.
         if (
           !this.session
         ) {
-
           return;
         }
-
 
         const input =
           event.inputBuffer
             .getChannelData(0);
-
 
         const pcm =
           this.floatTo16BitPCM(
             input
           );
 
-
         const base64 =
           this.arrayBufferToBase64(
             pcm.buffer
           );
 
+        if (!this.isSessionReady) {
+          if (this.pendingAudioBuffer.length < 100) {
+            this.pendingAudioBuffer.push(base64);
+          }
+          return;
+        }
+
+        if (this.pendingAudioBuffer.length > 0) {
+          this.flushAudioBuffer();
+        }
 
         try {
-
           this.session
             .sendRealtimeInput({
-
               audio: {
-
                 data:
                   base64,
-
                 mimeType:
                   "audio/pcm;rate=16000",
               },
-
             });
-
         } catch (error) {
 
           console.warn(
@@ -1332,6 +1398,8 @@ in WAC's current knowledge base.
         this.userTranscript +=
           text;
 
+        this.callbacks.onUserTranscript?.(this.userTranscript);
+        this.onUserTranscript?.(this.userTranscript);
 
         console.log(
           "USER:",
@@ -1360,6 +1428,10 @@ in WAC's current knowledge base.
         this.assistantTranscript +=
           text;
 
+        this.emitTranscriptDelta(
+          text,
+          false
+        );
 
         console.log(
           "WAC AI:",
@@ -1383,11 +1455,15 @@ in WAC's current knowledge base.
 
 
       // ------------------------------------------------------
-      // Stop ALL scheduled audio.
+      // Stop ALL scheduled audio & halt streaming text bubble.
       // ------------------------------------------------------
 
       this.stopCurrentAudio();
 
+      this.emitTranscriptDelta(
+        "",
+        true
+      );
 
       this.setState(
         "listening"
@@ -1399,7 +1475,7 @@ in WAC's current knowledge base.
 
 
     // ========================================================
-    // AUDIO RESPONSE
+    // AUDIO RESPONSE & MODEL TURN PARTS
     // ========================================================
 
     const parts =
@@ -1415,6 +1491,16 @@ in WAC's current knowledge base.
       for (
         const part of parts
       ) {
+
+        if (
+          part?.text
+        ) {
+
+          this.emitTranscriptDelta(
+            part.text,
+            false
+          );
+        }
 
         const audioData =
           part
@@ -1449,6 +1535,11 @@ in WAC's current knowledge base.
 
       console.log(
         "Gemini turn completed."
+      );
+
+      this.emitTranscriptDelta(
+        "",
+        true
       );
 
 
@@ -1871,6 +1962,10 @@ in WAC's current knowledge base.
     // --------------------------------------------------------
 
     this.stopCurrentAudio();
+
+    this.isSessionReady = false;
+
+    this.pendingAudioBuffer = [];
 
 
     // --------------------------------------------------------
