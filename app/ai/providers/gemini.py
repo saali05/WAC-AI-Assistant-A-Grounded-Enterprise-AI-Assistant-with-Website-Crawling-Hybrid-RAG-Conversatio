@@ -80,19 +80,10 @@ class GeminiProvider(BaseAIProvider):
     ) -> AIResponse:
 
         logger.info(
-            "Sending tool result back to Gemini | tools=%s",
-            bool(tools),
+            "Sending tool result back to Gemini for final answer"
         )
 
         config_kwargs: dict[str, Any] = {}
-
-        if tools:
-            config_kwargs["tools"] = tools
-            config_kwargs["tool_config"] = types.ToolConfig(
-                function_calling_config=types.FunctionCallingConfig(
-                    mode="AUTO"
-                )
-            )
 
         return await self._generate(
             contents=contents,

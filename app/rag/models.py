@@ -92,6 +92,10 @@ class RetrievedChunk(BaseModel):
     vector_score: Optional[float] = None
     keyword_score: Optional[float] = None
     fusion_score: Optional[float] = None
+    reranked_score: Optional[float] = None
+    retrieval_confidence: Optional[float] = None
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
 
 
 class RAGResult(BaseModel):
