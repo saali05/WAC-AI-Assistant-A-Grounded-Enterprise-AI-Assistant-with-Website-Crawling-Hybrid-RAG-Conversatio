@@ -1,5 +1,5 @@
-from typing import Optional
-
+from typing import Any, List, Optional
+from pydantic import ConfigDict, Field
 from langchain_core.documents import Document
 from langchain_core.retrievers import BaseRetriever
 
@@ -13,54 +13,23 @@ class WACRetriever(BaseRetriever):
     LangChain adapter for the existing WAC Hybrid RAG system.
 
     LangChain sees this class as a Retriever.
-
-    Internally it continues using the existing WAC RAG pipeline:
-
-        WACRetriever
-             ↓
-        HybridSearch
-             ↓
-        ┌───────────────┐
-        │               │
-    VectorSearch   KeywordSearch
-        │               │
-        └───────┬───────┘
-                ↓
-        Reciprocal Rank Fusion
-                ↓
-        RetrievedChunk
-                ↓
-        LangChain Document
     """
+    model_config = ConfigDict(arbitrary_types_allowed=True)
 
-    top_k: int = settings.RAG_TOP_K_VECTOR
-
-    def __init__(
-        self,
-        hybrid_search: Optional[HybridSearch] = None,
-        **kwargs,
-    ):
-        super().__init__(**kwargs)
-
-        object.__setattr__(
-            self,
-            "hybrid_search",
-            hybrid_search or HybridSearch(),
-        )
+    hybrid_search: Any = Field(default_factory=HybridSearch)
+    top_k: int = Field(default_factory=lambda: settings.RAG_TOP_K_VECTOR)
 
     def _get_relevant_documents(
         self,
         query: str,
         *,
         run_manager=None,
-    ) -> list[Document]:
+    ) -> List[Document]:
         """
         Synchronous retrieval.
-
         The existing WAC RAG pipeline is asynchronous, so this
         adapter intentionally requires the async interface.
         """
-
         raise NotImplementedError(
             "WACRetriever is asynchronous. "
             "Use retriever.ainvoke() instead."
@@ -71,49 +40,39 @@ class WACRetriever(BaseRetriever):
         query: str,
         *,
         run_manager=None,
-    ) -> list[Document]:
+    ) -> List[Document]:
         """
         Execute the existing WAC HybridSearch and convert
         RetrievedChunk objects into LangChain Documents.
         """
-
         if not query or not query.strip():
-            logger.warning(
-                "LangChain WACRetriever received an empty query."
-            )
+            logger.warning("LangChain WACRetriever received an empty query.")
             return []
 
-        logger.info(
-            "LangChain WACRetriever search started | query=%s",
-            query,
-        )
+        logger.info("LangChain WACRetriever search started | query=%s", query)
 
         try:
-
-            # --------------------------------------------------
-            # Existing WAC Hybrid RAG
-            # --------------------------------------------------
-
             results = await self.hybrid_search.search(
                 query=query,
                 top_k=self.top_k,
             )
 
-            documents: list[Document] = []
-
-            # --------------------------------------------------
-            # Convert RetrievedChunk → LangChain Document
-            # --------------------------------------------------
-
+            documents: List[Document] = []
             for result in results:
-
                 if not result.content:
                     continue
+
+                heading_val = (
+                    " > ".join(result.heading_path)
+                    if isinstance(result.heading_path, list)
+                    else str(result.heading_path or "")
+                )
 
                 metadata = {
                     "chunk_id": result.chunk_id,
                     "document_id": result.document_id,
                     "title": result.title,
+                    "heading": heading_val,
                     "heading_path": result.heading_path,
                     "url": result.url,
                     "canonical_url": result.canonical_url,
@@ -135,18 +94,16 @@ class WACRetriever(BaseRetriever):
                 )
 
             logger.info(
-                f"LangChain WACRetriever search completed | "
-                f"query={query} | documents={len(documents)}",
+                "LangChain WACRetriever search completed | query=%s | documents=%d",
+                query,
+                len(documents),
             )
-
             return documents
 
         except Exception as exc:
-
             logger.exception(
                 "LangChain WACRetriever failed | query=%s | error=%s",
                 query,
                 exc,
             )
-
             raise
