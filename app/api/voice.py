@@ -277,16 +277,16 @@ class VoiceToolRequest(BaseModel):
     conversation_id: str | None = None
 
 
+from app.langchain.retrievers.wac_retriever import WACRetriever
+from app.rag.validation.relevance import WAC_REFUSAL_MESSAGE
+
 @router.post("/tool")
 async def execute_voice_tool(
     request: VoiceToolRequest,
 ):
     """
-    Execute an approved Gemini Live function call.
-
-    Currently only search_wac_knowledge is allowed.
+    Execute an approved Gemini Live function call using the LangChain RAG retriever.
     """
-
     if request.name != "search_wac_knowledge":
         raise HTTPException(
             status_code=400,
@@ -294,7 +294,6 @@ async def execute_voice_tool(
         )
 
     query = request.arguments.get("query")
-
     if not isinstance(query, str) or not query.strip():
         raise HTTPException(
             status_code=400,
@@ -302,81 +301,67 @@ async def execute_voice_tool(
         )
 
     try:
-        rag_service = RAGService()
-
-        rag_result = await rag_service.get_grounded_context(
-            user_message=query,
-            conversation_history="",
-        )
-
         # --------------------------------------------------
-        # Out-of-domain
+        # Execute via LangChain WACRetriever
         # --------------------------------------------------
+        logger.info("Gemini Live invoking LangChain WACRetriever | query=%s", query)
+        retriever = WACRetriever()
+        documents = await retriever.ainvoke(query)
 
-        if not rag_result.is_relevant:
-            return {
-                "success": True,
-                "is_relevant": False,
-                "has_context": False,
-                "retrieval_score": 0.0,
-                "answer": (
-                    rag_result.refusal_reason
-                    or (
-                        "I'm WAC AI, a specialized AI assistant for "
-                        "Web and Craft. I can only help with questions "
-                        "related to Web and Craft."
-                    )
-                ),
-                "context": "",
-                "sources": [],
-            }
-
-        # --------------------------------------------------
-        # No reliable evidence
-        # --------------------------------------------------
-
-        if not rag_result.has_context:
-
+        if not documents:
+            logger.info("Gemini Live LangChain search yielded no relevant documents.")
             return {
                 "success": True,
                 "is_relevant": True,
                 "has_context": False,
-                "retrieval_score": rag_result.retrieval_score,
+                "retrieval_score": 0.0,
                 "answer": (
-                    rag_result.refusal_reason
-                    or (
-                        "I couldn't find reliable information about "
-                        "that in WAC's current knowledge base."
-                    )
+                    "I couldn't find reliable information about that "
+                    "in WAC's current knowledge base."
                 ),
                 "context": "",
                 "sources": [],
             }
 
-        # --------------------------------------------------
-        # Grounded WAC context
-        # --------------------------------------------------
+        # Format context into clean text chunks for Gemini Live to speak
+        formatted_context_parts = []
+        sources = []
+        top_score = 0.0
+
+        for doc in documents:
+            score = float(doc.metadata.get("score") or doc.metadata.get("fusion_score") or 0.0)
+            if score > top_score:
+                top_score = score
+
+            formatted_context_parts.append(
+                f"Topic: {doc.metadata.get('title', '')}\n"
+                f"Section: {doc.metadata.get('heading', '')}\n"
+                f"Details: {doc.page_content}"
+            )
+            sources.append({
+                "title": doc.metadata.get("title", ""),
+                "url": doc.metadata.get("url", ""),
+                "heading": doc.metadata.get("heading", ""),
+                "score": score,
+            })
+
+        logger.info(
+            "Gemini Live LangChain search completed | docs=%d | top_score=%.4f",
+            len(documents),
+            top_score,
+        )
 
         return {
             "success": True,
             "is_relevant": True,
             "has_context": True,
-            "retrieval_score": rag_result.retrieval_score,
-            "context": rag_result.context,
-            "sources": [
-                source.model_dump()
-                if hasattr(source, "model_dump")
-                else source
-                for source in rag_result.sources
-            ],
+            "retrieval_score": top_score,
+            "context": "\n\n".join(formatted_context_parts),
+            "sources": sources,
         }
 
     except Exception as exc:
-
-        logger.exception(
-            "Gemini Live RAG tool failed"
-        )
-
+        logger.exception("Gemini Live LangChain RAG tool failed")
         raise HTTPException(
             status_code=500,
             detail="WAC knowledge search failed.",

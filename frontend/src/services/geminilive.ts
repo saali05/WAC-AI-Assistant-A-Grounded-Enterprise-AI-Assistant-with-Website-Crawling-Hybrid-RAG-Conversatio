@@ -386,6 +386,8 @@ export class GeminiLiveService {
             audio: {
               channelCount: 1,
 
+              sampleRate: 16000,
+
               echoCancellation:
                 true,
 
@@ -1455,10 +1457,12 @@ in WAC's current knowledge base.
 
 
       // ------------------------------------------------------
-      // Stop ALL scheduled audio & halt streaming text bubble.
+      // Stop & clear ALL output Web Audio nodes immediately.
       // ------------------------------------------------------
 
-      this.stopCurrentAudio();
+      this.stopAndClearAudioOutput();
+
+      this.assistantTranscript = "";
 
       this.emitTranscriptDelta(
         "",
@@ -1638,67 +1642,49 @@ in WAC's current knowledge base.
 
 
   // ==========================================================
-  // STOP CURRENT AUDIO
-  //
-  // MAIN INTERRUPTION FIX
+  // STOP & CLEAR AUDIO OUTPUT (BARGE-IN / INTERRUPTION)
   // ==========================================================
 
-  private stopCurrentAudio(): void {
-
+  private stopAndClearAudioOutput(): void {
     console.log(
-      "Stopping all active Gemini audio sources."
+      "Instant interruption: Stopping & clearing all active Gemini Web Audio output sources."
     );
 
-
     // --------------------------------------------------------
-    // Invalidate old audio generation.
+    // Invalidate in-flight audio chunk decoding generation.
     // --------------------------------------------------------
-
     this.audioGeneration++;
 
-
     // --------------------------------------------------------
-    // Stop every active source.
+    // Stop & disconnect every active Web Audio source node.
     // --------------------------------------------------------
-
-    for (
-      const source of this.activeAudioSources
-    ) {
-
+    for (const source of this.activeAudioSources) {
       try {
-
-        source.stop();
-
+        source.onended = null;
+        source.stop(0);
+        source.disconnect();
       } catch {
-        // Source may already have stopped.
+        // Source node may already have stopped or disconnected.
       }
     }
 
-
     // --------------------------------------------------------
-    // Clear source tracking.
+    // Clear active source references.
     // --------------------------------------------------------
-
     this.activeAudioSources.clear();
 
-
     // --------------------------------------------------------
-    // Reset scheduler.
+    // Reset scheduling marker to current audio context time.
     // --------------------------------------------------------
-
-    if (
-      this.outputAudioContext
-    ) {
-
-      this.nextAudioTime =
-        this.outputAudioContext
-          .currentTime;
-
+    if (this.outputAudioContext) {
+      this.nextAudioTime = this.outputAudioContext.currentTime;
     } else {
-
-      this.nextAudioTime =
-        0;
+      this.nextAudioTime = 0;
     }
+  }
+
+  private stopCurrentAudio(): void {
+    this.stopAndClearAudioOutput();
   }
 
 
