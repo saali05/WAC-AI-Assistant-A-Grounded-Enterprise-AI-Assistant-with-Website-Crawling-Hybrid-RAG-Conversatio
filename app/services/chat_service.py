@@ -1,5 +1,6 @@
 from app.ai.service import AIService
 from app.core.config import settings
+from app.rag.validation.relevance import WACRelevanceGate, WAC_GREETING_RESPONSE
 from app.repositories.message_repository import MessageRepository
 from app.services.response_formatter import ResponseFormatter
 from app.services.conversation_service import ConversationService
@@ -39,7 +40,7 @@ class ChatService:
 
         1. Get or create conversation
         2. Save user message
-        3. Generate AI response + RAG context (using standard AIService or WACLangChainPipeline)
+        3. Handle greeting intent OR Generate AI response + RAG context
         4. Save assistant message
         5. Record AI usage
         6. Return response + sources + rag_used metadata
@@ -59,6 +60,24 @@ class ChatService:
             provider=provider,
             content=message,
         )
+
+        # 0. Fast-path Greeting check (bypasses RAG vector search & refusal)
+        if WACRelevanceGate.is_greeting(message):
+            formatted_content = ResponseFormatter.format(WAC_GREETING_RESPONSE)
+            await self.message_repository.create(
+                conversation_id=conversation_id,
+                role="assistant",
+                provider=provider,
+                content=formatted_content,
+            )
+            return {
+                "conversation_id": conversation_id,
+                "title": conversation["title"],
+                "response": formatted_content,
+                "sources": [],
+                "rag_used": False,
+                "retrieval_score": None,
+            }
 
         # Toggle between standard pipeline and LangChain LCEL pipeline
         if getattr(settings, "USE_LANGCHAIN_PIPELINE", False):

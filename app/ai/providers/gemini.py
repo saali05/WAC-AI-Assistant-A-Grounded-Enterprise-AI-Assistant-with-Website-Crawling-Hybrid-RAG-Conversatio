@@ -96,13 +96,16 @@ class GeminiProvider(BaseAIProvider):
         config_kwargs: dict[str, Any],
     ) -> AIResponse:
 
+        fallback_models = [self.model, "gemini-3.5-flash", "gemini-3.5-flash-lite"]
+
         for attempt in range(1, self.MAX_RETRIES + 1):
+            model_to_use = fallback_models[min(attempt - 1, len(fallback_models) - 1)]
 
             try:
                 start_time = time.perf_counter()
 
                 response = await self.client.aio.models.generate_content(
-                    model=self.model,
+                    model=model_to_use,
                     contents=contents,
                     config=types.GenerateContentConfig(
                         **config_kwargs

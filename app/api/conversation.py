@@ -4,82 +4,76 @@ from app.schemas.conversation import RenameConversationRequest
 from app.services.conversation_service import ConversationService
 
 router = APIRouter(
-    prefix="/conversations",
     tags=["Conversations"],
 )
 
 
-# @router.get("")
-# async def get_conversations():
-#     """
-#     Get all conversations.
-#     """
-#     conversation_service = ConversationService()
-
-#     return await conversation_service.get_all()
-
-
-# @router.get("/{conversation_id}")
-# async def get_conversation(conversation_id: str):
-#     """
-#     Get a conversation with all its messages.
-#     """
-#     conversation_service = ConversationService()
-
-#     conversation = await conversation_service.get(conversation_id)
-
-#     if conversation is None:
-#         raise HTTPException(
-#             status_code=404,
-#             detail="Conversation not found",
-#         )
-
-#     return conversation
+@router.get("/conversations")
+@router.get("/sessions")
+async def get_conversations():
+    """
+    Get all conversation sessions.
+    """
+    conversation_service = ConversationService()
+    conversations = await conversation_service.get_all()
+    return {"sessions": conversations, "conversations": conversations}
 
 
-# @router.patch("/{conversation_id}")
-# async def rename_conversation(
-#     conversation_id: str,
-#     request: RenameConversationRequest,
-# ):
-#     """
-#     Rename a conversation.
-#     """
-#     conversation_service = ConversationService()
+@router.get("/conversations/{conversation_id}")
+@router.get("/history/{conversation_id}")
+async def get_conversation(conversation_id: str):
+    """
+    Get a conversation with all its messages.
+    """
+    conversation_service = ConversationService()
+    conversation = await conversation_service.get(conversation_id)
 
-#     success = await conversation_service.rename(
-#         conversation_id=conversation_id,
-#         title=request.title,
-#     )
+    if conversation is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Conversation not found",
+        )
 
-#     if not success:
-#         raise HTTPException(
-#             status_code=404,
-#             detail="Conversation not found",
-#         )
-
-#     return {
-#         "message": "Conversation renamed successfully"
-#     }
+    return conversation
 
 
-# @router.delete("/{conversation_id}")
-# async def delete_conversation(conversation_id: str):
-#     """
-#     Delete a conversation and all its messages.
-#     """
-#     conversation_service = ConversationService()
+@router.patch("/conversations/{conversation_id}")
+@router.patch("/sessions/{conversation_id}")
+async def rename_conversation(
+    conversation_id: str,
+    request: RenameConversationRequest,
+):
+    """
+    Rename a conversation.
+    """
+    conversation_service = ConversationService()
+    success = await conversation_service.rename(
+        conversation_id=conversation_id,
+        title=request.title,
+    )
 
-#     success = await conversation_service.delete(
-#         conversation_id
-#     )
+    if not success:
+        raise HTTPException(
+            status_code=404,
+            detail="Conversation not found",
+        )
 
-#     if not success:
-#         raise HTTPException(
-#             status_code=404,
-#             detail="Conversation not found",
-#         )
+    return {"message": "Conversation renamed successfully"}
 
-#     return {
-#         "message": "Conversation deleted successfully"
-#     }
+
+@router.delete("/conversations/{conversation_id}")
+@router.delete("/sessions/{conversation_id}")
+async def delete_conversation(conversation_id: str):
+    """
+    Delete a conversation and all its messages.
+    """
+    conversation_service = ConversationService()
+    success = await conversation_service.delete(conversation_id)
+
+    if not success:
+        raise HTTPException(
+            status_code=404,
+            detail="Conversation not found",
+        )
+
+    return {"message": "Conversation deleted successfully"}

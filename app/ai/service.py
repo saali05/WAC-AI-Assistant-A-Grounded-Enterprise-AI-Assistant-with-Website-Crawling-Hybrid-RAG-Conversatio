@@ -7,6 +7,7 @@ from app.core.logging import logger
 from app.prompts.prompt_builder import PromptBuilder
 from app.prompts.system_prompt import SYSTEM_PROMPT
 from app.rag.models import RAGResult
+from app.rag.validation.relevance import WACRelevanceGate, WAC_GREETING_RESPONSE
 from app.services.company_service import CompanyService
 from app.services.rag_service import RAGService
 
@@ -16,6 +17,7 @@ class AIService:
     Main AI orchestration service enforcing Mandatory Grounded WAC RAG.
 
     Flow:
+    0. Greeting Bypass -> Return WAC Welcome Message
     1. Mandatory WAC Relevance & RAG Retrieval
     2. If Out-of-Domain -> Grounded Refusal
     3. If Weak / Missing Context -> Grounded Refusal (No Gemini guess)
@@ -37,15 +39,29 @@ class AIService:
         provider: Optional[str] = None,
     ) -> tuple[AIResponse, RAGResult]:
 
-        selected_provider = (
-            provider or settings.DEFAULT_PROVIDER
-        )
+        selected_provider = provider or settings.DEFAULT_PROVIDER
 
         logger.info(
             f"AIService chat started | "
             f"provider={selected_provider} | "
             f"query='{message}'"
         )
+
+        # --------------------------------------------------
+        # 0. GREETING BYPASS
+        # --------------------------------------------------
+        if WACRelevanceGate.is_greeting(message):
+            logger.info(f"AIService: Greeting detected ('{message}'). Returning WAC welcome message.")
+            return (
+                AIResponse(content=WAC_GREETING_RESPONSE),
+                RAGResult(
+                    is_relevant=True,
+                    has_context=False,
+                    context="",
+                    sources=[],
+                    retrieval_score=1.0,
+                ),
+            )
 
         # --------------------------------------------------
         # 1. MANDATORY RAG RETRIEVAL & DOMAIN CHECK
@@ -110,12 +126,8 @@ class AIService:
 
         prompt = PromptBuilder.build(request)
 
-        ai_provider = ProviderFactory.get_provider(
-            selected_provider
-        )
+        ai_provider = ProviderFactory.get_provider(selected_provider)
 
-        response = await ai_provider.generate(
-            prompt
-        )
+        response = await ai_provider.generate(prompt)
 
-        return response, rag_result
+        return response, rag_result
