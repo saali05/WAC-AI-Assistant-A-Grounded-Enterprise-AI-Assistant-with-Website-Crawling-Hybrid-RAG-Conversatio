@@ -84,8 +84,11 @@ class WACLangChainPipeline:
     REPHRASE_PROMPT_SYSTEM = (
         "Given a chat history and the latest user question which might reference context "
         "in the chat history, formulate a standalone question which can be understood "
-        "without the chat history. Do NOT answer the question, just reformulate it if needed "
-        "and otherwise return it as is."
+        "without the chat history. If the user responds with an affirmation, agreement, "
+        "or follow-up (such as 'yes', 'sure', 'tell me more', 'yes i would like to discuss', "
+        "'proceed', 'go ahead'), formulate a detailed standalone question based on the specific "
+        "topic, service, or suggestion offered in the assistant's previous message. "
+        "Do NOT answer the question, just reformulate it into a clear standalone search query."
     )
 
     QA_SYSTEM_PROMPT = SYSTEM_PROMPT + "\n\nUse the following retrieved context to answer the user's question:\n\n{context}"

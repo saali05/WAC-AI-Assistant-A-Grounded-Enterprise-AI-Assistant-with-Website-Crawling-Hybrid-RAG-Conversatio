@@ -40,7 +40,7 @@ class RAGService:
             return RAGResult(is_relevant=True, has_context=False, context="", sources=[], retrieval_score=0.0)
 
         # 1. WAC Relevance Gate
-        is_wac_related, refusal = WACRelevanceGate.evaluate(user_message)
+        is_wac_related, refusal = WACRelevanceGate.evaluate(user_message, conversation_history=conversation_history)
         if not is_wac_related:
             logger.info(f"RAG Relevance Gate: Query rejected as out-of-domain ('{user_message}')")
             return RAGResult(

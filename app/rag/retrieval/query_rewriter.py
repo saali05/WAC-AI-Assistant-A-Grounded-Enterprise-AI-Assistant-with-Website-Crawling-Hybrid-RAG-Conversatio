@@ -16,12 +16,19 @@ class QueryRewriter:
         clean_user = user_message.strip()
         lower_user = clean_user.lower()
 
-        # Pronouns or underspecified follow-up indicators
-        follow_up_triggers = ["what about", "tell me more", "how about", "where", "pricing", "details", "them", "it", "this", "that"]
+        # Pronouns, affirmative responses, or underspecified follow-up indicators
+        follow_up_triggers = [
+            "yes", "yeah", "yep", "sure", "ok", "okay", "discuss", "tell me more",
+            "how about", "what about", "where", "pricing", "details", "them", "it",
+            "this", "that", "proceed", "go ahead", "more info", "elaborate", "options"
+        ]
 
-        is_follow_up = any(lower_user.startswith(t) or f" {t} " in f" {lower_user} " for t in follow_up_triggers)
+        is_follow_up = any(
+            lower_user.startswith(t) or f" {t} " in f" {lower_user} " or lower_user == t
+            for t in follow_up_triggers
+        )
 
-        if not is_follow_up and len(clean_user.split()) >= 4:
+        if not is_follow_up and len(clean_user.split()) >= 6:
             return clean_user
 
         # Extract recent topics from history
@@ -33,7 +40,7 @@ class QueryRewriter:
 
         if recent_context:
             context_summary = " ".join(recent_context[:2])
-            # Build combined search query
+            # Build combined search query for hybrid search
             combined_query = f"WAC {clean_user} {context_summary}"
             return re.sub(r"\s+", " ", combined_query).strip()
 

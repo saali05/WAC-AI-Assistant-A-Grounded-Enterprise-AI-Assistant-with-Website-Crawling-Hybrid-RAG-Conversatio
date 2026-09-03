@@ -46,6 +46,17 @@ async def test_relevance_gate():
     is_wac, refusal = WACRelevanceGate.evaluate("Tell me something about WAC that isn't in your knowledge base.")
     assert is_wac is True
 
+    # TEST 9: Affirmative follow-up with history -> True
+    history = "User: What UI/UX solutions does Webandcrafts offer?\nAssistant: We design enterprise UI/UX. Would you like to discuss specific industry solutions?"
+    is_wac, refusal = WACRelevanceGate.evaluate("yes i would like to discuss", conversation_history=history)
+    assert is_wac is True
+    assert refusal is None
+
+    # TEST 10: Tell me more with history -> True
+    is_wac, refusal = WACRelevanceGate.evaluate("tell me more", conversation_history=history)
+    assert is_wac is True
+    assert refusal is None
+
 
 async def test_freshness_sorting():
     """TEST 10: Reranker tie-breaking prefers newer valid source content."""
