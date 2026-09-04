@@ -1,5 +1,7 @@
-from dataclasses import dataclass, field
-from typing import Optional
+from dataclasses import dataclass
+from typing import Any, Optional
+
+from pydantic import BaseModel, Field
 
 
 @dataclass
@@ -45,11 +47,25 @@ class AIUsage:
 
     quota_reset_time: Optional[str] = None
 
-    usage_source: Optional[str] = None  # provider_metadata, provider_headers, calculated, unavailable
-    quota_scope: Optional[str] = None   # request, minute, day, session, account, project, unknown
+    usage_source: Optional[str] = None
+    quota_scope: Optional[str] = None
 
 
-@dataclass
-class AIResponse:
-    content: str
-    usage: AIUsage
+class AIToolCall(BaseModel):
+    name: str
+    arguments: dict[str, Any] = Field(default_factory=dict)
+    call_id: Optional[str] = None
+
+
+class AIResponse(BaseModel):
+    content: str = ""
+    usage: Optional[AIUsage] = None
+    tool_calls: list[AIToolCall] = Field(default_factory=list)
+
+    # Internal Gemini response state.
+    # Excluded from serialization.
+    raw_response: Any = Field(
+        default=None,
+        exclude=True,
+    )
+        

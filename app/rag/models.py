@@ -2,6 +2,7 @@ from datetime import datetime, UTC
 from typing import Literal, Optional
 from pydantic import BaseModel, ConfigDict, Field, HttpUrl
 
+from app.core.config import settings
 
 class RAGDocumentModel(BaseModel):
     """Document model representing a crawled webpage in rag_documents collection."""
@@ -37,8 +38,8 @@ class RAGChunkModel(BaseModel):
     url: str
     canonical_url: str
     embedding: list[float] = Field(default_factory=list)
-    embedding_model: str = "text-embedding-004"
-    embedding_dimensions: int = 768
+    embedding_model: str = settings.RAG_EMBEDDING_MODEL
+    embedding_dimensions: int = settings.RAG_EMBEDDING_DIMENSIONS
     content_hash: str
     version: int = 1
     status: Literal["active", "inactive"] = "active"
@@ -92,12 +93,17 @@ class RetrievedChunk(BaseModel):
     vector_score: Optional[float] = None
     keyword_score: Optional[float] = None
     fusion_score: Optional[float] = None
+    reranked_score: Optional[float] = None
+    retrieval_confidence: Optional[float] = None
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
 
 
 class RAGResult(BaseModel):
     """Complete RAG retrieval & context generation result."""
     is_relevant: bool = True
     has_context: bool = False
+    evidence_sufficient: bool = False
     context: str = ""
     sources: list[SourceCitation] = Field(default_factory=list)
     retrieval_score: float = 0.0

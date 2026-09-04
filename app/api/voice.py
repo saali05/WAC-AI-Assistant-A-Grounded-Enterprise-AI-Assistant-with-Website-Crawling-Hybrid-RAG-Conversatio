@@ -6,16 +6,26 @@ from google import genai
 
 from app.core.config import settings
 from app.core.logging import logger
-from app.repositories.message_repository import MessageRepository
-from app.services.conversation_service import ConversationService
 
+from app.repositories.message_repository import MessageRepository
+
+from typing import Any
+
+from app.services.conversation_service import ConversationService
+from app.services.usage_service import UsageService
+from app.services.rag_service import RAGService
+
+from app.ai.tools.live_definitions import WAC_LIVE_TOOLS
+from app.ai.pricing import calculate_cost, MODEL_PRICING
+from app.ai.schemas import AIUsage
+
+from app.langchain.retrievers.wac_retriever import WACRetriever
+from app.rag.validation.relevance import WAC_REFUSAL_MESSAGE
 
 router = APIRouter(
     prefix="/voice",
     tags=["Voice"],
 )
-
-
 class VoiceMessageRequest(BaseModel):
     conversation_id: str | None = None
     user_message: str
@@ -62,6 +72,8 @@ async def create_live_token():
                         "input_audio_transcription": {},
 
                         "output_audio_transcription": {},
+
+                        "tools": WAC_LIVE_TOOLS,
 
                         "system_instruction": {
                             "parts": [
@@ -133,6 +145,7 @@ You are a WAC-specific AI assistant.
         return {
             "token": token.name,
             "model": settings.GEMINI_LIVE_MODEL,
+            "tools": WAC_LIVE_TOOLS,
         }
 
     except Exception:
@@ -198,9 +211,6 @@ async def save_voice_message(
         # ----------------------------------------
         # Record Gemini Live Usage
         # ----------------------------------------
-        from app.ai.pricing import calculate_cost, MODEL_PRICING
-        from app.ai.schemas import AIUsage
-        from app.services.usage_service import UsageService
 
         model = settings.GEMINI_LIVE_MODEL
         model_spec = MODEL_PRICING.get(model, {})
@@ -263,4 +273,96 @@ async def save_voice_message(
         raise HTTPException(
             status_code=500,
             detail="Failed to save voice conversation.",
-        ) from exc
+        ) from exc
+
+class VoiceToolRequest(BaseModel):
+    name: str
+    arguments: dict[str, Any] = {}
+    conversation_id: str | None = None
+
+@router.post("/tool")
+async def execute_voice_tool(
+    request: VoiceToolRequest,
+):
+    """
+    Execute an approved Gemini Live function call using the LangChain RAG retriever.
+    """
+    if request.name != "search_wac_knowledge":
+        raise HTTPException(
+            status_code=400,
+            detail=f"Unsupported voice tool: {request.name}",
+        )
+
+    query = request.arguments.get("query")
+    if not isinstance(query, str) or not query.strip():
+        raise HTTPException(
+            status_code=400,
+            detail="Tool argument 'query' is required.",
+        )
+
+    try:
+        # --------------------------------------------------
+        # Execute via LangChain WACRetriever
+        # --------------------------------------------------
+        logger.info("Gemini Live invoking LangChain WACRetriever | query=%s", query)
+        retriever = WACRetriever()
+        documents = await retriever.ainvoke(query)
+
+        if not documents:
+            logger.info("Gemini Live LangChain search yielded no relevant documents.")
+            return {
+                "success": True,
+                "is_relevant": True,
+                "has_context": False,
+                "retrieval_score": 0.0,
+                "answer": (
+                    "I couldn't find reliable information about that "
+                    "in WAC's current knowledge base."
+                ),
+                "context": "",
+                "sources": [],
+            }
+
+        # Format context into clean text chunks for Gemini Live to speak
+        formatted_context_parts = []
+        sources = []
+        top_score = 0.0
+
+        for doc in documents:
+            score = float(doc.metadata.get("score") or doc.metadata.get("fusion_score") or 0.0)
+            if score > top_score:
+                top_score = score
+
+            formatted_context_parts.append(
+                f"Topic: {doc.metadata.get('title', '')}\n"
+                f"Section: {doc.metadata.get('heading', '')}\n"
+                f"Details: {doc.page_content}"
+            )
+            sources.append({
+                "title": doc.metadata.get("title", ""),
+                "url": doc.metadata.get("url", ""),
+                "heading": doc.metadata.get("heading", ""),
+                "score": score,
+            })
+
+        logger.info(
+            "Gemini Live LangChain search completed | docs=%d | top_score=%.4f",
+            len(documents),
+            top_score,
+        )
+
+        return {
+            "success": True,
+            "is_relevant": True,
+            "has_context": True,
+            "retrieval_score": top_score,
+            "context": "\n\n".join(formatted_context_parts),
+            "sources": sources,
+        }
+
+    except Exception as exc:
+        logger.exception("Gemini Live LangChain RAG tool failed")
+        raise HTTPException(
+            status_code=500,
+            detail="WAC knowledge search failed.",
+        ) from exc

@@ -1,15 +1,28 @@
 from typing import Optional
+
 from app.ai.factory import ProviderFactory
-from app.ai.schemas import AIRequest, AIResponse, AIUsage
+from app.ai.schemas import AIRequest, AIResponse
 from app.core.config import settings
+from app.core.logging import logger
 from app.prompts.prompt_builder import PromptBuilder
 from app.prompts.system_prompt import SYSTEM_PROMPT
 from app.rag.models import RAGResult
+from app.rag.validation.relevance import WACRelevanceGate, WAC_GREETING_RESPONSE
 from app.services.company_service import CompanyService
 from app.services.rag_service import RAGService
 
 
 class AIService:
+    """
+    Main AI orchestration service enforcing Mandatory Grounded WAC RAG.
+
+    Flow:
+    0. Greeting Bypass -> Return WAC Welcome Message
+    1. Mandatory WAC Relevance & RAG Retrieval
+    2. If Out-of-Domain -> Grounded Refusal
+    3. If Weak / Missing Context -> Grounded Refusal (No Gemini guess)
+    4. If Grounded Context Available -> Grounded Answer Generation (Gemini / Groq)
+    """
 
     @property
     def company_service(self) -> CompanyService:
@@ -28,32 +41,93 @@ class AIService:
 
         selected_provider = provider or settings.DEFAULT_PROVIDER
 
-        # Execute RAG Retrieval Pipeline
+        logger.info(
+            f"AIService chat started | "
+            f"provider={selected_provider} | "
+            f"query='{message}'"
+        )
+
+        # --------------------------------------------------
+        # 0. GREETING BYPASS
+        # --------------------------------------------------
+        if WACRelevanceGate.is_greeting(message):
+            logger.info(f"AIService: Greeting detected ('{message}'). Returning WAC welcome message.")
+            return (
+                AIResponse(content=WAC_GREETING_RESPONSE),
+                RAGResult(
+                    is_relevant=True,
+                    has_context=False,
+                    context="",
+                    sources=[],
+                    retrieval_score=1.0,
+                ),
+            )
+
+        # --------------------------------------------------
+        # 1. MANDATORY RAG RETRIEVAL & DOMAIN CHECK
+        # --------------------------------------------------
+
         rag_result = await self.rag_service.get_grounded_context(
             user_message=message,
             conversation_history=history,
         )
 
-        # 1. Check out-of-domain refusal from relevance gate
-        if not rag_result.is_relevant and rag_result.refusal_reason:
-            usage = AIUsage(provider=selected_provider, model="none", request_type="text")
-            return AIResponse(content=rag_result.refusal_reason, usage=usage), rag_result
+        # --------------------------------------------------
+        # 2. OUT-OF-DOMAIN REFUSAL
+        # --------------------------------------------------
 
-        # 2. Dynamic context selection: RAG context if available, otherwise CompanyService context fallback
-        company_context = rag_result.context if rag_result.has_context else self.company_service.get_context(message)
+        if not rag_result.is_relevant:
+            logger.info("Mandatory RAG: Out-of-domain query rejected")
+            refusal_text = (
+                rag_result.refusal_reason
+                or (
+                    "I'm the WAC AI Assistant, specifically designed to help "
+                    "with Web and Craft's services, technologies, solutions, "
+                    "company information, and career opportunities."
+                )
+            )
+            return (
+                AIResponse(content=refusal_text),
+                rag_result,
+            )
 
-        # 3. Build prompt using existing PromptBuilder architecture
+        # --------------------------------------------------
+        # 3. MISSING / WEAK EVIDENCE REFUSAL
+        # --------------------------------------------------
+
+        if not rag_result.has_context:
+            logger.info("Mandatory RAG: Evidence unavailable or low confidence; returning grounded refusal")
+            refusal_text = (
+                rag_result.refusal_reason
+                or (
+                    "I couldn't find reliable information about that "
+                    "in WAC's current knowledge base."
+                )
+            )
+            return (
+                AIResponse(content=refusal_text),
+                rag_result,
+            )
+
+        # --------------------------------------------------
+        # 4. GROUNDED ANSWER GENERATION (Gemini / Groq)
+        # --------------------------------------------------
+
+        logger.info(
+            f"Mandatory RAG: Reliable evidence retrieved (confidence={rag_result.retrieval_score:.4f}). Generating grounded response."
+        )
+
         request = AIRequest(
             user_message=message,
             conversation_history=history,
-            company_context=company_context,
+            company_context=rag_result.context,
             system_prompt=SYSTEM_PROMPT,
         )
 
         prompt = PromptBuilder.build(request)
 
-        # 4. Generate AI response from selected provider (Gemini / Groq)
         ai_provider = ProviderFactory.get_provider(selected_provider)
+
         response = await ai_provider.generate(prompt)
 
         return response, rag_result

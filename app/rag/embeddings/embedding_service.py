@@ -1,8 +1,6 @@
 import asyncio
-import hashlib
 from typing import Optional
 
-import numpy as np
 from google import genai
 from google.genai import types
 
@@ -13,18 +11,28 @@ from app.rag.exceptions import EmbeddingException
 
 class EmbeddingService:
     """
-    Gemini Embedding Service.
+    Gemini Embedding Service for document chunks and user queries.
 
-    Used for:
-    - WAC website document chunks
-    - User search queries
-    - RAG semantic retrieval
+    Important:
+    The same embedding dimensionality must be used for:
 
-    Current model:
-        gemini-embedding-001
+        Documents
+             ↓
+        Gemini Embedding
+             ↓
+        768 dimensions
+             ↓
+        MongoDB vector index
 
-    Default output dimension:
-        768
+    and:
+
+        User Query
+             ↓
+        Gemini Embedding
+             ↓
+        768 dimensions
+             ↓
+        MongoDB vector search
     """
 
     def __init__(
@@ -49,23 +57,23 @@ class EmbeddingService:
             or settings.GEMINI_API_KEY
         )
 
-        self._client: Optional[genai.Client] = None
+        self._client: Optional[
+            genai.Client
+        ] = None
 
         logger.info(
-            "Embedding service initialized | "
+            f"EmbeddingService initialized | "
             f"model={self.model} | "
             f"dimensions={self.dimensions}"
         )
 
     @property
     def client(self) -> genai.Client:
-        """
-        Lazily create Gemini client.
-        """
 
         if self._client is None:
 
             if not self.api_key:
+
                 raise EmbeddingException(
                     "GEMINI_API_KEY is not configured "
                     "for embedding service."
@@ -77,27 +85,32 @@ class EmbeddingService:
 
         return self._client
 
+    # ==========================================================
+    # SINGLE EMBEDDING
+    # ==========================================================
+
     async def get_embedding(
         self,
         text: str,
         retries: int = 2,
     ) -> list[float]:
 
-        """
-        Generate a single embedding.
-        """
-
         embeddings = await self.get_batch_embeddings(
             [text],
             retries=retries,
         )
 
-        if not embeddings:
-            raise EmbeddingException(
-                "Gemini returned no embedding."
-            )
+        if embeddings:
 
-        return embeddings[0]
+            return embeddings[0]
+
+        raise EmbeddingException(
+            "Gemini returned no embedding."
+        )
+
+    # ==========================================================
+    # BATCH EMBEDDINGS
+    # ==========================================================
 
     async def get_batch_embeddings(
         self,
@@ -105,23 +118,14 @@ class EmbeddingService:
         retries: int = 2,
     ) -> list[list[float]]:
 
-        """
-        Generate embeddings for multiple texts.
-
-        Uses Gemini's embed_content API.
-
-        For gemini-embedding-001, 768 dimensions
-        are explicitly requested.
-        """
-
         if not texts:
             return []
 
         clean_texts = [
-            text.strip()
-            if text and text.strip()
+            t.strip()
+            if t and t.strip()
             else " "
-            for text in texts
+            for t in texts
         ]
 
         for attempt in range(
@@ -129,6 +133,16 @@ class EmbeddingService:
         ):
 
             try:
+
+                # --------------------------------------------------
+                # IMPORTANT:
+                #
+                # Explicitly request the configured embedding
+                # dimensionality.
+                #
+                # Without this configuration Gemini returns
+                # the default 3072-dimensional embedding.
+                # --------------------------------------------------
 
                 response = (
                     self.client.models.embed_content(
@@ -140,48 +154,47 @@ class EmbeddingService:
                     )
                 )
 
-                embeddings = getattr(
-                    response,
-                    "embeddings",
-                    None,
-                )
+                # --------------------------------------------------
+                # Batch response
+                # --------------------------------------------------
 
-                if embeddings:
+                if (
+                    hasattr(response, "embeddings")
+                    and response.embeddings
+                ):
 
-                    result = [
-                        list(
-                            embedding.values
-                        )
-                        for embedding in embeddings
+                    embeddings = [
+                        list(embedding.values)
+                        for embedding
+                        in response.embeddings
                     ]
 
-                    self._validate_dimensions(
-                        result
+                    self._validate_embeddings(
+                        embeddings
                     )
 
-                    return result
+                    return embeddings
 
-                # Some SDK responses may expose
-                # a single embedding.
-                single_embedding = getattr(
-                    response,
-                    "embedding",
-                    None,
-                )
+                # --------------------------------------------------
+                # Single response
+                # --------------------------------------------------
 
-                if single_embedding:
+                if (
+                    hasattr(response, "embedding")
+                    and response.embedding
+                ):
 
-                    result = [
+                    embeddings = [
                         list(
-                            single_embedding.values
+                            response.embedding.values
                         )
                     ]
 
-                    self._validate_dimensions(
-                        result
+                    self._validate_embeddings(
+                        embeddings
                     )
 
-                    return result
+                    return embeddings
 
                 raise EmbeddingException(
                     "Gemini returned an empty embedding response."
@@ -189,26 +202,22 @@ class EmbeddingService:
 
             except EmbeddingException:
 
-                if attempt >= retries:
-                    raise
-
-                await asyncio.sleep(
-                    2 ** attempt
-                )
+                raise
 
             except Exception as exc:
 
+                is_rate_limit = "429" in str(exc) or "resource_exhausted" in str(exc).lower() or "quota" in str(exc).lower()
+                backoff = (2 ** (attempt + 1)) * (3 if is_rate_limit else 1)
+
                 logger.warning(
-                    "Gemini embedding attempt "
+                    f"Gemini embedding attempt "
                     f"{attempt + 1}/{retries + 1} failed: "
-                    f"{exc}"
+                    f"{exc}. Retrying in {backoff}s..."
                 )
 
                 if attempt < retries:
 
-                    await asyncio.sleep(
-                        2 ** attempt
-                    )
+                    await asyncio.sleep(backoff)
 
                     continue
 
@@ -216,27 +225,28 @@ class EmbeddingService:
                     "Gemini embedding generation failed."
                 )
 
-                # IMPORTANT:
-                # Do NOT silently create fallback
-                # vectors in production.
                 raise EmbeddingException(
-                    "Gemini embedding generation failed: "
-                    f"{exc}"
+                    "Gemini embedding generation failed."
                 ) from exc
 
         raise EmbeddingException(
-            "Unable to generate embeddings."
+            "Unable to generate Gemini embedding."
         )
 
-    def _validate_dimensions(
+    # ==========================================================
+    # VALIDATION
+    # ==========================================================
+
+    def _validate_embeddings(
         self,
         embeddings: list[list[float]],
     ) -> None:
 
-        """
-        Make sure Gemini returned exactly the
-        vector size expected by MongoDB.
-        """
+        if not embeddings:
+
+            raise EmbeddingException(
+                "No embeddings were generated."
+            )
 
         for index, embedding in enumerate(
             embeddings
@@ -253,10 +263,20 @@ class EmbeddingService:
 
                 raise EmbeddingException(
                     "Embedding dimension mismatch: "
-                    f"expected {self.dimensions}, "
-                    f"received {actual_dimensions} "
-                    f"for item {index}."
+                    f"expected={self.dimensions}, "
+                    f"actual={actual_dimensions}, "
+                    f"index={index}"
                 )
+
+        logger.debug(
+            f"Embedding validation successful | "
+            f"count={len(embeddings)} | "
+            f"dimensions={self.dimensions}"
+        )
+
+    # ==========================================================
+    # NO RANDOM FALLBACK
+    # ==========================================================
 
     def _create_fallback_vector(
         self,
@@ -264,33 +284,15 @@ class EmbeddingService:
     ) -> list[float]:
 
         """
-        Deterministic fallback vector.
+        Deprecated.
 
-        This method is intentionally retained for
-        offline/unit-test compatibility.
+        Do NOT generate random vectors for production RAG.
 
-        It must NOT be used for production RAG
-        indexing or retrieval.
+        A random vector has no semantic relationship to the
+        input text and can produce meaningless retrieval results.
         """
 
-        hash_bytes = hashlib.sha256(
-            text.encode("utf-8")
-        ).digest()
-
-        seed = int.from_bytes(
-            hash_bytes[:4],
-            "big",
+        raise EmbeddingException(
+            "Embedding generation failed. "
+            "Random fallback vectors are disabled."
         )
-
-        rng = np.random.RandomState(seed)
-
-        vector = rng.randn(
-            self.dimensions
-        ).astype(np.float32)
-
-        norm = np.linalg.norm(vector)
-
-        if norm > 0:
-            vector = vector / norm
-
-        return vector.tolist()

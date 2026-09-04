@@ -26,8 +26,17 @@ interface GeminiLiveCallbacks {
     text: string
   ) => void;
 
+  onUserTranscript?: (
+    text: string
+  ) => void;
+
   onAssistantMessage?: (
     text: string
+  ) => void;
+
+  onTranscriptDelta?: (
+    deltaText: string,
+    isDone: boolean
   ) => void;
 
   onConversationCreated?: (
@@ -80,6 +89,31 @@ export class GeminiLiveService {
 
 
   // ==========================================================
+  // ACTIVE AUDIO SOURCES
+  //
+  // Every Gemini audio chunk creates an
+  // AudioBufferSourceNode.
+  //
+  // We track every source so that when the user interrupts
+  // Gemini, all already-scheduled audio can be stopped.
+  // ==========================================================
+
+  private activeAudioSources =
+    new Set<AudioBufferSourceNode>();
+
+
+  // ==========================================================
+  // AUDIO GENERATION
+  //
+  // Every interruption increments this value.
+  //
+  // Audio belonging to an older generation will be ignored.
+  // ==========================================================
+
+  private audioGeneration = 0;
+
+
+  // ==========================================================
   // CALLBACKS
   // ==========================================================
 
@@ -108,6 +142,60 @@ export class GeminiLiveService {
   // CONSTRUCTOR
   // ==========================================================
 
+  public onTranscriptDelta?: (
+    deltaText: string,
+    isDone: boolean
+  ) => void;
+
+  public onUserTranscript?: (
+    text: string
+  ) => void;
+
+  private isSessionReady = false;
+
+  private pendingAudioBuffer: Array<string> = [];
+
+  private emitTranscriptDelta(
+    deltaText: string,
+    isDone: boolean
+  ) {
+    this.onTranscriptDelta?.(deltaText, isDone);
+    this.callbacks.onTranscriptDelta?.(deltaText, isDone);
+  }
+
+  private flushAudioBuffer(): void {
+    if (
+      !this.session ||
+      !this.isSessionReady ||
+      this.pendingAudioBuffer.length === 0
+    ) {
+      return;
+    }
+
+    console.log(
+      `Flushing ${this.pendingAudioBuffer.length} buffered audio chunks to Gemini Live.`
+    );
+
+    while (this.pendingAudioBuffer.length > 0) {
+      const base64 = this.pendingAudioBuffer.shift();
+      if (base64) {
+        try {
+          this.session.sendRealtimeInput({
+            audio: {
+              data: base64,
+              mimeType: "audio/pcm;rate=16000",
+            },
+          });
+        } catch (error) {
+          console.warn(
+            "Failed to send buffered audio chunk:",
+            error
+          );
+        }
+      }
+    }
+  }
+
   constructor(
     callbacks: GeminiLiveCallbacks = {}
   ) {
@@ -117,12 +205,13 @@ export class GeminiLiveService {
 
 
   // ==========================================================
-  // SET CONVERSATION
+  // SET CONVERSATION ID
   // ==========================================================
 
   setConversationId(
     conversationId: string | null
   ) {
+
     this.conversationId =
       conversationId;
   }
@@ -135,6 +224,7 @@ export class GeminiLiveService {
   private setState(
     state: VoiceState
   ) {
+
     console.log(
       "Gemini Live state:",
       state
@@ -160,6 +250,7 @@ export class GeminiLiveService {
 
 
     if (!response.ok) {
+
       throw new Error(
         "Unable to start WAC AI voice service."
       );
@@ -212,6 +303,7 @@ export class GeminiLiveService {
         "Failed to save voice conversation.";
 
       try {
+
         const errorData =
           await response.json();
 
@@ -219,12 +311,15 @@ export class GeminiLiveService {
           typeof errorData?.detail ===
           "string"
         ) {
+
           detail =
             errorData.detail;
         }
+
       } catch {
         // Ignore invalid error body.
       }
+
 
       throw new Error(
         detail
@@ -291,6 +386,8 @@ export class GeminiLiveService {
             audio: {
               channelCount: 1,
 
+              sampleRate: 16000,
+
               echoCancellation:
                 true,
 
@@ -317,6 +414,7 @@ export class GeminiLiveService {
         !tokenData?.token ||
         !tokenData?.model
       ) {
+
         throw new Error(
           "Invalid voice token response."
         );
@@ -364,8 +462,15 @@ export class GeminiLiveService {
 
 
       // ------------------------------------------------------
-      // CONNECT GEMINI LIVE
+      // RESET AUDIO GENERATION
       // ------------------------------------------------------
+
+      this.audioGeneration++;
+
+
+      // ======================================================
+      // CONNECT GEMINI LIVE
+      // ======================================================
 
       this.session =
         await ai.live.connect({
@@ -375,9 +480,43 @@ export class GeminiLiveService {
 
           config: {
 
+            // ------------------------------------------------
+            // AUDIO
+            // ------------------------------------------------
+
             responseModalities: [
               Modality.AUDIO,
             ],
+
+
+            // ------------------------------------------------
+            // TRANSCRIPTION
+            // ------------------------------------------------
+
+            inputAudioTranscription: {},
+
+            outputAudioTranscription: {},
+
+
+            // ------------------------------------------------
+            // WAC FUNCTION CALLING
+            //
+            // Backend /voice/token returns:
+            //
+            // {
+            //   tools: [...]
+            // }
+            //
+            // These tools are supplied to Gemini Live.
+            // ------------------------------------------------
+
+            tools:
+              tokenData.tools || [],
+
+
+            // ------------------------------------------------
+            // WAC SYSTEM INSTRUCTION
+            // ------------------------------------------------
 
             systemInstruction: {
               parts: [
@@ -401,15 +540,22 @@ You may discuss:
 
 IMPORTANT:
 
-If a question is unrelated to Web and Craft, do not answer the unrelated question.
+For factual information about WAC, use the
+search_wac_knowledge tool.
 
-Instead respond with:
+The tool searches WAC's official knowledge base.
+
+Never invent information about WAC.
+
+Never use general world knowledge to answer
+questions about WAC.
+
+If the question is unrelated to Web and Craft,
+do not answer it.
+
+Instead say:
 
 "I'm WAC AI, a specialized AI assistant for Web and Craft. I can only help with questions related to Web and Craft, its services, technologies, projects, careers, and company information."
-
-Do not answer general questions about unrelated topics.
-
-Do not invent information about WAC.
 
 VOICE RESPONSE RULES:
 
@@ -420,20 +566,38 @@ VOICE RESPONSE RULES:
 - Do not use bullet points.
 - Do not use headings.
 - Do not repeat the user's question.
+
+TOOL RULE:
+
+When a user asks about WAC information that
+requires factual knowledge, call
+search_wac_knowledge before answering.
+
+Use the returned information as the source
+of truth.
+
+If the tool does not find reliable information,
+say that you could not find the information
+in WAC's current knowledge base.
                   `,
                 },
               ],
             },
 
-            inputAudioTranscription: {},
 
-            outputAudioTranscription: {},
+            // ------------------------------------------------
+            // CONTEXT WINDOW
+            // ------------------------------------------------
 
             contextWindowCompression: {
               slidingWindow: {},
             },
           },
 
+
+          // ==================================================
+          // CALLBACKS
+          // ==================================================
 
           callbacks: {
 
@@ -446,6 +610,10 @@ VOICE RESPONSE RULES:
               console.log(
                 "Gemini Live connected."
               );
+
+              this.isSessionReady = true;
+
+              this.flushAudioBuffer();
 
               this.setState(
                 "listening"
@@ -461,8 +629,23 @@ VOICE RESPONSE RULES:
               message: any
             ) => {
 
+              // IMPORTANT:
+              //
+              // handleMessage is async because Gemini Live
+              // function calls require asynchronous backend
+              // RAG execution.
+              //
               this.handleMessage(
                 message
+              ).catch(
+                error => {
+
+                  console.error(
+                    "Gemini Live message handling failed:",
+                    error
+                  );
+
+                }
               );
             },
 
@@ -567,6 +750,379 @@ VOICE RESPONSE RULES:
 
 
   // ==========================================================
+  // GEMINI LIVE TOOL EXECUTION
+  //
+  // Gemini Live requests:
+  //
+  // search_wac_knowledge(...)
+  //
+  // This method sends that request to our backend.
+  //
+  // Browser NEVER directly accesses MongoDB or RAG internals.
+  // ==========================================================
+
+  private async executeToolCall(
+    name: string,
+    arguments_: Record<string, unknown>
+  ): Promise<Record<string, unknown>> {
+
+    console.log(
+      "Gemini Live tool call:",
+      name,
+      arguments_
+    );
+
+
+    // --------------------------------------------------------
+    // SECURITY:
+    //
+    // Only explicitly approved tools are allowed.
+    // --------------------------------------------------------
+
+    if (
+      name !==
+      "search_wac_knowledge"
+    ) {
+
+      return {
+        success: false,
+
+        error:
+          `Unsupported WAC tool: ${name}`,
+      };
+    }
+
+
+    // --------------------------------------------------------
+    // Validate query
+    // --------------------------------------------------------
+
+    const query =
+      arguments_?.query;
+
+
+    if (
+      typeof query !== "string" ||
+      !query.trim()
+    ) {
+
+      return {
+
+        success: false,
+
+        error:
+          "The search query is required.",
+      };
+    }
+
+
+    try {
+
+      // ------------------------------------------------------
+      // Execute backend RAG tool
+      // ------------------------------------------------------
+
+      const response =
+        await fetch(
+          `${API_BASE_URL}/voice/tool`,
+          {
+            method: "POST",
+
+            headers: {
+              "Content-Type":
+                "application/json",
+            },
+
+            body: JSON.stringify({
+
+              name,
+
+              arguments: {
+                query:
+                  query.trim(),
+              },
+
+              conversation_id:
+                this.conversationId,
+
+            }),
+          }
+        );
+
+
+      // ------------------------------------------------------
+      // HTTP ERROR
+      // ------------------------------------------------------
+
+      if (!response.ok) {
+
+        let detail =
+          "WAC knowledge search failed.";
+
+        try {
+
+          const errorData =
+            await response.json();
+
+          if (
+            typeof errorData?.detail ===
+            "string"
+          ) {
+
+            detail =
+              errorData.detail;
+          }
+
+        } catch {
+          // Ignore malformed error body.
+        }
+
+
+        return {
+
+          success: false,
+
+          error:
+            detail,
+        };
+      }
+
+
+      // ------------------------------------------------------
+      // Successful RAG response
+      // ------------------------------------------------------
+
+      const result =
+        await response.json();
+
+
+      console.log(
+        "WAC RAG tool result:",
+        result
+      );
+
+
+      return result;
+
+    } catch (error) {
+
+      console.error(
+        "Voice tool execution failed:",
+        error
+      );
+
+
+      return {
+
+        success: false,
+
+        error:
+          "WAC knowledge search failed.",
+      };
+    }
+  }
+
+
+  // ==========================================================
+  // HANDLE GEMINI LIVE TOOL CALL
+  //
+  // Flow:
+  //
+  // Gemini
+  //   ↓
+  // toolCall
+  //   ↓
+  // executeToolCall()
+  //   ↓
+  // /voice/tool
+  //   ↓
+  // RAGService
+  //   ↓
+  // result
+  //   ↓
+  // sendToolResponse()
+  //   ↓
+  // Gemini
+  // ==========================================================
+
+  private async handleToolCall(
+    toolCall: any
+  ): Promise<void> {
+
+    console.log(
+      "Gemini Live toolCall event:",
+      toolCall
+    );
+
+
+    const functionCalls =
+      toolCall?.functionCalls;
+
+
+    if (
+      !Array.isArray(functionCalls) ||
+      functionCalls.length === 0
+    ) {
+
+      console.warn(
+        "Gemini Live toolCall contained no function calls."
+      );
+
+      return;
+    }
+
+
+    const functionResponses: Array<{
+      id?: string;
+      name: string;
+      response: Record<string, unknown>;
+    }> = [];
+
+
+    // --------------------------------------------------------
+    // Execute every requested function
+    // --------------------------------------------------------
+
+    for (
+      const functionCall of functionCalls
+    ) {
+
+      const name =
+        functionCall?.name;
+
+
+      const args =
+        functionCall?.args || {};
+
+
+      const callId =
+        functionCall?.id;
+
+
+      if (!name) {
+
+        console.warn(
+          "Gemini Live returned tool call without name."
+        );
+
+        continue;
+      }
+
+
+      console.log(
+        "Executing Gemini Live function:",
+        {
+          id: callId,
+          name,
+          args,
+        }
+      );
+
+
+      try {
+
+        const result =
+          await this.executeToolCall(
+            name,
+            args
+          );
+
+
+        functionResponses.push({
+
+          id:
+            callId,
+
+          name,
+
+          response:
+            result,
+        });
+
+      } catch (error) {
+
+        console.error(
+          "Tool execution failed:",
+          error
+        );
+
+
+        functionResponses.push({
+
+          id:
+            callId,
+
+          name,
+
+          response: {
+
+            success:
+              false,
+
+            error:
+              "The WAC knowledge search failed.",
+          },
+        });
+      }
+    }
+
+
+    // --------------------------------------------------------
+    // Verify Live session still exists
+    // --------------------------------------------------------
+
+    if (
+      !this.session
+    ) {
+
+      console.warn(
+        "Gemini Live session no longer exists. Tool response skipped."
+      );
+
+      return;
+    }
+
+
+    if (
+      functionResponses.length === 0
+    ) {
+
+      return;
+    }
+
+
+    // --------------------------------------------------------
+    // Send function response back to Gemini
+    //
+    // Gemini will continue the conversation and generate
+    // the final spoken answer.
+    // --------------------------------------------------------
+
+    try {
+
+      this.session.sendToolResponse({
+
+        functionResponses:
+          functionResponses,
+
+      });
+
+
+      console.log(
+        "WAC RAG tool response sent to Gemini Live."
+      );
+
+    } catch (error) {
+
+      console.error(
+        "Failed to send tool response to Gemini Live:",
+        error
+      );
+    }
+  }
+
+
+  // ==========================================================
   // MICROPHONE
   // ==========================================================
 
@@ -577,6 +1133,7 @@ VOICE RESPONSE RULES:
       !this.microphoneStream ||
       !this.session
     ) {
+
       return;
     }
 
@@ -630,39 +1187,54 @@ VOICE RESPONSE RULES:
         event: AudioProcessingEvent
       ) => {
 
-        if (!this.session) {
+        if (
+          !this.session
+        ) {
           return;
         }
-
 
         const input =
           event.inputBuffer
             .getChannelData(0);
-
 
         const pcm =
           this.floatTo16BitPCM(
             input
           );
 
-
         const base64 =
           this.arrayBufferToBase64(
             pcm.buffer
           );
 
+        if (!this.isSessionReady) {
+          if (this.pendingAudioBuffer.length < 100) {
+            this.pendingAudioBuffer.push(base64);
+          }
+          return;
+        }
 
-        this.session
-          .sendRealtimeInput({
+        if (this.pendingAudioBuffer.length > 0) {
+          this.flushAudioBuffer();
+        }
 
-            audio: {
-              data: base64,
+        try {
+          this.session
+            .sendRealtimeInput({
+              audio: {
+                data:
+                  base64,
+                mimeType:
+                  "audio/pcm;rate=16000",
+              },
+            });
+        } catch (error) {
 
-              mimeType:
-                "audio/pcm;rate=16000",
-            },
-
-          });
+          console.warn(
+            "Failed to send realtime audio:",
+            error
+          );
+        }
       };
   }
 
@@ -762,15 +1334,49 @@ VOICE RESPONSE RULES:
   // HANDLE GEMINI MESSAGE
   // ==========================================================
 
-  private handleMessage(
+  private async handleMessage(
     message: any
-  ) {
+  ): Promise<void> {
+
+    // ========================================================
+    // FUNCTION CALL
+    //
+    // IMPORTANT:
+    //
+    // This MUST be handled before serverContent because
+    // function calls are separate Live events.
+    // ========================================================
+
+    if (
+      message?.toolCall
+    ) {
+
+      console.log(
+        "Gemini Live requested WAC tool."
+      );
+
+
+      await this.handleToolCall(
+        message.toolCall
+      );
+
+
+      return;
+    }
+
+
+    // ========================================================
+    // SERVER CONTENT
+    // ========================================================
 
     const serverContent =
       message?.serverContent;
 
 
-    if (!serverContent) {
+    if (
+      !serverContent
+    ) {
+
       return;
     }
 
@@ -794,6 +1400,8 @@ VOICE RESPONSE RULES:
         this.userTranscript +=
           text;
 
+        this.callbacks.onUserTranscript?.(this.userTranscript);
+        this.onUserTranscript?.(this.userTranscript);
 
         console.log(
           "USER:",
@@ -822,6 +1430,10 @@ VOICE RESPONSE RULES:
         this.assistantTranscript +=
           text;
 
+        this.emitTranscriptDelta(
+          text,
+          false
+        );
 
         console.log(
           "WAC AI:",
@@ -844,15 +1456,18 @@ VOICE RESPONSE RULES:
       );
 
 
-      if (
-        this.outputAudioContext
-      ) {
+      // ------------------------------------------------------
+      // Stop & clear ALL output Web Audio nodes immediately.
+      // ------------------------------------------------------
 
-        this.nextAudioTime =
-          this.outputAudioContext
-            .currentTime;
-      }
+      this.stopAndClearAudioOutput();
 
+      this.assistantTranscript = "";
+
+      this.emitTranscriptDelta(
+        "",
+        true
+      );
 
       this.setState(
         "listening"
@@ -864,7 +1479,7 @@ VOICE RESPONSE RULES:
 
 
     // ========================================================
-    // AUDIO RESPONSE
+    // AUDIO RESPONSE & MODEL TURN PARTS
     // ========================================================
 
     const parts =
@@ -873,11 +1488,23 @@ VOICE RESPONSE RULES:
         ?.parts;
 
 
-    if (parts) {
+    if (
+      parts
+    ) {
 
       for (
         const part of parts
       ) {
+
+        if (
+          part?.text
+        ) {
+
+          this.emitTranscriptDelta(
+            part.text,
+            false
+          );
+        }
 
         const audioData =
           part
@@ -885,14 +1512,16 @@ VOICE RESPONSE RULES:
             ?.data;
 
 
-        if (audioData) {
+        if (
+          audioData
+        ) {
 
           this.setState(
             "speaking"
           );
 
 
-          this.playAudio(
+          await this.playAudio(
             audioData
           );
         }
@@ -912,6 +1541,11 @@ VOICE RESPONSE RULES:
         "Gemini turn completed."
       );
 
+      this.emitTranscriptDelta(
+        "",
+        true
+      );
+
 
       const userMessage =
         this.userTranscript.trim();
@@ -925,7 +1559,9 @@ VOICE RESPONSE RULES:
       // DISPLAY USER MESSAGE
       // ------------------------------------------------------
 
-      if (userMessage) {
+      if (
+        userMessage
+      ) {
 
         this.callbacks
           .onUserMessage?.(
@@ -938,7 +1574,9 @@ VOICE RESPONSE RULES:
       // DISPLAY ASSISTANT MESSAGE
       // ------------------------------------------------------
 
-      if (assistantMessage) {
+      if (
+        assistantMessage
+      ) {
 
         this.callbacks
           .onAssistantMessage?.(
@@ -948,7 +1586,7 @@ VOICE RESPONSE RULES:
 
 
       // ------------------------------------------------------
-      // SAVE BOTH MESSAGES
+      // SAVE CONVERSATION
       // ------------------------------------------------------
 
       if (
@@ -1004,6 +1642,53 @@ VOICE RESPONSE RULES:
 
 
   // ==========================================================
+  // STOP & CLEAR AUDIO OUTPUT (BARGE-IN / INTERRUPTION)
+  // ==========================================================
+
+  private stopAndClearAudioOutput(): void {
+    console.log(
+      "Instant interruption: Stopping & clearing all active Gemini Web Audio output sources."
+    );
+
+    // --------------------------------------------------------
+    // Invalidate in-flight audio chunk decoding generation.
+    // --------------------------------------------------------
+    this.audioGeneration++;
+
+    // --------------------------------------------------------
+    // Stop & disconnect every active Web Audio source node.
+    // --------------------------------------------------------
+    for (const source of this.activeAudioSources) {
+      try {
+        source.onended = null;
+        source.stop(0);
+        source.disconnect();
+      } catch {
+        // Source node may already have stopped or disconnected.
+      }
+    }
+
+    // --------------------------------------------------------
+    // Clear active source references.
+    // --------------------------------------------------------
+    this.activeAudioSources.clear();
+
+    // --------------------------------------------------------
+    // Reset scheduling marker to current audio context time.
+    // --------------------------------------------------------
+    if (this.outputAudioContext) {
+      this.nextAudioTime = this.outputAudioContext.currentTime;
+    } else {
+      this.nextAudioTime = 0;
+    }
+  }
+
+  private stopCurrentAudio(): void {
+    this.stopAndClearAudioOutput();
+  }
+
+
+  // ==========================================================
   // PLAY GEMINI AUDIO
   // ==========================================================
 
@@ -1014,6 +1699,7 @@ VOICE RESPONSE RULES:
     if (
       !this.outputAudioContext
     ) {
+
       return;
     }
 
@@ -1027,6 +1713,18 @@ VOICE RESPONSE RULES:
         .resume();
     }
 
+
+    // --------------------------------------------------------
+    // Capture current generation.
+    // --------------------------------------------------------
+
+    const generation =
+      this.audioGeneration;
+
+
+    // --------------------------------------------------------
+    // Decode Base64
+    // --------------------------------------------------------
 
     const binary =
       window.atob(
@@ -1050,6 +1748,10 @@ VOICE RESPONSE RULES:
         binary.charCodeAt(i);
     }
 
+
+    // --------------------------------------------------------
+    // Gemini Live returns signed 16-bit PCM.
+    // --------------------------------------------------------
 
     const pcm =
       new Int16Array(
@@ -1075,7 +1777,7 @@ VOICE RESPONSE RULES:
 
 
     // --------------------------------------------------------
-    // Gemini native audio = 24 kHz
+    // Gemini native audio = 24 kHz.
     // --------------------------------------------------------
 
     const audioBuffer =
@@ -1092,6 +1794,24 @@ VOICE RESPONSE RULES:
       .set(float32);
 
 
+    // --------------------------------------------------------
+    // Check generation before scheduling.
+    // --------------------------------------------------------
+
+    if (
+      generation !==
+      this.audioGeneration
+    ) {
+
+      console.log(
+        "Ignoring stale Gemini audio chunk."
+      );
+
+
+      return;
+    }
+
+
     const source =
       this.outputAudioContext
         .createBufferSource();
@@ -1104,6 +1824,15 @@ VOICE RESPONSE RULES:
     source.connect(
       this.outputAudioContext
         .destination
+    );
+
+
+    // --------------------------------------------------------
+    // Track source.
+    // --------------------------------------------------------
+
+    this.activeAudioSources.add(
+      source
     );
 
 
@@ -1126,19 +1855,34 @@ VOICE RESPONSE RULES:
       audioBuffer.duration;
 
 
+    // --------------------------------------------------------
+    // Remove source after playback.
+    // --------------------------------------------------------
+
     source.onended =
       () => {
 
+        this.activeAudioSources.delete(
+          source
+        );
+
+
         if (
-          this.outputAudioContext &&
-          this.nextAudioTime <=
-            this.outputAudioContext
-              .currentTime
+          this.activeAudioSources.size ===
+          0
         ) {
 
-          this.setState(
-            "listening"
-          );
+          if (
+            this.outputAudioContext &&
+            this.nextAudioTime <=
+              this.outputAudioContext
+                .currentTime
+          ) {
+
+            this.setState(
+              "listening"
+            );
+          }
         }
       };
   }
@@ -1155,7 +1899,20 @@ VOICE RESPONSE RULES:
     );
 
 
-    if (this.session) {
+    // --------------------------------------------------------
+    // Stop audio FIRST.
+    // --------------------------------------------------------
+
+    this.stopCurrentAudio();
+
+
+    // --------------------------------------------------------
+    // Close Live session.
+    // --------------------------------------------------------
+
+    if (
+      this.session
+    ) {
 
       try {
 
@@ -1185,6 +1942,17 @@ VOICE RESPONSE RULES:
   // ==========================================================
 
   private cleanup() {
+
+    // --------------------------------------------------------
+    // Stop audio.
+    // --------------------------------------------------------
+
+    this.stopCurrentAudio();
+
+    this.isSessionReady = false;
+
+    this.pendingAudioBuffer = [];
+
 
     // --------------------------------------------------------
     // MICROPHONE
@@ -1282,8 +2050,15 @@ VOICE RESPONSE RULES:
       null;
 
 
+    // --------------------------------------------------------
+    // AUDIO
+    // --------------------------------------------------------
+
     this.nextAudioTime =
       0;
+
+
+    this.activeAudioSources.clear();
 
 
     // --------------------------------------------------------

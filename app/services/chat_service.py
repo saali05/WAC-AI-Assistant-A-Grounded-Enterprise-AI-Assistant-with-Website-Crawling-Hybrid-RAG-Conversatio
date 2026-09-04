@@ -1,4 +1,6 @@
 from app.ai.service import AIService
+from app.core.config import settings
+from app.rag.validation.relevance import WACRelevanceGate, WAC_GREETING_RESPONSE
 from app.repositories.message_repository import MessageRepository
 from app.services.response_formatter import ResponseFormatter
 from app.services.conversation_service import ConversationService
@@ -38,7 +40,7 @@ class ChatService:
 
         1. Get or create conversation
         2. Save user message
-        3. Generate AI response + RAG context
+        3. Handle greeting intent OR Generate AI response + RAG context
         4. Save assistant message
         5. Record AI usage
         6. Return response + sources + rag_used metadata
@@ -59,7 +61,99 @@ class ChatService:
             content=message,
         )
 
-        # Generate AI response with RAG
+        # 0. Fast-path Greeting check (bypasses RAG vector search & refusal)
+        if WACRelevanceGate.is_greeting(message):
+            formatted_content = ResponseFormatter.format(WAC_GREETING_RESPONSE)
+            await self.message_repository.create(
+                conversation_id=conversation_id,
+                role="assistant",
+                provider=provider,
+                content=formatted_content,
+            )
+            return {
+                "conversation_id": conversation_id,
+                "title": conversation["title"],
+                "response": formatted_content,
+                "sources": [],
+                "rag_used": False,
+                "retrieval_score": None,
+            }
+
+        # Toggle between standard pipeline and LangChain LCEL pipeline
+        if getattr(settings, "USE_LANGCHAIN_PIPELINE", False):
+            from app.langchain.chain import WACLangChainPipeline
+            from langchain_core.messages import HumanMessage, AIMessage
+            from app.ai.schemas import AIUsage
+
+            # Build chat history for LangChain
+            messages = await self.message_repository.get_by_conversation(conversation_id)
+            # Exclude current user message (last message) from historical context
+            past_messages = messages[:-1] if len(messages) > 1 else []
+            recent_past = past_messages[-SessionMemoryService.MAX_MESSAGES:]
+
+            lc_history = []
+            for msg in recent_past:
+                if msg.get("role") == "user":
+                    lc_history.append(HumanMessage(content=msg.get("content", "")))
+                elif msg.get("role") == "assistant":
+                    lc_history.append(AIMessage(content=msg.get("content", "")))
+
+            pipeline = WACLangChainPipeline(provider=provider)
+            lc_response = await pipeline.ainvoke(
+                input_text=message,
+                chat_history=lc_history,
+            )
+
+            formatted_content = ResponseFormatter.format(lc_response.answer)
+
+            # Save assistant response message
+            msg_id = await self.message_repository.create(
+                conversation_id=conversation_id,
+                role="assistant",
+                provider=provider,
+                content=formatted_content,
+            )
+
+            # Record usage
+            if lc_response.usage:
+                ai_usage = AIUsage(
+                    provider=provider,
+                    model=lc_response.usage.model_name or provider,
+                    prompt_tokens=lc_response.usage.prompt_tokens,
+                    completion_tokens=lc_response.usage.completion_tokens,
+                    total_tokens=lc_response.usage.total_tokens,
+                )
+                try:
+                    await self.usage_service.record_usage(
+                        conversation_id=conversation_id,
+                        usage=ai_usage,
+                        message_id=msg_id,
+                    )
+                except Exception:
+                    pass
+
+            sources_list = [
+                {
+                    "title": s.get("title", ""),
+                    "url": s.get("url", ""),
+                    "heading": s.get("heading", ""),
+                    "score": s.get("score", 0.0),
+                }
+                for s in lc_response.sources
+            ]
+
+            top_score = sources_list[0]["score"] if sources_list else None
+
+            return {
+                "conversation_id": conversation_id,
+                "title": conversation["title"],
+                "response": formatted_content,
+                "sources": sources_list,
+                "rag_used": len(sources_list) > 0,
+                "retrieval_score": top_score,
+            }
+
+        # Legacy / Native Chat Pipeline
         history = await self.session_memory_service.build_history(conversation_id)
         ai_response, rag_result = await self.ai_service.chat(
             provider=provider,
@@ -94,7 +188,7 @@ class ChatService:
                 "title": s.title,
                 "url": s.url,
                 "heading": s.heading,
-                "score": s.score
+                "score": s.score,
             }
             for s in rag_result.sources
         ] if rag_result.sources else []
@@ -105,5 +199,5 @@ class ChatService:
             "response": formatted_content,
             "sources": sources_list,
             "rag_used": rag_result.has_context,
-            "retrieval_score": rag_result.retrieval_score if rag_result.has_context else None
+            "retrieval_score": rag_result.retrieval_score if rag_result.has_context else None,
         }

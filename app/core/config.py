@@ -22,6 +22,9 @@ class Settings(BaseSettings):
 
     AI_CURRENCY: str = "USD"
 
+    # LangChain Pipeline Toggle
+    USE_LANGCHAIN_PIPELINE: bool = False
+
 
     # Gemini Text
     GEMINI_INPUT_PRICE_PER_1M: float = 1.50

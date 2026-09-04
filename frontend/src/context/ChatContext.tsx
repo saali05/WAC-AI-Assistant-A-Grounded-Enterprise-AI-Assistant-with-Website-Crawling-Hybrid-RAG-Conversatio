@@ -23,6 +23,8 @@ export interface Message {
   role: "user" | "assistant";
   content: string;
   sources?: SourceItem[];
+  isStreaming?: boolean;
+  provider?: string;
 }
 
 export interface Conversation {
@@ -58,6 +60,11 @@ interface ChatContextType {
 
   addVoiceAssistantMessage: (
     message: string
+  ) => void;
+
+  updateStreamingAssistantMessage: (
+    deltaText: string,
+    isDone: boolean
   ) => void;
 
   setVoiceConversationId: (
@@ -281,58 +288,119 @@ export function ChatProvider({
   // VOICE USER MESSAGE
   // ==========================================================
 
-  const addVoiceUserMessage =
-    (
-      message: string
-    ) => {
-      const text =
-        message.trim();
+  const addVoiceUserMessage = (message: string) => {
+    const text = message.trim();
+    if (!text) {
+      return;
+    }
 
-      if (!text) {
-        return;
-      }
-
-
-      setMessages(
-        previous => [
-          ...previous,
-
-          {
-            role: "user",
+    setMessages((previous) => {
+      if (previous.length > 0) {
+        const lastIndex = previous.length - 1;
+        const last = previous[lastIndex];
+        if (last.role === "user") {
+          const updated = [...previous];
+          updated[lastIndex] = {
+            ...last,
             content: text,
-          },
-        ]
-      );
-    };
-
-
-  // ==========================================================
-  // VOICE ASSISTANT MESSAGE
-  // ==========================================================
-
-  const addVoiceAssistantMessage =
-    (
-      message: string
-    ) => {
-      const text =
-        message.trim();
-
-      if (!text) {
-        return;
+          };
+          return updated;
+        }
       }
 
+      return [
+        ...previous,
+        {
+          role: "user",
+          content: text,
+        },
+      ];
+    });
+  };
 
-      setMessages(
-        previous => [
-          ...previous,
 
+  // ==========================================================
+  // VOICE ASSISTANT STREAMING & FINAL MESSAGE
+  // ==========================================================
+
+  const updateStreamingAssistantMessage = (
+    deltaText: string,
+    isDone: boolean
+  ) => {
+    setMessages((previous) => {
+      if (previous.length === 0) {
+        if (isDone || !deltaText) return previous;
+        return [
           {
             role: "assistant",
-            content: text,
+            content: deltaText,
+            provider: "gemini-live",
+            isStreaming: !isDone,
           },
-        ]
-      );
-    };
+        ];
+      }
+
+      const lastIndex = previous.length - 1;
+      const lastMessage = previous[lastIndex];
+
+      if (lastMessage.role === "assistant") {
+        const updated = [...previous];
+        updated[lastIndex] = {
+          ...lastMessage,
+          content: isDone && !deltaText ? lastMessage.content : lastMessage.content + deltaText,
+          isStreaming: !isDone,
+        };
+        return updated;
+      }
+
+      if (isDone || !deltaText) {
+        return previous;
+      }
+
+      return [
+        ...previous,
+        {
+          role: "assistant",
+          content: deltaText,
+          provider: "gemini-live",
+          isStreaming: !isDone,
+        },
+      ];
+    });
+  };
+
+  const addVoiceAssistantMessage = (message: string) => {
+    const text = message.trim();
+    if (!text) {
+      return;
+    }
+
+    setMessages((previous) => {
+      if (previous.length > 0) {
+        const lastIndex = previous.length - 1;
+        const last = previous[lastIndex];
+        if (last.role === "assistant") {
+          const updated = [...previous];
+          updated[lastIndex] = {
+            ...last,
+            content: text,
+            isStreaming: false,
+          };
+          return updated;
+        }
+      }
+
+      return [
+        ...previous,
+        {
+          role: "assistant",
+          content: text,
+          provider: "gemini-live",
+          isStreaming: false,
+        },
+      ];
+    });
+  };
 
 
   // ==========================================================
@@ -373,6 +441,8 @@ export function ChatProvider({
         addVoiceUserMessage,
 
         addVoiceAssistantMessage,
+
+        updateStreamingAssistantMessage,
 
         setVoiceConversationId,
       }}
