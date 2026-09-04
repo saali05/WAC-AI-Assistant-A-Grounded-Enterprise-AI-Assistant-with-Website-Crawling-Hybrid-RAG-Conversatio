@@ -106,7 +106,8 @@ class RAGService:
 
         logger.info(
             f"RAG Retrieval Scores | "
-            f"query='{user_message}' | "
+            f"use_query='{user_message}' | "
+            f"rewritten_query='{rewritten_query}' | "
             f"vector_k={settings.RAG_TOP_K_VECTOR} | "
             f"keyword_k={settings.RAG_TOP_K_KEYWORD} | "
             f"final_k={len(reranked_chunks)} | "

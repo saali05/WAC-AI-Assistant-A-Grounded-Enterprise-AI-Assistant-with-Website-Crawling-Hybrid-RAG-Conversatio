@@ -66,7 +66,10 @@ class AIService:
         # --------------------------------------------------
         # 1. MANDATORY RAG RETRIEVAL & DOMAIN CHECK
         # --------------------------------------------------
-
+        logger.info(
+            f"AIService conversation history | "
+            f"history='{history}'"
+        )
         rag_result = await self.rag_service.get_grounded_context(
             user_message=message,
             conversation_history=history,

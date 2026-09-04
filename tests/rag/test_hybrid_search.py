@@ -7,10 +7,17 @@ from app.rag.retrieval.reranker import FusionReranker
 
 def test_query_rewriter():
     original = "What about ecommerce?"
-    history = "User: What services does WAC provide?\nAssistant: WAC provides custom AI and software services."
-    rewritten = QueryRewriter.rewrite(original, history)
-    assert "WAC" in rewritten
-    assert "ecommerce" in rewritten
+    history = (
+        "User: What services does WAC provide?\n"
+        "Assistant: WAC provides custom AI and software services."
+    )
+
+    rewritten = QueryRewriter.rewrite(
+        original,
+        history,
+    )
+
+    assert rewritten == "What about ecommerce?"
 
 
 def test_context_builder():

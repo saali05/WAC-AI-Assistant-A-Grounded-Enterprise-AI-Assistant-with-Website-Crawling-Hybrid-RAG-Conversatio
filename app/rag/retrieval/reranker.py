@@ -103,12 +103,13 @@ class FusionReranker(BaseReranker):
             # Final reranking score
             # -----------------------------------------
 
-            final_score = (
+            weighted_score = (
                 (base_score * 0.70)
                 + title_boost
                 + heading_boost
                 + content_boost
             )
+            final_score = max(base_score, weighted_score)
 
             reranked_val = round(
                 min(final_score, 1.0),

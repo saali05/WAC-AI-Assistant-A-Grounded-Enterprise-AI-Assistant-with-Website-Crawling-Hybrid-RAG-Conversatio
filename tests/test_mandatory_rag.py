@@ -1,6 +1,7 @@
 import asyncio
 import pytest
 from app.core.database import connect_db, disconnect_db
+from app.rag.retrieval.query_rewriter import QueryRewriter
 from app.rag.validation.relevance import WACRelevanceGate
 from app.services.rag_service import RAGService
 from app.ai.service import AIService
@@ -8,6 +9,7 @@ from app.rag.models import RetrievedChunk
 from datetime import datetime, timezone, timedelta
 
 
+@pytest.mark.anyio
 async def test_relevance_gate():
     """Test WAC domain relevance classification rules."""
     
@@ -57,7 +59,7 @@ async def test_relevance_gate():
     assert is_wac is True
     assert refusal is None
 
-
+@pytest.mark.anyio
 async def test_freshness_sorting():
     """TEST 10: Reranker tie-breaking prefers newer valid source content."""
     from app.rag.retrieval.reranker import FusionReranker
@@ -146,3 +148,111 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+
+def test_query_rewriter_affirmative_with_generic_request():
+    history = """
+    User: What services does WAC provide?
+    Assistant: WAC provides digital transformation services.
+    """
+
+    result = QueryRewriter.rewrite(
+        "yes i want to know more",
+        history,
+    )
+
+    assert result == "What services does WAC provide?"
+
+
+def test_query_rewriter_affirmative_learn_more():
+    history = """
+    User: What services does WAC provide?
+    Assistant: WAC provides digital transformation services.
+    """
+
+    result = QueryRewriter.rewrite(
+        "yes i would like to learn more",
+        history,
+    )
+
+    assert result == "What services does WAC provide?"
+
+
+def test_query_rewriter_tell_me_more():
+    history = """
+    User: What services does WAC provide?
+    Assistant: WAC provides digital transformation services.
+    """
+
+    result = QueryRewriter.rewrite(
+        "tell me more",
+        history,
+    )
+
+    assert result == "What services does WAC provide?"
+
+
+def test_query_rewriter_new_topic():
+    history = """
+    User: What services does WAC provide?
+    Assistant: WAC provides digital transformation services.
+    """
+
+    result = QueryRewriter.rewrite(
+        "what about digital marketing?",
+        history,
+    )
+
+    assert result == "what about digital marketing?"
+
+
+def test_query_rewriter_standalone_question():
+    history = """
+    User: What about digital marketing?
+    Assistant: WAC provides digital marketing services.
+    """
+
+    result = QueryRewriter.rewrite(
+        "What technologies does WAC use?",
+        history,
+    )
+
+    assert result == "What technologies does WAC use?"
+
+
+def test_query_rewriter_affirmative_new_topic():
+    history = """
+    User: What services does WAC provide?
+    Assistant: WAC provides digital transformation services.
+    """
+
+    result = QueryRewriter.rewrite(
+        "yes, tell me more about digital marketing",
+        history,
+    )
+
+    assert result == "yes, tell me more about digital marketing"
+
+
+def test_query_rewriter_pronoun_followup():
+    history = """
+    User: What services does WAC provide?
+    Assistant: WAC provides digital transformation services.
+    """
+
+    result = QueryRewriter.rewrite(
+        "what about it?",
+        history,
+    )
+
+    assert result == (
+        "What services does WAC provide? what about it?"
+    )
+
+
+def test_query_rewriter_without_history():
+    result = QueryRewriter.rewrite(
+        "yes i want to know more",
+        "",
+    )
+
+    assert result == "yes i want to know more"
