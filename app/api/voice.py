@@ -6,19 +6,26 @@ from google import genai
 
 from app.core.config import settings
 from app.core.logging import logger
+
 from app.repositories.message_repository import MessageRepository
-from app.services.conversation_service import ConversationService
 
 from typing import Any
+
+from app.services.conversation_service import ConversationService
+from app.services.usage_service import UsageService
 from app.services.rag_service import RAGService
+
 from app.ai.tools.live_definitions import WAC_LIVE_TOOLS
+from app.ai.pricing import calculate_cost, MODEL_PRICING
+from app.ai.schemas import AIUsage
+
+from app.langchain.retrievers.wac_retriever import WACRetriever
+from app.rag.validation.relevance import WAC_REFUSAL_MESSAGE
 
 router = APIRouter(
     prefix="/voice",
     tags=["Voice"],
 )
-
-
 class VoiceMessageRequest(BaseModel):
     conversation_id: str | None = None
     user_message: str
@@ -204,9 +211,6 @@ async def save_voice_message(
         # ----------------------------------------
         # Record Gemini Live Usage
         # ----------------------------------------
-        from app.ai.pricing import calculate_cost, MODEL_PRICING
-        from app.ai.schemas import AIUsage
-        from app.services.usage_service import UsageService
 
         model = settings.GEMINI_LIVE_MODEL
         model_spec = MODEL_PRICING.get(model, {})
@@ -275,10 +279,6 @@ class VoiceToolRequest(BaseModel):
     name: str
     arguments: dict[str, Any] = {}
     conversation_id: str | None = None
-
-
-from app.langchain.retrievers.wac_retriever import WACRetriever
-from app.rag.validation.relevance import WAC_REFUSAL_MESSAGE
 
 @router.post("/tool")
 async def execute_voice_tool(

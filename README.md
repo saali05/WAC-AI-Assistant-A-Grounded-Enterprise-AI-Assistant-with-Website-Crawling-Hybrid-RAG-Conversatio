@@ -13,7 +13,7 @@ AI Assistant for Web and Crafts (WAC) powered by FastAPI, MongoDB, Gemini, Groq,
   - Normalizer & SSRF Security protection.
   - HTML extraction & boilerplate cleaner.
   - Heading-aware semantic chunking.
-  - Gemini Vector Embeddings (`text-embedding-004`).
+  - Gemini Vector Embeddings (`text-embedding-001`).
   - Hybrid Search (Vector + Keyword Search with Reciprocal Rank Fusion).
   - Fusion Reranker & Min Relevance Thresholding.
   - WAC Domain Relevance Gate & Grounding Validator.
