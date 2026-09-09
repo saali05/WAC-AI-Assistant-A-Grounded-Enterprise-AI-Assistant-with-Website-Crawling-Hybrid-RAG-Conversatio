@@ -1,4 +1,5 @@
-from datetime import datetime, UTC
+from datetime import datetime, UTC, timedelta
+import re
 from typing import Any, Optional
 
 from bson import ObjectId
@@ -353,7 +354,7 @@ class RAGChunkRepository:
             return 0
 
     # ==========================================================
-    # REINDEX SUPPORT
+    # REINDEX & MIGRATION SUPPORT
     # ==========================================================
 
     async def get_active_chunks(
@@ -361,7 +362,7 @@ class RAGChunkRepository:
         batch_size: int = 50,
     ):
         """
-        Return an async cursor containing active chunks.
+        Return an async cursor containing all active chunks.
 
         A cursor is intentionally returned instead of using
         skip/limit pagination.
@@ -391,6 +392,79 @@ class RAGChunkRepository:
             )
 
             raise
+
+    async def get_mismatched_chunks_count(
+        self,
+        model: Optional[str] = None,
+        dimensions: Optional[int] = None,
+    ) -> int:
+        """
+        Count active chunks whose stored embedding model or dimensions
+        do not match the target configuration.
+        """
+
+        target_model = model or settings.RAG_EMBEDDING_MODEL
+        target_dimensions = (
+            dimensions
+            if dimensions is not None
+            else settings.RAG_EMBEDDING_DIMENSIONS
+        )
+
+        query = {
+            "status": "active",
+            "$or": [
+                {"embedding_model": {"$ne": target_model}},
+                {"embedding_dimensions": {"$ne": target_dimensions}},
+                {"embedding_model": {"$exists": False}},
+                {"embedding_dimensions": {"$exists": False}},
+            ],
+        }
+
+        try:
+            return await self.collection.count_documents(query)
+        except Exception as exc:
+            logger.error(
+                f"Failed to count mismatched chunks: {exc}"
+            )
+            return 0
+
+    async def get_mismatched_chunks(
+        self,
+        batch_size: int = 25,
+        model: Optional[str] = None,
+        dimensions: Optional[int] = None,
+    ):
+        """
+        Return an async cursor for active chunks whose stored embedding model
+        or dimensions do not match the target configuration.
+        """
+
+        target_model = model or settings.RAG_EMBEDDING_MODEL
+        target_dimensions = (
+            dimensions
+            if dimensions is not None
+            else settings.RAG_EMBEDDING_DIMENSIONS
+        )
+
+        query = {
+            "status": "active",
+            "$or": [
+                {"embedding_model": {"$ne": target_model}},
+                {"embedding_dimensions": {"$ne": target_dimensions}},
+                {"embedding_model": {"$exists": False}},
+                {"embedding_dimensions": {"$exists": False}},
+            ],
+        }
+
+        try:
+            cursor = self.collection.find(query).sort("_id", 1)
+            return cursor
+        except Exception as exc:
+            logger.error(
+                f"Failed to create mismatched chunk cursor: {exc}"
+            )
+            raise
+
 
     async def update_embedding(
         self,
@@ -640,6 +714,153 @@ class RAGChunkRepository:
             return []
 
     # ==========================================================
+    # KEYWORD SEARCH HELPERS
+    # ==========================================================
+
+    @staticmethod
+    def _extract_keyword_terms(query_str: str) -> list[str]:
+        """
+        Extract meaningful search terms from a query string.
+        - Strips surrounding punctuation while preserving tech terms (e.g. Node.js, Next.js, .NET, C++, C#).
+        - Filters out conversational stop words.
+        - Deduplicates terms while preserving case and order.
+        """
+        if not query_str or not query_str.strip():
+            return []
+
+        stop_words = {
+            "a", "about", "above", "after", "again", "against", "all", "am", "an", "and",
+            "any", "are", "aren't", "as", "at", "be", "because", "been", "before", "being",
+            "below", "between", "both", "but", "by", "can", "can't", "cannot", "could",
+            "couldn't", "did", "didn't", "do", "does", "doesn't", "doing", "don't", "down",
+            "during", "each", "few", "for", "from", "further", "had", "hadn't", "has",
+            "hasn't", "have", "haven't", "having", "he", "he'd", "he'll", "he's", "her",
+            "here", "here's", "hers", "herself", "him", "himself", "his", "how", "how's",
+            "i", "i'd", "i'll", "i'm", "i've", "if", "in", "into", "is", "isn't", "it",
+            "it's", "its", "itself", "let's", "me", "more", "most", "mustn't", "my",
+            "myself", "no", "nor", "not", "of", "off", "on", "once", "only", "or",
+            "other", "ought", "our", "ours", "ourselves", "out", "over", "own", "same",
+            "shan't", "she", "she'd", "she'll", "she's", "should", "shouldn't", "so",
+            "some", "such", "tell", "than", "that", "that's", "the", "their", "theirs",
+            "them", "themselves", "then", "there", "there's", "these", "they", "they'd",
+            "they'll", "they're", "they've", "this", "those", "through", "to", "too",
+            "under", "until", "up", "us", "use", "uses", "used", "using", "very", "was",
+            "wasn't", "we", "we'd", "we'll", "we're", "we've", "were", "weren't", "what",
+            "what's", "when", "when's", "where", "where's", "which", "while", "who",
+            "who's", "whom", "why", "why's", "with", "won't", "would", "wouldn't", "you",
+            "you'd", "you'll", "you're", "you've", "your", "yours", "yourself", "yourselves"
+        }
+
+        raw_tokens = query_str.strip().split()
+        cleaned_tokens: list[str] = []
+
+        for token in raw_tokens:
+            # Strip edge punctuation but preserve tech symbols (#, +, ., -)
+            t = re.sub(r"^[^\w#.+]+|[^\w#.+]+$", "", token)
+            while t.endswith(".") and not re.search(r"\.[a-zA-Z0-9]+$", t):
+                t = t.rstrip(".")
+            t = re.sub(r"[^\w#.+]+$", "", t)
+            while t.endswith(".") and not re.search(r"\.[a-zA-Z0-9]+$", t):
+                t = t.rstrip(".")
+            if t:
+                cleaned_tokens.append(t)
+
+        seen: set[str] = set()
+        terms: list[str] = []
+
+        for t in cleaned_tokens:
+            lower = t.lower()
+            if lower not in stop_words and lower not in seen and len(t) >= 2:
+                seen.add(lower)
+                terms.append(t)
+
+        # Fallback if all tokens were stop words (e.g. "what is it")
+        if not terms and cleaned_tokens:
+            for t in cleaned_tokens:
+                lower = t.lower()
+                if lower not in seen and len(t) >= 2:
+                    seen.add(lower)
+                    terms.append(t)
+
+        return terms
+
+    @staticmethod
+    def _build_term_pattern(term: str) -> re.Pattern:
+        """Build regex pattern respecting word boundaries for alphanumeric and symbol terms."""
+        if re.match(r"^\w+$", term):
+            return re.compile(rf"\b{re.escape(term)}\b", re.IGNORECASE)
+        else:
+            return re.compile(rf"(?<![\w#+.-]){re.escape(term)}(?![\w#+.-])", re.IGNORECASE)
+
+    @classmethod
+    def _calculate_keyword_score(
+        cls,
+        item: dict[str, Any],
+        terms: list[str],
+        patterns: Optional[dict[str, re.Pattern]] = None,
+    ) -> float:
+        """
+        Calculate a normalized keyword relevance score in the range 0.0 - 1.0.
+        Evaluates matches across title, heading_path, and content.
+        """
+        if not terms:
+            return 0.0
+
+        if patterns is None:
+            patterns = {term: cls._build_term_pattern(term) for term in terms}
+
+        title = str(item.get("title") or "")
+        heading_path_val = item.get("heading_path") or []
+        if isinstance(heading_path_val, list):
+            heading_text = " ".join(str(h) for h in heading_path_val)
+        else:
+            heading_text = str(heading_path_val)
+        content = str(item.get("content") or "")
+
+        matched_terms: set[str] = set()
+        title_matches = 0
+        heading_matches = 0
+        content_matches = 0
+
+        for term in terms:
+            pattern = patterns[term]
+            in_title = bool(pattern.search(title))
+            in_heading = bool(pattern.search(heading_text))
+            in_content = bool(pattern.search(content))
+
+            if in_title:
+                title_matches += 1
+            if in_heading:
+                heading_matches += 1
+            if in_content:
+                content_matches += 1
+
+            if in_title or in_heading or in_content:
+                matched_terms.add(term)
+
+        if not matched_terms:
+            return 0.0
+
+        num_terms = len(terms)
+        term_coverage = len(matched_terms) / num_terms
+        effective_target = min(num_terms, 4)
+        density = min(1.0, len(matched_terms) / max(1, effective_target))
+
+        title_boost = 0.15 if title_matches > 0 else 0.0
+        heading_boost = 0.10 if heading_matches > 0 else 0.0
+        content_boost = 0.10 if content_matches > 0 else 0.0
+
+        raw_score = (
+            (0.55 * density)
+            + (0.15 * term_coverage)
+            + title_boost
+            + heading_boost
+            + content_boost
+        )
+
+        return round(min(1.0, max(0.0, raw_score)), 4)
+
+    # ==========================================================
     # KEYWORD SEARCH
     # ==========================================================
 
@@ -648,151 +869,142 @@ class RAGChunkRepository:
         query_str: str,
         top_k: int = 20,
     ) -> list[dict[str, Any]]:
-
         """
-        Execute MongoDB text search.
+        Execute MongoDB keyword/text search with regex fallback.
 
-        Falls back to regex keyword matching when
-        a MongoDB text index is unavailable.
+        Searches across content, title, and heading_path, and returns
+        relevance-ranked chunks with normalized scores (0.0 - 1.0).
         """
-
-        if not query_str.strip():
+        if not query_str or not query_str.strip():
             return []
 
-        # ------------------------------------------------------
-        # MONGODB TEXT SEARCH
-        # ------------------------------------------------------
+        extracted_terms = self._extract_keyword_terms(query_str)
+        if not extracted_terms:
+            logger.info(f"Keyword search: no meaningful terms extracted from '{query_str}'")
+            return []
 
+        logger.info(
+            f"Keyword search extracted terms={extracted_terms} query='{query_str}'"
+        )
+
+        patterns = {term: self._build_term_pattern(term) for term in extracted_terms}
+        results_list: list[dict[str, Any]] = []
+        text_search_succeeded = False
+
+        # ------------------------------------------------------
+        # 1. MONGODB TEXT SEARCH
+        # ------------------------------------------------------
         try:
-
+            text_query = " ".join(extracted_terms)
             cursor = self.collection.find(
                 {
-                    "$text": {
-                        "$search": query_str
-                    },
+                    "$text": {"$search": text_query},
                     "status": "active",
                 },
                 {
-                    "score": {
-                        "$meta": "textScore"
-                    }
+                    "score": {"$meta": "textScore"}
                 },
             ).sort(
-                [
-                    (
-                        "score",
-                        {
-                            "$meta": "textScore"
-                        },
-                    )
-                ]
-            ).limit(top_k)
+                [("score", {"$meta": "textScore"})]
+            ).limit(max(top_k * 2, 50))
 
-            results = await cursor.to_list(
-                length=top_k
+            text_results = await cursor.to_list(length=max(top_k * 2, 50))
+            logger.info(
+                f"MongoDB $text search returned {len(text_results)} results"
             )
 
-            if results:
+            if text_results:
+                seen_ids: set[str] = set()
+                for item in text_results:
+                    chunk_id = str(item.pop("_id"))
+                    if chunk_id in seen_ids:
+                        continue
+                    seen_ids.add(chunk_id)
 
-                formatted = []
+                    item["id"] = chunk_id
+                    item.setdefault("title", "")
+                    item.setdefault("content", "")
+                    item.setdefault("url", "")
+                    item.setdefault("heading_path", [])
 
-                for item in results:
+                    score = self._calculate_keyword_score(item, extracted_terms, patterns)
+                    if score > 0.0:
+                        item["score"] = score
+                        results_list.append(item)
 
-                    item["id"] = str(
-                        item.pop("_id")
-                    )
-
-                    formatted.append(item)
-
-                return formatted
-
-        except Exception:
-
-            pass
-
-        # ------------------------------------------------------
-        # REGEX FALLBACK
-        # ------------------------------------------------------
-
-        try:
-
-            terms = [
-                term.strip()
-                for term in query_str.split()
-                if len(term.strip()) > 2
-            ]
-
-            if not terms:
-                terms = [
-                    query_str.strip()
-                ]
-
-            regex_patterns = [
-                {
-                    "content": {
-                        "$regex": term,
-                        "$options": "i",
-                    }
-                }
-                for term in terms
-            ]
-
-            query = {
-                "status": "active",
-                "$or": regex_patterns,
-            }
-
-            cursor = self.collection.find(
-                query
-            ).limit(top_k)
-
-            results = await cursor.to_list(
-                length=top_k
-            )
-
-            formatted = []
-
-            for item in results:
-
-                item["id"] = str(
-                    item.pop("_id")
-                )
-
-                content_lower = (
-                    item.get(
-                        "content",
-                        "",
-                    ).lower()
-                )
-
-                score = (
-                    sum(
-                        1.0
-                        for term in terms
-                        if term.lower()
-                        in content_lower
-                    )
-                    / len(terms)
-                )
-
-                item["score"] = score
-
-                formatted.append(item)
-
-            formatted.sort(
-                key=lambda item: item["score"],
-                reverse=True,
-            )
-
-            return formatted
+                if results_list:
+                    text_search_succeeded = True
 
         except Exception as exc:
-
-            logger.error(
-                f"Keyword search failed: {exc}"
+            logger.warning(
+                f"MongoDB $text search failed or unavailable ({exc}). Falling back to regex keyword search."
             )
 
-            return []
+        # ------------------------------------------------------
+        # 2. REGEX KEYWORD FALLBACK
+        # ------------------------------------------------------
+        if not text_search_succeeded:
+            try:
+                or_clauses = []
+                for term in extracted_terms:
+                    escaped_term = re.escape(term)
+                    or_clauses.append({"content": {"$regex": escaped_term, "$options": "i"}})
+                    or_clauses.append({"title": {"$regex": escaped_term, "$options": "i"}})
+                    or_clauses.append({"heading_path": {"$regex": escaped_term, "$options": "i"}})
+
+                query = {
+                    "status": "active",
+                    "$or": or_clauses,
+                }
+
+                candidate_limit = max(top_k * 10, 200)
+                cursor = self.collection.find(query).limit(candidate_limit)
+                raw_fallback_results = await cursor.to_list(length=candidate_limit)
+
+                logger.info(
+                    f"MongoDB regex fallback returned {len(raw_fallback_results)} raw candidates for {len(extracted_terms)} terms"
+                )
+
+                seen_ids = set()
+                for item in raw_fallback_results:
+                    chunk_id = str(item.pop("_id"))
+                    if chunk_id in seen_ids:
+                        continue
+                    seen_ids.add(chunk_id)
+
+                    item["id"] = chunk_id
+                    item.setdefault("title", "")
+                    item.setdefault("content", "")
+                    item.setdefault("url", "")
+                    item.setdefault("heading_path", [])
+
+                    score = self._calculate_keyword_score(item, extracted_terms, patterns)
+                    if score > 0.0:
+                        item["score"] = score
+                        results_list.append(item)
+
+            except Exception as exc:
+                logger.error(
+                    f"Regex keyword fallback search failed: {exc}"
+                )
+                return []
+
+        # ------------------------------------------------------
+        # 3. RANK & LOG RESULTS
+        # ------------------------------------------------------
+        results_list.sort(key=lambda x: x["score"], reverse=True)
+        final_results = results_list[:top_k]
+
+        top_title = final_results[0].get("title", "N/A") if final_results else "None"
+        top_score = final_results[0].get("score", 0.0) if final_results else 0.0
+
+        logger.info(
+            f"Keyword search completed | query='{query_str}' | extracted_terms={extracted_terms} | "
+            f"method={'$text' if text_search_succeeded else 'regex_fallback'} | total_candidates={len(results_list)} | final_count={len(final_results)} | "
+            f"top_title='{top_title}' | top_score={top_score:.4f}"
+        )
+
+        return final_results
 
     async def get_active_chunks_count(
         self,
@@ -945,6 +1157,43 @@ class CrawlRunRepository:
 
         return None
 
+    async def mark_stale_runs(
+        self,
+        stale_threshold_seconds: float = 86400.0,
+    ) -> int:
+        """
+        Mark runs stuck in 'running' status older than threshold as 'failed'.
+        """
+        cutoff = datetime.now(UTC) - timedelta(seconds=stale_threshold_seconds)
+        try:
+            result = await self.collection.update_many(
+                {
+                    "status": "running",
+                    "started_at": {"$lt": cutoff},
+                },
+                {
+                    "$set": {
+                        "status": "failed",
+                        "finished_at": datetime.now(UTC),
+                        "errors": [
+                            {
+                                "url": "system",
+                                "error": "Crawl run timed out or interrupted (stale run cleanup)",
+                                "timestamp": datetime.now(UTC),
+                            }
+                        ],
+                    }
+                },
+            )
+            if result.modified_count > 0:
+                logger.warning(
+                    f"Marked {result.modified_count} stale crawl runs as failed."
+                )
+            return result.modified_count
+        except Exception as exc:
+            logger.error(f"Failed to cleanup stale crawl runs: {exc}")
+            return 0
+
 
 async def initialize_rag_indexes(
     db: Optional[AsyncIOMotorDatabase] = None,
@@ -1004,6 +1253,15 @@ async def initialize_rag_indexes(
     await chunk_coll.create_index(
         "status"
     )
+
+    await chunk_coll.create_index(
+        [
+            ("status", 1),
+            ("embedding_model", 1),
+            ("embedding_dimensions", 1),
+        ]
+    )
+
 
     try:
 

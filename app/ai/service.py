@@ -98,8 +98,8 @@ class AIService:
         # 3. MISSING / WEAK EVIDENCE REFUSAL
         # --------------------------------------------------
 
-        if not rag_result.has_context:
-            logger.info("Mandatory RAG: Evidence unavailable or low confidence; returning grounded refusal")
+        if not rag_result.has_context or not rag_result.evidence_sufficient:
+            logger.info("Mandatory RAG: Evidence unavailable, low confidence, or insufficient; returning grounded refusal")
             refusal_text = (
                 rag_result.refusal_reason
                 or (
@@ -116,10 +116,6 @@ class AIService:
         # 4. GROUNDED ANSWER GENERATION (Gemini / Groq)
         # --------------------------------------------------
 
-        logger.info(
-            f"Mandatory RAG: Reliable evidence retrieved (confidence={rag_result.retrieval_score:.4f}). Generating grounded response."
-        )
-
         request = AIRequest(
             user_message=message,
             conversation_history=history,
@@ -128,6 +124,14 @@ class AIService:
         )
 
         prompt = PromptBuilder.build(request)
+
+        source_titles = [s.title for s in rag_result.sources]
+        source_urls = [s.url for s in rag_result.sources]
+        logger.info(
+            f"Mandatory RAG: Reliable evidence retrieved (confidence={rag_result.retrieval_score:.4f}). "
+            f"sources={source_titles} urls={source_urls} context_len={len(rag_result.context)} prompt_len={len(prompt)}. "
+            f"Generating grounded response."
+        )
 
         ai_provider = ProviderFactory.get_provider(selected_provider)
 

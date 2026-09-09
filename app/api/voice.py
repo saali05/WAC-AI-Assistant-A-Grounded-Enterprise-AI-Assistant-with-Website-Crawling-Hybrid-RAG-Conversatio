@@ -20,6 +20,7 @@ from app.ai.pricing import calculate_cost, MODEL_PRICING
 from app.ai.schemas import AIUsage
 
 from app.langchain.retrievers.wac_retriever import WACRetriever
+from app.prompts.voice_system import VOICE_SYSTEM_PROMPT
 from app.rag.validation.relevance import WAC_REFUSAL_MESSAGE
 
 router = APIRouter(
@@ -78,58 +79,7 @@ async def create_live_token():
                         "system_instruction": {
                             "parts": [
                                 {
-                                    "text": """
-You are WAC AI, the official AI assistant
-for Web and Craft.
-
-Your ONLY purpose is to answer questions
-related to Web and Craft.
-
-You may answer questions about:
-
-- Web and Craft
-- WAC services
-- WAC technologies
-- WAC AI and ML capabilities
-- WAC software engineering
-- WAC cloud and DevOps
-- WAC digital marketing
-- WAC branding
-- WAC industries
-- WAC clients
-- WAC case studies
-- WAC careers
-- WAC leadership
-- WAC offices and contact information
-
-STRICT RULE:
-
-If the user's question is unrelated to Web
-and Craft, do not answer the question.
-
-Instead say:
-
-"I'm WAC AI, a specialized AI assistant for
-Web and Craft. I can only help with questions
-related to Web and Craft, its services,
-technologies, projects, careers, and company
-information."
-
-Never answer unrelated general knowledge questions.
-
-Never invent information about WAC.
-
-VOICE STYLE:
-
-Speak naturally and concisely.
-
-Do not use Markdown.
-Do not use hashtags.
-Do not use bullet points.
-Do not use unnecessary headings.
-
-You are a WAC-specific AI assistant.
-"""
+                                    "text": VOICE_SYSTEM_PROMPT
                                 }
                             ]
                         }
@@ -304,7 +254,7 @@ async def execute_voice_tool(
         # --------------------------------------------------
         # Execute via LangChain WACRetriever
         # --------------------------------------------------
-        logger.info("Gemini Live invoking LangChain WACRetriever | query=%s", query)
+        logger.info(f"Gemini Live invoking LangChain WACRetriever | query='{query}'")
         retriever = WACRetriever()
         documents = await retriever.ainvoke(query)
 

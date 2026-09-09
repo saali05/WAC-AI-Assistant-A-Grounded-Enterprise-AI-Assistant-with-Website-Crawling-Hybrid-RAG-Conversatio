@@ -1,5 +1,6 @@
 import asyncio
-from typing import Optional
+import re
+from typing import Optional, Any
 
 from google import genai
 from google.genai import types
@@ -40,6 +41,8 @@ class EmbeddingService:
         model: Optional[str] = None,
         dimensions: Optional[int] = None,
         api_key: Optional[str] = None,
+        max_retry_delay: Optional[float] = None,
+        default_retries: Optional[int] = None,
     ) -> None:
 
         self.model = (
@@ -57,6 +60,18 @@ class EmbeddingService:
             or settings.GEMINI_API_KEY
         )
 
+        self.max_retry_delay = (
+            max_retry_delay
+            if max_retry_delay is not None
+            else getattr(settings, "EMBEDDING_MAX_RETRY_DELAY_SECONDS", 60.0)
+        )
+
+        self.default_retries = (
+            default_retries
+            if default_retries is not None
+            else getattr(settings, "RAG_EMBEDDING_RETRIES", 3)
+        )
+
         self._client: Optional[
             genai.Client
         ] = None
@@ -64,7 +79,9 @@ class EmbeddingService:
         logger.info(
             f"EmbeddingService initialized | "
             f"model={self.model} | "
-            f"dimensions={self.dimensions}"
+            f"dimensions={self.dimensions} | "
+            f"max_retry_delay={self.max_retry_delay}s | "
+            f"default_retries={self.default_retries}"
         )
 
     @property
@@ -86,13 +103,100 @@ class EmbeddingService:
         return self._client
 
     # ==========================================================
+    # RETRY / QUOTA HELPERS
+    # ==========================================================
+
+    @staticmethod
+    def is_rate_limit_error(exc: Exception) -> bool:
+        """Check if exception is a 429 RESOURCE_EXHAUSTED or quota error."""
+        code = getattr(exc, "code", None)
+        if code == 429:
+            return True
+
+        status = getattr(exc, "status", None)
+        if status in ("RESOURCE_EXHAUSTED", "429"):
+            return True
+
+        exc_str = f"{getattr(exc, 'message', '')} {str(exc)}".lower()
+        return (
+            "429" in exc_str
+            or "resource_exhausted" in exc_str
+            or "resource exhausted" in exc_str
+            or "quota" in exc_str
+            or "rate_limit" in exc_str
+            or "rate limit" in exc_str
+        )
+
+
+    @staticmethod
+    def extract_retry_delay(exc: Exception) -> Optional[float]:
+        """
+        Extract server-requested retry delay in seconds from Google GenAI / HTTP errors.
+
+        Inspects structured Google RPC RetryInfo in details, HTTP headers, and message text.
+        """
+        # 1. Structured RetryInfo in details
+        details = getattr(exc, "details", None)
+        if details:
+            candidate_lists = []
+            if isinstance(details, list):
+                candidate_lists.append(details)
+            elif isinstance(details, dict):
+                if "details" in details and isinstance(details["details"], list):
+                    candidate_lists.append(details["details"])
+                if "error" in details and isinstance(details["error"], dict):
+                    err_dict = details["error"]
+                    if "details" in err_dict and isinstance(err_dict["details"], list):
+                        candidate_lists.append(err_dict["details"])
+                candidate_lists.append([details])
+
+            for item_list in candidate_lists:
+                for item in item_list:
+                    if isinstance(item, dict):
+                        item_type = str(item.get("@type", ""))
+                        if "RetryInfo" in item_type or "retryDelay" in item or "retry_delay" in item:
+                            delay_val = item.get("retryDelay") or item.get("retry_delay")
+                            if delay_val is not None:
+                                try:
+                                    if isinstance(delay_val, (int, float)):
+                                        return float(delay_val)
+                                    if isinstance(delay_val, str):
+                                        cleaned = delay_val.rstrip("s").strip()
+                                        return float(cleaned)
+                                except (ValueError, TypeError):
+                                    pass
+
+        # 2. HTTP response headers (Retry-After)
+        response = getattr(exc, "response", None)
+        if response is not None and hasattr(response, "headers"):
+            headers = response.headers
+            if headers:
+                retry_after = headers.get("retry-after") or headers.get("Retry-After")
+                if retry_after:
+                    try:
+                        return float(retry_after)
+                    except (ValueError, TypeError):
+                        pass
+
+        # 3. String / Message regex extraction
+        full_text = f"{getattr(exc, 'message', '')} {str(exc)}"
+        match = re.search(r"retry(?:\s+after|\s+in)\s+(\d+(?:\.\d+)?)\s*s?", full_text, re.IGNORECASE)
+        if match:
+            try:
+                return float(match.group(1))
+            except (ValueError, TypeError):
+                pass
+
+        return None
+
+    # ==========================================================
     # SINGLE EMBEDDING
     # ==========================================================
 
     async def get_embedding(
         self,
         text: str,
-        retries: int = 2,
+        retries: Optional[int] = None,
     ) -> list[float]:
 
         embeddings = await self.get_batch_embeddings(
@@ -115,7 +219,7 @@ class EmbeddingService:
     async def get_batch_embeddings(
         self,
         texts: list[str],
-        retries: int = 2,
+        retries: Optional[int] = None,
     ) -> list[list[float]]:
 
         if not texts:
@@ -128,8 +232,14 @@ class EmbeddingService:
             for t in texts
         ]
 
+        retries_to_use = (
+            retries
+            if retries is not None
+            else self.default_retries
+        )
+
         for attempt in range(
-            retries + 1
+            retries_to_use + 1
         ):
 
             try:
@@ -206,16 +316,31 @@ class EmbeddingService:
 
             except Exception as exc:
 
-                is_rate_limit = "429" in str(exc) or "resource_exhausted" in str(exc).lower() or "quota" in str(exc).lower()
-                backoff = (2 ** (attempt + 1)) * (3 if is_rate_limit else 1)
+                is_rate_limit = self.is_rate_limit_error(exc)
 
-                logger.warning(
-                    f"Gemini embedding attempt "
-                    f"{attempt + 1}/{retries + 1} failed: "
-                    f"{exc}. Retrying in {backoff}s..."
-                )
+                if is_rate_limit:
+                    server_delay = self.extract_retry_delay(exc)
+                    if server_delay is not None and server_delay > 0:
+                        backoff = min(server_delay + 0.5, self.max_retry_delay)
+                        logger.warning(
+                            f"[QUOTA] Gemini rate limit reached (attempt {attempt + 1}/{retries_to_use + 1}). "
+                            f"Server requested retry after {server_delay:.1f}s. "
+                            f"Waiting {backoff:.1f}s before retry..."
+                        )
+                    else:
+                        backoff = min(float((2 ** (attempt + 1)) * 5), self.max_retry_delay)
+                        logger.warning(
+                            f"[QUOTA] Gemini rate limit reached (attempt {attempt + 1}/{retries_to_use + 1}). "
+                            f"Retrying in {backoff:.1f}s..."
+                        )
+                else:
+                    backoff = min(float(2 ** (attempt + 1)), self.max_retry_delay)
+                    logger.warning(
+                        f"Gemini embedding attempt {attempt + 1}/{retries_to_use + 1} failed: "
+                        f"{exc}. Retrying in {backoff:.1f}s..."
+                    )
 
-                if attempt < retries:
+                if attempt < retries_to_use:
 
                     await asyncio.sleep(backoff)
 
@@ -226,12 +351,13 @@ class EmbeddingService:
                 )
 
                 raise EmbeddingException(
-                    "Gemini embedding generation failed."
+                    f"Gemini embedding generation failed after {retries_to_use + 1} attempts."
                 ) from exc
 
         raise EmbeddingException(
             "Unable to generate Gemini embedding."
         )
+
 
     # ==========================================================
     # VALIDATION

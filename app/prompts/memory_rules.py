@@ -1,13 +1,9 @@
 MEMORY_RULES = """
 Conversation Memory Rules
 
-• Use previous conversation only when relevant.
+• Use previous conversation for session context and continuity only.
 
-• Never repeat previous answers unnecessarily.
+• Never allow previous conversation history or previous assistant answers to contradict or override the current AUTHORITATIVE WAC RETRIEVED EVIDENCE.
 
-• Remember user preferences within this session.
-
-• Use earlier discussion to improve continuity.
-
-• Give priority to the latest user request.
+• Give absolute priority to the current user request and current retrieved evidence.
 """

@@ -216,7 +216,16 @@ def test_query_rewriter_standalone_question():
         history,
     )
 
+    # Conversational rewrite preserves standalone query
     assert result == "What technologies does WAC use?"
+
+    # Retrieval expansion expands with controlled tech terms
+    expanded = QueryRewriter.expand_for_retrieval(result)
+    assert expanded.startswith("What technologies does WAC use?")
+    assert "React" in expanded
+    assert "Node.js" in expanded
+    assert "Python" in expanded
+    assert "Laravel" in expanded
 
 
 def test_query_rewriter_affirmative_new_topic():

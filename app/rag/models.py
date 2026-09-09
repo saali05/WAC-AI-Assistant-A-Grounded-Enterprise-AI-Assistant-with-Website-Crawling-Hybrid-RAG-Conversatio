@@ -103,8 +103,10 @@ class RAGResult(BaseModel):
     """Complete RAG retrieval & context generation result."""
     is_relevant: bool = True
     has_context: bool = False
-    evidence_sufficient: bool = False
+    evidence_sufficient: bool = True
     context: str = ""
     sources: list[SourceCitation] = Field(default_factory=list)
+    retrieved_chunks: list[RetrievedChunk] = Field(default_factory=list)
     retrieval_score: float = 0.0
     refusal_reason: Optional[str] = None
+

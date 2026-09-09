@@ -116,12 +116,19 @@ class ChatService:
 
             # Record usage
             if lc_response.usage:
+                from app.ai.pricing import calculate_cost
+                model_used = lc_response.usage.model_name or provider
+                in_toks = lc_response.usage.prompt_tokens
+                out_toks = lc_response.usage.completion_tokens
+                tot_toks = lc_response.usage.total_tokens
+                cost = calculate_cost(model=model_used, input_tokens=in_toks, output_tokens=out_toks)
                 ai_usage = AIUsage(
                     provider=provider,
-                    model=lc_response.usage.model_name or provider,
-                    prompt_tokens=lc_response.usage.prompt_tokens,
-                    completion_tokens=lc_response.usage.completion_tokens,
-                    total_tokens=lc_response.usage.total_tokens,
+                    model=model_used,
+                    input_tokens=in_toks,
+                    output_tokens=out_toks,
+                    total_tokens=tot_toks,
+                    estimated_cost=cost,
                 )
                 try:
                     await self.usage_service.record_usage(

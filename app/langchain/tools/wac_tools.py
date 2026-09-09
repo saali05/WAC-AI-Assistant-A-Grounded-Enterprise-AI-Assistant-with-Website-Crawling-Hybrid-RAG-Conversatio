@@ -22,8 +22,7 @@ async def search_wac_knowledge(query: str) -> str:
         return "No search query was provided."
 
     logger.info(
-        "LangChain WAC tool called | query=%s",
-        query,
+        f"LangChain WAC tool called | query='{query}'"
     )
 
     documents = await retriever.ainvoke(query)

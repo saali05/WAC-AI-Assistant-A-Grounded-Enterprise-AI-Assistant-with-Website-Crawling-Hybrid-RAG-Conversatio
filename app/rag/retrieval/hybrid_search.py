@@ -1,4 +1,5 @@
 from typing import Optional
+from unittest import result
 
 from app.core.config import settings
 from app.core.logging import logger
@@ -83,14 +84,8 @@ class HybridSearch:
         #   RetrievedChunk
         # """
 
-        vector_k = (
-            top_k
-            if top_k is not None
-            else settings.RAG_TOP_K_VECTOR
-        )
+        vector_k = settings.RAG_TOP_K_VECTOR
         keyword_k = settings.RAG_TOP_K_KEYWORD
-        final_k = settings.RAG_TOP_K_FINAL
-
 
         if not query or not query.strip():
             return []
@@ -100,7 +95,6 @@ class HybridSearch:
             f"query={query} | "
             f"vector_k={vector_k} | "
             f"keyword_k={keyword_k} | "
-            f"final_k={final_k} | "
             f"vector_weight={self.vector_weight} | "
             f"keyword_weight={self.keyword_weight}"
         )
@@ -115,8 +109,7 @@ class HybridSearch:
         )
 
         logger.info(
-            f"HybridSearch vector results: "
-            f"{len(vector_results)}"
+            f"HybridSearch vector results: {len(vector_results)}"
         )
 
         # ======================================================
@@ -129,157 +122,109 @@ class HybridSearch:
         )
 
         logger.info(
-            f"HybridSearch keyword results: "
-            f"{len(keyword_results)}"
+            f"HybridSearch keyword results: {len(keyword_results)}"
         )
 
         # ======================================================
-        # 3. STORE ALL UNIQUE CHUNKS
+        # 3. STORE ALL UNIQUE CHUNKS & TRACK RANKS
         # ======================================================
 
         chunk_dict: dict[str, dict] = {}
-
         vector_scores: dict[str, float] = {}
         keyword_scores: dict[str, float] = {}
-
+        vector_ranks: dict[str, int] = {}
+        keyword_ranks: dict[str, int] = {}
         rrf_scores: dict[str, float] = {}
 
         # ======================================================
-        # 4. PROCESS VECTOR RANKING
+        # 4. PROCESS VECTOR RANKING (RRF)
         # ======================================================
 
         for rank, item in enumerate(
             vector_results,
             start=1,
         ):
-
             chunk_id = item.get("id")
-
             if not chunk_id:
                 continue
 
             chunk_dict[chunk_id] = item
+            vector_ranks[chunk_id] = rank
+            vector_scores[chunk_id] = float(item.get("score", 0.0))
 
-            vector_scores[chunk_id] = (
-                float(item.get("score", 0.0))
-            )
-
-            rrf_contribution = (
-                self.vector_weight
-                / (self.rrf_k + rank)
-            )
-
+            rrf_contribution = 1.0 / (self.rrf_k + rank)
             rrf_scores[chunk_id] = (
                 rrf_scores.get(chunk_id, 0.0)
                 + rrf_contribution
             )
 
         # ======================================================
-        # 5. PROCESS KEYWORD RANKING
+        # 5. PROCESS KEYWORD RANKING (RRF)
         # ======================================================
 
         for rank, item in enumerate(
             keyword_results,
             start=1,
         ):
-
             chunk_id = item.get("id")
-
             if not chunk_id:
                 continue
 
-            # Keep the existing chunk object if it was
-            # already found by vector search.
+            # Keep existing chunk object if already found by vector search,
+            # or add newly discovered keyword chunk.
             if chunk_id not in chunk_dict:
                 chunk_dict[chunk_id] = item
 
-            keyword_scores[chunk_id] = (
-                float(item.get("score", 0.0))
-            )
+            keyword_ranks[chunk_id] = rank
+            keyword_scores[chunk_id] = float(item.get("score", 0.0))
 
-            rrf_contribution = (
-                self.keyword_weight
-                / (self.rrf_k + rank)
-            )
-
+            rrf_contribution = 1.0 / (self.rrf_k + rank)
             rrf_scores[chunk_id] = (
                 rrf_scores.get(chunk_id, 0.0)
                 + rrf_contribution
             )
 
         # ======================================================
-        # 6. BUILD FUSED RESULTS
+        # 6. BUILD FUSED RESULTS & LOG CANDIDATES
         # ======================================================
 
         fused_chunks: list[RetrievedChunk] = []
 
         for chunk_id, item in chunk_dict.items():
+            vector_score = vector_scores.get(chunk_id, 0.0)
+            keyword_score = keyword_scores.get(chunk_id, 0.0)
+            fusion_score = rrf_scores.get(chunk_id, 0.0)
+            v_rank = vector_ranks.get(chunk_id)
+            k_rank = keyword_ranks.get(chunk_id)
 
-            vector_score = vector_scores.get(
-                chunk_id,
-                0.0,
-            )
-
-            keyword_score = keyword_scores.get(
-                chunk_id,
-                0.0,
-            )
-
-            fusion_score = rrf_scores.get(
-                chunk_id,
-                0.0,
+            logger.info(
+                f"Hybrid candidate: id={chunk_id} "
+                f"vector_rank={v_rank if v_rank is not None else 'N/A'} "
+                f"keyword_rank={k_rank if k_rank is not None else 'N/A'} "
+                f"vector_score={vector_score:.4f} keyword_score={keyword_score:.4f} "
+                f"fusion_score={fusion_score:.6f}"
             )
 
             fused_chunks.append(
                 RetrievedChunk(
                     chunk_id=chunk_id,
-
-                    document_id=item.get(
-                        "document_id",
-                        "",
-                    ),
-
-                    content=item.get(
-                        "content",
-                        "",
-                    ),
-
-                    title=item.get(
-                        "title",
-                        "",
-                    ),
-
-                    heading_path=item.get(
-                        "heading_path",
-                        [],
-                    ),
-
-                    url=item.get(
-                        "url",
-                        "",
-                    ),
-
-                    canonical_url=item.get(
-                        "canonical_url",
-                        "",
-                    ),
-
+                    document_id=item.get("document_id", ""),
+                    content=item.get("content", ""),
+                    title=item.get("title", ""),
+                    heading_path=item.get("heading_path", []),
+                    url=item.get("url", ""),
+                    canonical_url=item.get("canonical_url", ""),
                     score=fusion_score,
-
                     vector_score=vector_score,
-
                     keyword_score=keyword_score,
-
                     fusion_score=fusion_score,
-
                     created_at=item.get("created_at"),
-
                     updated_at=item.get("updated_at") or item.get("last_crawled_at"),
                 )
             )
 
         # ======================================================
-        # 7. SORT BY RRF SCORE
+        # 7. SORT BY RRF SCORE & RETURN CANDIDATE POOL
         # ======================================================
 
         fused_chunks.sort(
@@ -287,14 +232,15 @@ class HybridSearch:
             reverse=True,
         )
 
-        final_results = fused_chunks[:final_k]
+        candidate_limit = top_k if top_k is not None else len(fused_chunks)
+        final_results = fused_chunks[:candidate_limit]
 
         logger.info(
             f"HybridSearch completed | "
             f"vector={len(vector_results)} | "
             f"keyword={len(keyword_results)} | "
             f"unique={len(fused_chunks)} | "
-            f"final={len(final_results)}"
+            f"candidate_pool={len(final_results)}"
         )
 
         return final_results
