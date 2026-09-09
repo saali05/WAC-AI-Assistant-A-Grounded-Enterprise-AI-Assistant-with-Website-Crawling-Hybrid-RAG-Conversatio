@@ -130,12 +130,26 @@ export class GeminiLiveService {
 
 
   // ==========================================================
-  // TRANSCRIPTS
+  // TRANSCRIPTS & USAGE METRICS
   // ==========================================================
 
   private userTranscript = "";
 
   private assistantTranscript = "";
+
+  private liveSessionId: string | null = null;
+
+  private turnStartTimestamp: number | null = null;
+
+  private firstResponseTimestamp: number | null = null;
+
+  private turnInputAudioSeconds = 0;
+
+  private turnOutputAudioSeconds = 0;
+
+  private turnInputTokens: number | undefined = undefined;
+
+  private turnOutputTokens: number | undefined = undefined;
 
 
   // ==========================================================
@@ -267,7 +281,15 @@ export class GeminiLiveService {
 
   private async saveVoiceConversation(
     userMessage: string,
-    assistantMessage: string
+    assistantMessage: string,
+    metrics?: {
+      audioInputSeconds?: number;
+      audioOutputSeconds?: number;
+      inputTokens?: number;
+      outputTokens?: number;
+      latencyMs?: number;
+      liveSessionId?: string;
+    }
   ) {
 
     const response =
@@ -291,6 +313,24 @@ export class GeminiLiveService {
 
             assistant_message:
               assistantMessage,
+
+            audio_input_seconds:
+              metrics?.audioInputSeconds,
+
+            audio_output_seconds:
+              metrics?.audioOutputSeconds,
+
+            input_tokens:
+              metrics?.inputTokens,
+
+            output_tokens:
+              metrics?.outputTokens,
+
+            latency_ms:
+              metrics?.latencyMs,
+
+            live_session_id:
+              metrics?.liveSessionId || this.liveSessionId || undefined,
 
           }),
         }
@@ -368,6 +408,14 @@ export class GeminiLiveService {
 
 
     try {
+
+      this.liveSessionId = `live_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+      this.turnStartTimestamp = null;
+      this.firstResponseTimestamp = null;
+      this.turnInputAudioSeconds = 0;
+      this.turnOutputAudioSeconds = 0;
+      this.turnInputTokens = undefined;
+      this.turnOutputTokens = undefined;
 
       this.setState(
         "connecting"
@@ -1187,15 +1235,24 @@ in WAC's current knowledge base.
         event: AudioProcessingEvent
       ) => {
 
-        if (
-          !this.session
-        ) {
+        if (!this.session) {
           return;
+        }
+
+        if (!this.turnStartTimestamp) {
+          this.turnStartTimestamp = Date.now();
         }
 
         const input =
           event.inputBuffer
             .getChannelData(0);
+
+        const duration =
+          event.inputBuffer.duration ||
+          (input.length / 16000);
+
+        this.turnInputAudioSeconds +=
+          duration;
 
         const pcm =
           this.floatTo16BitPCM(
@@ -1382,6 +1439,30 @@ in WAC's current knowledge base.
 
 
     // ========================================================
+    // USAGE METADATA (GEMINI LIVE)
+    // ========================================================
+
+    if (
+      serverContent.usageMetadata
+    ) {
+
+      if (
+        typeof serverContent.usageMetadata.promptTokenCount === "number"
+      ) {
+        this.turnInputTokens =
+          serverContent.usageMetadata.promptTokenCount;
+      }
+
+      if (
+        typeof serverContent.usageMetadata.candidatesTokenCount === "number"
+      ) {
+        this.turnOutputTokens =
+          serverContent.usageMetadata.candidatesTokenCount;
+      }
+    }
+
+
+    // ========================================================
     // USER TRANSCRIPTION
     // ========================================================
 
@@ -1427,8 +1508,12 @@ in WAC's current knowledge base.
 
       if (text) {
 
-        this.assistantTranscript +=
-          text;
+        if (
+          !this.assistantTranscript.includes(text)
+        ) {
+          this.assistantTranscript +=
+            text;
+        }
 
         this.emitTranscriptDelta(
           text,
@@ -1463,6 +1548,8 @@ in WAC's current knowledge base.
       this.stopAndClearAudioOutput();
 
       this.assistantTranscript = "";
+
+      this.turnOutputAudioSeconds = 0;
 
       this.emitTranscriptDelta(
         "",
@@ -1500,6 +1587,17 @@ in WAC's current knowledge base.
           part?.text
         ) {
 
+          if (!this.firstResponseTimestamp) {
+            this.firstResponseTimestamp = Date.now();
+          }
+
+          if (
+            !this.assistantTranscript.includes(part.text)
+          ) {
+            this.assistantTranscript +=
+              part.text;
+          }
+
           this.emitTranscriptDelta(
             part.text,
             false
@@ -1515,6 +1613,10 @@ in WAC's current knowledge base.
         if (
           audioData
         ) {
+
+          if (!this.firstResponseTimestamp) {
+            this.firstResponseTimestamp = Date.now();
+          }
 
           this.setState(
             "speaking"
@@ -1548,11 +1650,11 @@ in WAC's current knowledge base.
 
 
       const userMessage =
-        this.userTranscript.trim();
+        this.userTranscript.trim() || "(Voice input)";
 
 
       const assistantMessage =
-        this.assistantTranscript.trim();
+        this.assistantTranscript.trim() || "(Voice response)";
 
 
       // ------------------------------------------------------
@@ -1560,12 +1662,12 @@ in WAC's current knowledge base.
       // ------------------------------------------------------
 
       if (
-        userMessage
+        this.userTranscript.trim()
       ) {
 
         this.callbacks
           .onUserMessage?.(
-            userMessage
+            this.userTranscript.trim()
           );
       }
 
@@ -1575,44 +1677,73 @@ in WAC's current knowledge base.
       // ------------------------------------------------------
 
       if (
-        assistantMessage
+        this.assistantTranscript.trim()
       ) {
 
         this.callbacks
           .onAssistantMessage?.(
-            assistantMessage
+            this.assistantTranscript.trim()
           );
       }
 
 
       // ------------------------------------------------------
-      // SAVE CONVERSATION
+      // CALCULATE TURN METRICS
       // ------------------------------------------------------
 
-      if (
-        userMessage &&
-        assistantMessage
-      ) {
+      const latencyMs =
+        (this.firstResponseTimestamp && this.turnStartTimestamp && this.firstResponseTimestamp >= this.turnStartTimestamp)
+          ? (this.firstResponseTimestamp - this.turnStartTimestamp)
+          : undefined;
 
-        this.saveVoiceConversation(
-          userMessage,
-          assistantMessage
-        )
-          .catch(
-            error => {
+      const audioIn =
+        this.turnInputAudioSeconds > 0
+          ? Number(this.turnInputAudioSeconds.toFixed(2))
+          : undefined;
 
-              console.error(
-                "Failed to persist voice conversation:",
-                error
+      const audioOut =
+        this.turnOutputAudioSeconds > 0
+          ? Number(this.turnOutputAudioSeconds.toFixed(2))
+          : undefined;
+
+
+      // ------------------------------------------------------
+      // SAVE CONVERSATION & PERSIST USAGE
+      // ------------------------------------------------------
+
+      this.saveVoiceConversation(
+        userMessage,
+        assistantMessage,
+        {
+          audioInputSeconds: audioIn,
+          audioOutputSeconds: audioOut,
+          inputTokens: this.turnInputTokens,
+          outputTokens: this.turnOutputTokens,
+          latencyMs: latencyMs ? Math.round(latencyMs) : undefined,
+          liveSessionId: this.liveSessionId || undefined,
+        }
+      )
+        .catch(
+          error => {
+
+            console.error(
+              "Failed to persist voice conversation:",
+              error
+            );
+
+            this.callbacks
+              .onError?.(
+                error instanceof Error
+                  ? error
+                  : new Error("Failed to persist voice conversation.")
               );
 
-            }
-          );
-      }
+          }
+        );
 
 
       // ------------------------------------------------------
-      // RESET TRANSCRIPTS
+      // RESET PER-TURN ACCUMULATORS
       // ------------------------------------------------------
 
       this.userTranscript =
@@ -1620,6 +1751,18 @@ in WAC's current knowledge base.
 
       this.assistantTranscript =
         "";
+
+      this.turnInputAudioSeconds = 0;
+
+      this.turnOutputAudioSeconds = 0;
+
+      this.turnInputTokens = undefined;
+
+      this.turnOutputTokens = undefined;
+
+      this.turnStartTimestamp = null;
+
+      this.firstResponseTimestamp = null;
 
 
       // ------------------------------------------------------
@@ -1792,6 +1935,10 @@ in WAC's current knowledge base.
     audioBuffer
       .getChannelData(0)
       .set(float32);
+
+
+    this.turnOutputAudioSeconds +=
+      audioBuffer.duration;
 
 
     // --------------------------------------------------------

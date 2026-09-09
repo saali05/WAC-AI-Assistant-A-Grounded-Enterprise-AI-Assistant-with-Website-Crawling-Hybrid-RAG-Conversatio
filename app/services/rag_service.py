@@ -31,6 +31,35 @@ class RAGService:
         self.reranker = reranker or FusionReranker()
         self.min_relevance_score = min_relevance_score if min_relevance_score is not None else settings.RAG_MIN_RELEVANCE_SCORE
 
+    @staticmethod
+    def _has_company_relationship_evidence(chunk) -> bool:
+        """
+        Check if a chunk contains substantive evidence connecting WAC / the company
+        to a technology, service, or capability, distinguishing company capability
+        evidence from purely third-party educational/comparison articles.
+        """
+        url_lower = (getattr(chunk, "url", "") or "").lower()
+        title_lower = (getattr(chunk, "title", "") or "").lower()
+        heading_lower = " ".join(getattr(chunk, "heading_path", []) or []).lower()
+        content_lower = (getattr(chunk, "content", "") or "").lower()
+        combined = f"{title_lower} {heading_lower} {content_lower}"
+
+        # 1. Authoritative company service, tech, or about URLs
+        if any(seg in url_lower for seg in ("/services/", "/technology/", "/solutions/", "/careers/", "/about", "/contact", "/hire-", "/work/", "/portfolio/")):
+            return True
+
+        # 2. Explicit company capability & relationship markers in content
+        company_markers = (
+            "wac", "webandcrafts", "web and crafts",
+            "our tech stack", "our technology stack", "technologies we use",
+            "our developers", "our engineers", "our team", "our services",
+            "our capabilities", "our expertise", "our solutions",
+            "we use", "we build", "we develop", "we provide", "we offer",
+            "we create", "we deliver", "we work with", "we specialize",
+            "hire", "at wac", "wac's", "developers at wac"
+        )
+        return any(marker in combined for marker in company_markers)
+
     def _evaluate_evidence_sufficiency(
         self,
         user_query: str,
@@ -65,10 +94,11 @@ class RAGService:
                 logger.info("Evidence Sufficiency: E-commerce query lacked substantive ecommerce evidence in retrieved chunks.")
                 return False
 
-        # 2. EXPLICIT TECH queries (e.g. "Does WAC use React?"): Must contain target technology
+        # 2. EXPLICIT TECH queries (e.g. "Does WAC use React?"): Must contain target technology AND company relationship evidence
         elif intent.category == "EXPLICIT_TECH" and intent.technologies:
             target_tech = intent.technologies[0].lower()
             found_target = False
+            has_company_grounding = False
             for chunk in chunks[:5]:
                 content_lower = (chunk.content or "").lower()
                 title_lower = (chunk.title or "").lower()
@@ -76,14 +106,20 @@ class RAGService:
                 combined = f"{title_lower} {heading_lower} {content_lower}"
                 if target_tech in combined:
                     found_target = True
-                    break
+                    if self._has_company_relationship_evidence(chunk):
+                        has_company_grounding = True
+                        break
             if not found_target:
                 logger.info(f"Evidence Sufficiency: Explicit tech query lacked '{target_tech}' in retrieved chunks.")
                 return False
+            if not has_company_grounding:
+                logger.info(f"Evidence Sufficiency: Explicit tech query found '{target_tech}' only in generic ungrounded articles without company relationship evidence.")
+                return False
 
-        # 3. GENERAL TECHNOLOGY queries: Must contain known technical tokens
+        # 3. GENERAL TECHNOLOGY queries: Must contain known technical tokens AND company relationship evidence
         elif intent.category == "TECHNOLOGY_GENERAL":
             found_tech = False
+            has_company_grounding = False
             for chunk in chunks[:5]:
                 content_lower = (chunk.content or "").lower()
                 title_lower = (chunk.title or "").lower()
@@ -91,9 +127,14 @@ class RAGService:
                 combined = f"{title_lower} {heading_lower} {content_lower}"
                 if any(tech in combined for tech in self.KNOWN_TECH_TOKENS):
                     found_tech = True
-                    break
+                    if self._has_company_relationship_evidence(chunk):
+                        has_company_grounding = True
+                        break
             if not found_tech:
                 logger.info("Evidence Sufficiency: Technology query lacked specific technology mentions in retrieved chunks.")
+                return False
+            if not has_company_grounding:
+                logger.info("Evidence Sufficiency: Technology query lacked company-grounded technology stack evidence.")
                 return False
 
         # 4. DIGITAL MARKETING queries: Must contain marketing terms

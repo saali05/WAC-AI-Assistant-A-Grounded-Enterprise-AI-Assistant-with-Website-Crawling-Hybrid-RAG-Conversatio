@@ -310,3 +310,158 @@ def test_voice_tool_does_not_record_usage():
 
     assert response.status_code == 200
     mock_usage_record.assert_not_called()
+
+
+# ============================================================
+# 8. Voice Analytics Integration with Live Model Resolution
+# ============================================================
+
+def test_voice_message_persists_model_and_live_session():
+    """
+    Verify POST /voice/message correctly binds:
+    - settings.GEMINI_LIVE_MODEL
+    - live_session_id
+    - audio durations
+    - token counts
+    """
+    from app.core.config import settings
+
+    mock_conv = {"id": "conv_live_456", "title": "Voice Session"}
+
+    with patch("app.services.conversation_service.ConversationService.get_or_create", new=AsyncMock(return_value=mock_conv)), \
+         patch("app.repositories.message_repository.MessageRepository.create", new=AsyncMock(side_effect=["msg_u", "msg_a"])), \
+         patch("app.services.usage_service.UsageService.record_usage", new=AsyncMock(return_value="rec_123")) as mock_record:
+
+        response = client.post(
+            "/voice/message",
+            json={
+                "conversation_id": "conv_live_456",
+                "user_message": "Tell me about WAC AI services.",
+                "assistant_message": "WAC builds generative AI and enterprise platforms.",
+                "audio_input_seconds": 3.2,
+                "audio_output_seconds": 6.8,
+                "input_tokens": 150,
+                "output_tokens": 80,
+                "latency_ms": 420.0,
+                "live_session_id": "live_session_alpha_1",
+            },
+        )
+
+    assert response.status_code == 200
+    mock_record.assert_awaited_once()
+    usage = mock_record.call_args[1]["usage"]
+    assert usage.model == settings.GEMINI_LIVE_MODEL
+    assert usage.live_session_id == "live_session_alpha_1"
+    assert usage.audio_input_seconds == 3.2
+    assert usage.audio_output_seconds == 6.8
+    assert usage.input_tokens == 150
+    assert usage.output_tokens == 80
+    assert usage.total_tokens == 230
+    assert usage.request_type == "voice"
+
+
+# ============================================================
+# 9. Analytics Endpoint Returns Populated Voice Usage
+# ============================================================
+
+@pytest.mark.anyio
+async def test_analytics_endpoint_returns_voice_usage_record():
+    """
+    Verify GET /conversations/{id}/analytics returns populated voice metrics
+    when a voice session has been recorded.
+    """
+    from app.services.usage_service import UsageService
+    from app.core.config import settings
+
+    service = UsageService()
+
+    mock_records = [
+        {
+            "conversation_id": "conv_live_analytics",
+            "provider": "gemini",
+            "model": settings.GEMINI_LIVE_MODEL,
+            "request_type": "voice",
+            "input_tokens": 100,
+            "output_tokens": 50,
+            "total_tokens": 150,
+            "estimated_cost": 0.0003,
+            "audio_input_seconds": 4.0,
+            "audio_output_seconds": 7.0,
+            "latency_ms": 300.0,
+            "live_session_id": "live_sess_test",
+            "usage_source": "provider_metadata",
+            "created_at": "2026-09-09T10:00:00Z",
+        }
+    ]
+
+    with patch("app.repositories.usage_repository.UsageRepository.get_by_conversation", new=AsyncMock(return_value=mock_records)), \
+         patch("app.repositories.message_repository.MessageRepository.get_by_conversation", new=AsyncMock(return_value=[{"id": "m1"}, {"id": "m2"}])), \
+         patch("app.repositories.usage_repository.UsageRepository.get_request_history", new=AsyncMock(return_value=[])):
+
+        res = client.get("/conversations/conv_live_analytics/analytics")
+
+    assert res.status_code == 200
+    data = res.json()
+    assert "voice" in data
+    voice = data["voice"]
+    assert voice["available"] is True
+    assert voice["session_count"] == 1
+    assert voice["model"] == settings.GEMINI_LIVE_MODEL
+    assert voice["audio_input_seconds"] == 4.0
+    assert voice["audio_output_seconds"] == 7.0
+    assert voice["input_tokens"] == 100
+    assert voice["output_tokens"] == 50
+    assert voice["total_tokens"] == 150
+    assert voice["latency_ms"] == 300.0
+    assert voice["live_session_id"] == "live_sess_test"
+    assert voice["estimated_cost"] > 0
+    assert voice["reason"] is None
+
+
+# ============================================================
+# 10. Analytics Endpoint When No Voice Sessions Exist
+# ============================================================
+
+@pytest.mark.anyio
+async def test_analytics_endpoint_no_voice_sessions_structure():
+    """
+    Verify that when no voice sessions exist, voice metrics return with available=False,
+    null metric fields, and explicit informative reason.
+    """
+    with patch("app.repositories.usage_repository.UsageRepository.get_by_conversation", new=AsyncMock(return_value=[])), \
+         patch("app.repositories.message_repository.MessageRepository.get_by_conversation", new=AsyncMock(return_value=[])):
+
+        res = client.get("/conversations/empty_conv_123/analytics")
+
+    assert res.status_code == 200
+    data = res.json()
+    voice = data["voice"]
+    assert voice["available"] is False
+    assert voice["session_count"] == 0
+    assert voice["audio_input_seconds"] is None
+    assert voice["audio_output_seconds"] is None
+    assert voice["input_tokens"] is None
+    assert voice["output_tokens"] is None
+    assert "No voice sessions initiated" in voice["reason"]
+
+
+# ============================================================
+# 11. Error Handling in POST /voice/message
+# ============================================================
+
+def test_voice_message_persistence_failure_returns_500():
+    """
+    Verify POST /voice/message raises 500 when conversation or message repository fails.
+    """
+    with patch("app.services.conversation_service.ConversationService.get_or_create", new=AsyncMock(side_effect=RuntimeError("DB write error"))):
+        response = client.post(
+            "/voice/message",
+            json={
+                "user_message": "Hello",
+                "assistant_message": "Hi",
+            },
+        )
+
+    assert response.status_code == 500
+    assert "Failed to save voice conversation" in response.json()["detail"]
+

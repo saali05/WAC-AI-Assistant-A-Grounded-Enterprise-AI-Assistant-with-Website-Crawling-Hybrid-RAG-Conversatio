@@ -61,8 +61,11 @@ class Settings(BaseSettings):
     # RAG Settings
     RAG_ENABLED: bool = True
     RAG_ALLOWED_DOMAINS: str = "webandcrafts.com,www.webandcrafts.com"
+    RAG_EMBEDDING_PROVIDER: str = "gemini"
     RAG_EMBEDDING_MODEL: str = "gemini-embedding-001"
     RAG_EMBEDDING_DIMENSIONS: int = 768
+    LOCAL_EMBEDDING_MODEL: str = "BAAI/bge-base-en-v1.5"
+    LOCAL_EMBEDDING_DIMENSIONS: int = 768
     RAG_EMBEDDING_RETRIES: int = 3
     EMBEDDING_MAX_RETRY_DELAY_SECONDS: float = 60.0
     RAG_VECTOR_WEIGHT: float = 0.7

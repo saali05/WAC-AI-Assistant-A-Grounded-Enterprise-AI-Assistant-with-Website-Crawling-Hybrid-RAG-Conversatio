@@ -188,15 +188,55 @@ class FusionReranker(BaseReranker):
 
             elif intent.category == "EXPLICIT_TECH" and intent.technologies:
                 target_tech = intent.technologies[0]
-                if target_tech in title_lower:
+                has_company_grounding = is_service_page or any(
+                    w in content_lower or w in heading_str or w in title_lower
+                    for w in (
+                        "wac", "webandcrafts", "web and crafts",
+                        "our tech stack", "our technology stack", "technologies we use",
+                        "our developers", "our engineers", "our team", "our services",
+                        "our capabilities", "our expertise", "our solutions",
+                        "we use", "we build", "we develop", "we provide", "we offer",
+                        "we create", "we deliver", "we work with", "we specialize",
+                        "hire", "at wac", "wac's", "developers at wac"
+                    )
+                )
+
+                if has_company_grounding:
                     intent_boost += 0.15
+                    intent_reasons.append("company_grounded_tech_evidence")
+                elif is_blog_page and not has_company_grounding:
+                    intent_boost -= 0.12
+                    intent_reasons.append("generic_blog_without_company_grounding")
+
+                if target_tech in title_lower:
+                    intent_boost += 0.10
                     intent_reasons.append(f"explicit_{target_tech}_title")
                 if target_tech in heading_str:
-                    intent_boost += 0.12
+                    intent_boost += 0.08
                     intent_reasons.append(f"explicit_{target_tech}_heading")
                 if target_tech in content_lower:
-                    intent_boost += 0.08
+                    intent_boost += 0.06
                     intent_reasons.append(f"explicit_{target_tech}_content")
+
+            elif intent.category == "TECHNOLOGY_GENERAL":
+                has_company_grounding = is_service_page or any(
+                    w in content_lower or w in heading_str or w in title_lower
+                    for w in (
+                        "wac", "webandcrafts", "web and crafts",
+                        "our tech stack", "our technology stack", "technologies we use",
+                        "our developers", "our engineers", "our team", "our services",
+                        "our capabilities", "our expertise", "our solutions",
+                        "we use", "we build", "we develop", "we provide", "we offer",
+                        "we create", "we deliver", "we work with", "we specialize",
+                        "hire", "at wac", "wac's", "developers at wac"
+                    )
+                )
+                if has_company_grounding:
+                    intent_boost += 0.15
+                    intent_reasons.append("company_technology_stack_evidence")
+                elif is_blog_page and not has_company_grounding:
+                    intent_boost -= 0.12
+                    intent_reasons.append("generic_tech_blog_penalty")
 
             elif intent.category == "SERVICES" and is_service_page:
                 intent_boost += 0.15
@@ -236,7 +276,7 @@ class FusionReranker(BaseReranker):
             reverse=True,
         )
 
-        # Apply URL diversity: limit max 2 chunks per unique URL in top results when other candidates exist
+        # Apply URL diversity: prioritize 1 chunk per unique URL in top results to avoid duplicate URL consumption
         diverse_results: list[RetrievedChunk] = []
         url_counts: dict[str, int] = {}
         deferred: list[RetrievedChunk] = []
@@ -244,11 +284,21 @@ class FusionReranker(BaseReranker):
         for c in reranked:
             url_key = c.canonical_url or c.url or c.chunk_id
             count = url_counts.get(url_key, 0)
-            if count < 2:
+            if count < 1:
                 diverse_results.append(c)
                 url_counts[url_key] = count + 1
             else:
                 deferred.append(c)
+
+        if len(diverse_results) < k:
+            for c in deferred:
+                if len(diverse_results) >= k:
+                    break
+                url_key = c.canonical_url or c.url or c.chunk_id
+                count = url_counts.get(url_key, 0)
+                if count < 2:
+                    diverse_results.append(c)
+                    url_counts[url_key] = count + 1
 
         if len(diverse_results) < k:
             diverse_results.extend(deferred[:k - len(diverse_results)])

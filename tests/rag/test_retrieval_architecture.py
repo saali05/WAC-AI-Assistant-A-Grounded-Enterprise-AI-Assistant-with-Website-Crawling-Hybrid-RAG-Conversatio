@@ -488,3 +488,145 @@ def test_30_explicit_tech_query_expansion():
     assert "Node.js" in expanded_node or "Node JS" in expanded_node
     assert "Flutter" not in expanded_node
 
+
+@pytest.mark.anyio
+async def test_31_generic_article_is_not_company_technology_evidence():
+    """31. Generic educational article discussing Node.js does NOT satisfy evidence sufficiency for 'does WAC use Node.js'."""
+    rag_service = RAGService(min_relevance_score=0.50)
+    generic_node_blog = RetrievedChunk(
+        chunk_id="chunk_node_blog",
+        document_id="doc_blog",
+        title="Node.js vs PHP: Which Backend Technology is Best?",
+        heading_path=["Backend", "Comparison"],
+        content="Node.js is an open-source, cross-platform JavaScript runtime environment for building scalable network applications. PHP is a server-side scripting language.",
+        url="https://webandcrafts.com/blog/node-vs-php",
+        canonical_url="https://webandcrafts.com/blog/node-vs-php",
+        score=0.90,
+        vector_score=0.85,
+        keyword_score=0.90,
+        fusion_score=0.030,
+    )
+
+    # Must be rejected because it lacks company relationship evidence
+    sufficient = rag_service._evaluate_evidence_sufficiency(
+        user_query="does WAC use Node.js",
+        rewritten_query="does WAC use Node.js",
+        chunks=[generic_node_blog],
+        confidence=0.90,
+    )
+    assert sufficient is False
+
+
+@pytest.mark.anyio
+async def test_32_explicit_company_technology_evidence_is_sufficient():
+    """32. Chunk explicitly establishing WAC's use of Node.js satisfies evidence sufficiency."""
+    rag_service = RAGService(min_relevance_score=0.50)
+    company_node_chunk = RetrievedChunk(
+        chunk_id="chunk_wac_node",
+        document_id="doc_services",
+        title="Custom Web & Backend Development Services",
+        heading_path=["Web Development", "Backend Technologies"],
+        content="Web and Crafts provides end-to-end backend engineering using Node.js, Python, and Laravel. Our developers build high-concurrency APIs with Node.js.",
+        url="https://webandcrafts.com/services/web-development",
+        canonical_url="https://webandcrafts.com/services/web-development",
+        score=0.95,
+        vector_score=0.85,
+        keyword_score=0.95,
+        fusion_score=0.030,
+    )
+
+    sufficient = rag_service._evaluate_evidence_sufficiency(
+        user_query="does WAC use Node.js",
+        rewritten_query="does WAC use Node.js",
+        chunks=[company_node_chunk],
+        confidence=0.95,
+    )
+    assert sufficient is True
+
+
+@pytest.mark.anyio
+async def test_33_company_grounded_chunk_outranks_generic_comparison_blog():
+    """33. FusionReranker prioritizes company-grounded technology chunks over generic comparison blogs."""
+    reranker = FusionReranker()
+
+    generic_comparison_blog = RetrievedChunk(
+        chunk_id="c_generic",
+        document_id="d_generic",
+        title="Node.js vs PHP",
+        heading_path=["Comparison"],
+        content="Node.js is asynchronous and event-driven, while PHP is synchronous.",
+        url="https://webandcrafts.com/blog/node-vs-php",
+        canonical_url="https://webandcrafts.com/blog/node-vs-php",
+        score=0.80,
+        vector_score=0.80,
+        keyword_score=0.80,
+        fusion_score=0.020,
+    )
+
+    company_grounded_chunk = RetrievedChunk(
+        chunk_id="c_company",
+        document_id="d_company",
+        title="Web and Crafts Backend Development Services",
+        heading_path=["Engineering", "Node.js"],
+        content="Our technology stack includes Node.js for microservices and cloud backends.",
+        url="https://webandcrafts.com/services/backend",
+        canonical_url="https://webandcrafts.com/services/backend",
+        score=0.80,
+        vector_score=0.80,
+        keyword_score=0.80,
+        fusion_score=0.020,
+    )
+
+    results = await reranker.rerank(
+        "Does WAC use Node.js? Node.js backend",
+        [generic_comparison_blog, company_grounded_chunk],
+        top_k=2,
+    )
+
+    assert len(results) == 2
+    # Company grounded chunk must be rank 1
+    assert results[0].chunk_id == "c_company"
+
+
+@pytest.mark.anyio
+async def test_34_services_query_still_works():
+    """34. 'services provided by wac?' is recognized, retrieved, and sufficient."""
+    query = "services provided by wac?"
+    is_wac, _ = WACRelevanceGate.evaluate(query)
+    assert is_wac is True
+
+    intent = QueryRewriter.detect_intent(query)
+    assert intent.category == "SERVICES"
+
+    rag_service = RAGService(min_relevance_score=0.50)
+    service_chunk = RetrievedChunk(
+        chunk_id="c_services",
+        document_id="d_services",
+        title="Web and Crafts - Full Spectrum IT & Digital Services",
+        heading_path=["Services", "Overview"],
+        content="Web and Crafts delivers custom software, ecommerce development, mobile apps, digital marketing, and AI solutions.",
+        url="https://webandcrafts.com/services",
+        canonical_url="https://webandcrafts.com/services",
+        score=0.95,
+        vector_score=0.85,
+        keyword_score=0.95,
+        fusion_score=0.030,
+    )
+
+    sufficient = rag_service._evaluate_evidence_sufficiency(
+        user_query=query,
+        rewritten_query=query,
+        chunks=[service_chunk],
+        confidence=0.95,
+    )
+    assert sufficient is True
+
+
+def test_35_non_wac_generic_query_rejected():
+    """35. Non-WAC generic queries remain rejected at the domain gate."""
+    query = "Explain the difference between quantum entanglement and quantum teleportation."
+    is_wac, refusal = WACRelevanceGate.evaluate(query)
+    assert is_wac is False
+    assert refusal is not None
+
+
