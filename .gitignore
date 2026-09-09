@@ -5,3 +5,5 @@ uploads/
 chroma_db/
 .pytest_cache/
 *.pyc
+logs/
+*.log

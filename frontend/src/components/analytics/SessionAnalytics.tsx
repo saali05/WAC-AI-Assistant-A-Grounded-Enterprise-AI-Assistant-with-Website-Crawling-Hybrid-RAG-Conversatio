@@ -365,20 +365,76 @@ export default function SessionAnalytics({
               </h3>
 
               {data.voice.available ? (
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs">
-                  <div className="p-2.5 rounded-lg bg-black/20 border border-white/5">
-                    <span className="text-slate-400 block text-[10px]">Voice Sessions</span>
-                    <span className="text-white font-bold">{data.voice.session_count}</span>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between text-xs pb-2 border-b border-white/5">
+                    <span className="text-slate-400 text-[11px]">Model:</span>
+                    <span className="font-mono text-slate-200 text-[11px]">{data.voice.model || "gemini-live"}</span>
                   </div>
 
-                  <div className="p-2.5 rounded-lg bg-black/20 border border-white/5">
-                    <span className="text-slate-400 block text-[10px]">Audio In (sec)</span>
-                    <span className="text-white font-bold">{data.voice.audio_input_seconds.toFixed(1)}s</span>
-                  </div>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs">
+                    <div className="p-2.5 rounded-lg bg-black/20 border border-white/5">
+                      <span className="text-slate-400 block text-[10px]">Sessions</span>
+                      <span className="text-white font-bold">{data.voice.session_count}</span>
+                    </div>
 
-                  <div className="p-2.5 rounded-lg bg-black/20 border border-white/5">
-                    <span className="text-slate-400 block text-[10px]">Audio Out (sec)</span>
-                    <span className="text-white font-bold">{data.voice.audio_output_seconds.toFixed(1)}s</span>
+                    <div className="p-2.5 rounded-lg bg-black/20 border border-white/5">
+                      <span className="text-slate-400 block text-[10px]">Input Tokens</span>
+                      <span className="text-white font-bold">
+                        {data.voice.input_tokens !== null && data.voice.input_tokens !== undefined
+                          ? data.voice.input_tokens.toLocaleString()
+                          : "Unavailable"}
+                      </span>
+                    </div>
+
+                    <div className="p-2.5 rounded-lg bg-black/20 border border-white/5">
+                      <span className="text-slate-400 block text-[10px]">Output Tokens</span>
+                      <span className="text-white font-bold">
+                        {data.voice.output_tokens !== null && data.voice.output_tokens !== undefined
+                          ? data.voice.output_tokens.toLocaleString()
+                          : "Unavailable"}
+                      </span>
+                    </div>
+
+                    <div className="p-2.5 rounded-lg bg-black/20 border border-white/5">
+                      <span className="text-slate-400 block text-[10px]">Total Tokens</span>
+                      <span className="text-white font-bold">
+                        {data.voice.total_tokens !== null && data.voice.total_tokens !== undefined
+                          ? data.voice.total_tokens.toLocaleString()
+                          : "Unavailable"}
+                      </span>
+                    </div>
+
+                    <div className="p-2.5 rounded-lg bg-black/20 border border-white/5">
+                      <span className="text-slate-400 block text-[10px]">Audio In</span>
+                      <span className="text-white font-bold">
+                        {data.voice.audio_input_seconds !== null && data.voice.audio_input_seconds !== undefined
+                          ? `${data.voice.audio_input_seconds.toFixed(1)}s`
+                          : "Unavailable"}
+                      </span>
+                    </div>
+
+                    <div className="p-2.5 rounded-lg bg-black/20 border border-white/5">
+                      <span className="text-slate-400 block text-[10px]">Audio Out</span>
+                      <span className="text-white font-bold">
+                        {data.voice.audio_output_seconds !== null && data.voice.audio_output_seconds !== undefined
+                          ? `${data.voice.audio_output_seconds.toFixed(1)}s`
+                          : "Unavailable"}
+                      </span>
+                    </div>
+
+                    <div className="p-2.5 rounded-lg bg-black/20 border border-white/5">
+                      <span className="text-slate-400 block text-[10px]">Latency</span>
+                      <span className="text-white font-bold">
+                        {data.voice.latency_ms !== null && data.voice.latency_ms !== undefined
+                          ? `${data.voice.latency_ms.toFixed(0)} ms`
+                          : "Unavailable"}
+                      </span>
+                    </div>
+
+                    <div className="p-2.5 rounded-lg bg-black/20 border border-white/5">
+                      <span className="text-slate-400 block text-[10px]">Est. Cost</span>
+                      <span className="text-emerald-400 font-bold">${(data.voice.estimated_cost || 0).toFixed(4)}</span>
+                    </div>
                   </div>
                 </div>
               ) : (
@@ -389,7 +445,7 @@ export default function SessionAnalytics({
                   </div>
                   <p className="text-[11px] text-slate-400">
                     {data.voice.session_count > 0
-                      ? "Live usage metadata is not returned by the persistent WebSocket API. Token estimates are not fabricated."
+                      ? (data.voice.reason || "Live usage metadata is not returned by the persistent WebSocket API. Token estimates are not fabricated.")
                       : "No voice sessions initiated in this conversation."}
                   </p>
                 </div>

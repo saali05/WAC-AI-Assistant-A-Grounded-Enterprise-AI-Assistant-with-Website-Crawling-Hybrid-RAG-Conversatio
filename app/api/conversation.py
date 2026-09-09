@@ -4,28 +4,28 @@ from app.schemas.conversation import RenameConversationRequest
 from app.services.conversation_service import ConversationService
 
 router = APIRouter(
-    prefix="/conversations",
     tags=["Conversations"],
 )
 
 
-@router.get("")
+@router.get("/conversations")
+@router.get("/sessions")
 async def get_conversations():
     """
-    Get all conversations.
+    Get all conversation sessions.
     """
     conversation_service = ConversationService()
+    conversations = await conversation_service.get_all()
+    return {"sessions": conversations, "conversations": conversations}
 
-    return await conversation_service.get_all()
 
-
-@router.get("/{conversation_id}")
+@router.get("/conversations/{conversation_id}")
+@router.get("/history/{conversation_id}")
 async def get_conversation(conversation_id: str):
     """
     Get a conversation with all its messages.
     """
     conversation_service = ConversationService()
-
     conversation = await conversation_service.get(conversation_id)
 
     if conversation is None:
@@ -37,7 +37,8 @@ async def get_conversation(conversation_id: str):
     return conversation
 
 
-@router.patch("/{conversation_id}")
+@router.patch("/conversations/{conversation_id}")
+@router.patch("/sessions/{conversation_id}")
 async def rename_conversation(
     conversation_id: str,
     request: RenameConversationRequest,
@@ -46,7 +47,6 @@ async def rename_conversation(
     Rename a conversation.
     """
     conversation_service = ConversationService()
-
     success = await conversation_service.rename(
         conversation_id=conversation_id,
         title=request.title,
@@ -58,21 +58,17 @@ async def rename_conversation(
             detail="Conversation not found",
         )
 
-    return {
-        "message": "Conversation renamed successfully"
-    }
+    return {"message": "Conversation renamed successfully"}
 
 
-@router.delete("/{conversation_id}")
+@router.delete("/conversations/{conversation_id}")
+@router.delete("/sessions/{conversation_id}")
 async def delete_conversation(conversation_id: str):
     """
     Delete a conversation and all its messages.
     """
     conversation_service = ConversationService()
-
-    success = await conversation_service.delete(
-        conversation_id
-    )
+    success = await conversation_service.delete(conversation_id)
 
     if not success:
         raise HTTPException(
@@ -80,6 +76,4 @@ async def delete_conversation(conversation_id: str):
             detail="Conversation not found",
         )
 
-    return {
-        "message": "Conversation deleted successfully"
-    }
+    return {"message": "Conversation deleted successfully"}

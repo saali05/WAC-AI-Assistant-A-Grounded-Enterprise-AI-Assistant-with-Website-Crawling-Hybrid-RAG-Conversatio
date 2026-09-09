@@ -88,13 +88,18 @@ class UsageService:
                 "providers": {},
                 "models": {},
                 "voice": {
+                    "available": False,
+                    "model": settings.GEMINI_LIVE_MODEL,
                     "session_count": 0,
-                    "audio_input_seconds": 0.0,
-                    "audio_output_seconds": 0.0,
-                    "input_tokens": 0,
-                    "output_tokens": 0,
-                    "total_tokens": 0,
+                    "audio_input_seconds": None,
+                    "audio_output_seconds": None,
+                    "input_tokens": None,
+                    "output_tokens": None,
+                    "total_tokens": None,
+                    "latency_ms": None,
                     "estimated_cost": 0.0,
+                    "live_session_id": None,
+                    "reason": "No voice sessions initiated in this conversation.",
                 },
                 "request_history": [],
             }
@@ -126,17 +131,6 @@ class UsageService:
         # Breakdown by Provider and Model
         provider_breakdown: dict[str, dict[str, Any]] = {}
         model_breakdown: dict[str, dict[str, Any]] = {}
-        voice_metrics = {
-            "available": False,
-            "session_count": 0,
-            "audio_input_seconds": 0.0,
-            "audio_output_seconds": 0.0,
-            "input_tokens": 0,
-            "output_tokens": 0,
-            "total_tokens": 0,
-            "estimated_cost": 0.0,
-            "reason": "Usage data unavailable from Live API session",
-        }
 
         latest_quota = None
 
@@ -175,23 +169,64 @@ class UsageService:
             model_breakdown[m]["total_tokens"] += r.get("total_tokens") or 0
             model_breakdown[m]["estimated_cost"] = round(model_breakdown[m]["estimated_cost"] + (r.get("estimated_cost") or 0.0), 6)
 
-            # Voice aggregation
-            if r_type == "voice" or m == "gemini-3.1-flash-live-preview":
-                voice_metrics["session_count"] += 1
-                if r.get("usage_source") == "provider_metadata":
-                    voice_metrics["available"] = True
-                    voice_metrics["reason"] = None
-                voice_metrics["audio_input_seconds"] += r.get("audio_input_seconds") or 0.0
-                voice_metrics["audio_output_seconds"] += r.get("audio_output_seconds") or 0.0
-                voice_metrics["input_tokens"] += r.get("input_tokens") or 0
-                voice_metrics["output_tokens"] += r.get("output_tokens") or 0
-                voice_metrics["total_tokens"] += r.get("total_tokens") or 0
-                voice_metrics["estimated_cost"] = round(voice_metrics["estimated_cost"] + (r.get("estimated_cost") or 0.0), 6)
-
-
             # Check for header rate limit data
             if r.get("provider_remaining_requests") is not None or r.get("provider_remaining_tokens") is not None:
                 latest_quota = r
+
+        # Voice aggregation
+        voice_records = [
+            r for r in records
+            if r.get("request_type") == "voice"
+            or r.get("model") == settings.GEMINI_LIVE_MODEL
+            or r.get("model") == "gemini-3.1-flash-live-preview"
+        ]
+
+        if voice_records:
+            has_input_audio = any(r.get("audio_input_seconds") is not None for r in voice_records)
+            has_output_audio = any(r.get("audio_output_seconds") is not None for r in voice_records)
+            has_input_tokens = any(r.get("input_tokens") is not None for r in voice_records)
+            has_output_tokens = any(r.get("output_tokens") is not None for r in voice_records)
+            voice_latencies = [r.get("latency_ms") for r in voice_records if r.get("latency_ms") is not None]
+
+            voice_audio_in = sum(r.get("audio_input_seconds") or 0.0 for r in voice_records) if has_input_audio else None
+            voice_audio_out = sum(r.get("audio_output_seconds") or 0.0 for r in voice_records) if has_output_audio else None
+            voice_in_toks = sum(r.get("input_tokens") or 0 for r in voice_records) if has_input_tokens else None
+            voice_out_toks = sum(r.get("output_tokens") or 0 for r in voice_records) if has_output_tokens else None
+            voice_total_toks = (voice_in_toks or 0) + (voice_out_toks or 0) if (has_input_tokens or has_output_tokens) else None
+            voice_cost = sum(r.get("estimated_cost") or 0.0 for r in voice_records)
+            voice_avg_latency = round(sum(voice_latencies) / len(voice_latencies), 2) if voice_latencies else None
+            latest_live_session_id = next((r.get("live_session_id") for r in reversed(voice_records) if r.get("live_session_id")), None)
+            latest_voice_model = next((r.get("model") for r in reversed(voice_records) if r.get("model")), settings.GEMINI_LIVE_MODEL)
+
+            voice_metrics = {
+                "available": True,
+                "model": latest_voice_model,
+                "session_count": len(voice_records),
+                "audio_input_seconds": round(voice_audio_in, 2) if voice_audio_in is not None else None,
+                "audio_output_seconds": round(voice_audio_out, 2) if voice_audio_out is not None else None,
+                "input_tokens": voice_in_toks,
+                "output_tokens": voice_out_toks,
+                "total_tokens": voice_total_toks,
+                "latency_ms": voice_avg_latency,
+                "estimated_cost": round(voice_cost, 6),
+                "live_session_id": latest_live_session_id,
+                "reason": None,
+            }
+        else:
+            voice_metrics = {
+                "available": False,
+                "model": settings.GEMINI_LIVE_MODEL,
+                "session_count": 0,
+                "audio_input_seconds": None,
+                "audio_output_seconds": None,
+                "input_tokens": None,
+                "output_tokens": None,
+                "total_tokens": None,
+                "latency_ms": None,
+                "estimated_cost": 0.0,
+                "live_session_id": None,
+                "reason": "No voice sessions initiated in this conversation.",
+            }
 
         # Latest record info for context & quota
         latest_record = records[-1]

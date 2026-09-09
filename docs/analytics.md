@@ -1,78 +1,156 @@
-# Session Analytics & Usage Dashboard Documentation
+# WAC AI Assistant --- Analytics and Usage
 
-## Overview
+## Purpose
 
-The Session Analytics & Usage Dashboard provides real-time, session-scoped performance, token usage, cost estimation, and API quota tracking for the WAC AI Assistant platform.
+The analytics subsystem records AI usage so the application can measure
+model consumption, latency, estimated cost, and voice usage.
 
-## Key Design Principles
+## Usage Information
 
-1. **Strict Session Isolation**: Analytics are filtered strictly by `conversation_id`. Opening a new chat or switching sessions resets displayed counters to zero.
-2. **Zero Fabrication**: Provider API quotas are displayed ONLY when explicitly exposed by provider APIs (e.g. Groq `x-ratelimit-*` response headers). Where quota information is unexposed by the provider (e.g., Gemini completion payloads), the dashboard explicitly reports `"Not available from provider API"`.
-3. **Dual Progress Bar Tracking**:
-   - **Model Context Capacity (Current Request Prompt)**: Displays current prompt tokens against the model's max context limit (e.g., `17,088 / 1,048,576 tokens`). Computed as `context_limit - input_tokens` for the current prompt (which includes system prompt + WAC knowledge + conversation history + user message). Labeled as `"Current Prompt Context Capacity Remaining"`.
-   - **Session Total Tokens Consumed**: Displays cumulative token consumption across the current session (e.g., `42,310 tokens consumed`).
-4. **Dynamic `quota_scope` & `usage_source` Auditing**:
-   - `quota_scope` is derived dynamically from header reset times (`minute`, `day`, or `unknown`).
-   - `usage_source`: `provider_metadata` | `provider_headers` | `calculated` | `unavailable`.
-5. **Gemini Live Voice Usage**:
-   - Recorded only when official provider usage metadata is attached (`usage_source = "provider_metadata"`).
-   - If Live API metadata is unavailable, the UI explicitly displays `"Usage data unavailable"` rather than fabricating estimates from microphone timers.
+`AIUsage` can represent:
 
----
+-   Provider
+-   Model
+-   Request type
+-   Input tokens
+-   Output tokens
+-   Total tokens
+-   Cached tokens
+-   Thinking tokens
+-   Estimated cost
+-   Currency
+-   Latency
+-   Tokens per second
+-   Context limit
+-   Remaining context
+-   Audio input duration
+-   Audio output duration
+-   Live session ID
+-   Usage source
+-   Quota scope
 
-## Supported AI Models & Specifications
+## Text Usage Flow
 
-| Model | Role | Context Window | Max Output | Official Pricing (Free Tier) | Official Pricing (Paid Tier) |
-|---|---|---|---|---|---|
-| `gemini-3.6-flash` | Normal Text Chatbot | 1,048,576 tokens | 65,536 tokens | $0.00 / 1M | Input: $1.50/1M, Output: $7.50/1M |
-| `gemini-3.1-flash-live-preview` | Gemini Live Voice | 131,072 tokens | 65,536 tokens | $0.00 / 1M | Text In: $0.75/1M, Audio In: $3.00/1M, Text Out: $4.50/1M, Audio Out: $12.00/1M |
-| `llama-3.3-70b-versatile` | Groq Text Chatbot | 131,072 tokens | 32,768 tokens | Input: $0.59/1M, Output: $0.79/1M | Input: $0.59/1M, Output: $0.79/1M |
-
-### Pricing Verification Sources
-
-- Google Gemini Pricing: https://ai.google.dev/gemini-api/docs/pricing
-- Google Gemini Rate Limits: https://ai.google.dev/gemini-api/docs/rate-limits
-- Google Gemini 3.6 Flash Model: https://ai.google.dev/gemini-api/docs/models/gemini-3.6-flash
-- Google Gemini Live API & Pricing: https://ai.google.dev/gemini-api/docs/live-api/best-practices
-- Groq Llama 3.3 70B & Rate Limits: https://console.groq.com/docs/rate-limits
-
----
-
-## Data Model (`ai_usage` Collection)
-
-Each AI invocation produces a document in MongoDB `ai_usage` collection:
-
-```json
-{
-  "conversation_id": "ABC-123",
-  "message_id": "64a...",
-  "provider": "groq",
-  "model": "llama-3.3-70b-versatile",
-  "request_type": "text",
-  "input_tokens": 820,
-  "output_tokens": 120,
-  "total_tokens": 940,
-  "cached_tokens": null,
-  "thinking_tokens": null,
-  "estimated_cost": 0.000578,
-  "currency": "USD",
-  "latency_ms": 420.5,
-  "tokens_per_second": 285.3,
-  "time_to_first_token_ms": null,
-  "context_limit": 131072,
-  "context_remaining": 130252,
-  "provider_limit_requests": 30,
-  "provider_remaining_requests": 29,
-  "provider_limit_tokens": 12000,
-  "provider_remaining_tokens": 11180,
-  "quota_reset_time": "6s",
-  "usage_source": "provider_headers",
-  "quota_scope": "minute",
-  "created_at": "2026-08-18T10:00:00Z"
-}
+``` text
+User Request
+     |
+AI Provider
+     |
+Provider Response
+     |
+Usage Metadata
+     |
+AIUsage
+     |
+UsageService
+     |
+MongoDB
+     |
+Analytics Dashboard
 ```
 
-### MongoDB Indexes
-- `conversation_id` + `created_at`
-- `conversation_id` + `provider`
-- `conversation_id` + `model`
+The Gemini provider can extract provider usage metadata including
+prompt, output, total, cached, and thinking token counts when available.
+
+## Latency
+
+The provider measures the elapsed time for an AI request.
+
+``` text
+Start
+  |
+Gemini API
+  |
+Response
+  |
+End
+```
+
+Latency is stored in milliseconds. When output token information is
+available, tokens per second can also be calculated.
+
+## Cost Estimation
+
+The project contains model pricing configuration and calculates an
+estimated cost.
+
+``` text
+Model + Input Usage + Output Usage
+             |
+             v
+       calculate_cost()
+             |
+             v
+       Estimated USD Cost
+```
+
+For voice usage, audio input and output usage can also be included.
+
+The estimate is application-side pricing logic and should not be treated
+as the provider's authoritative billing statement.
+
+## Context Usage
+
+When a context limit is known:
+
+``` text
+Context Limit - Input Tokens = Context Remaining
+```
+
+This is useful for monitoring how much model context remains.
+
+## Voice Analytics
+
+Voice usage can include:
+
+-   Input audio seconds
+-   Output audio seconds
+-   Input tokens
+-   Output tokens
+-   Latency
+-   Live session ID
+-   Estimated cost
+
+The voice API passes these values to `UsageService`.
+
+## Provider Tracking
+
+Usage records include provider and model, allowing the application to
+distinguish Gemini, Groq, and Gemini Live usage.
+
+## Why Analytics Is Important
+
+Analytics helps measure:
+
+-   Request volume
+-   Token consumption
+-   Estimated cost
+-   Latency
+-   Provider/model usage
+-   Voice consumption
+-   Session resource usage
+
+## Quota vs Application Analytics
+
+These are different:
+
+``` text
+Application analytics
+    |
+    v
+Local usage/cost records
+
+Provider
+    |
+    v
+Actual API quota and rate limits
+```
+
+A provider can return a 429 quota error even if local analytics does not
+show the same value as provider billing.
+
+## Rate Limits
+
+Gemini quota failures such as `429 RESOURCE_EXHAUSTED` are provider-side
+rate/quota conditions and should be handled separately from successful
+usage records.

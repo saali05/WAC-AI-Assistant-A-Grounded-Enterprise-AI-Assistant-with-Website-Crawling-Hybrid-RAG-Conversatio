@@ -26,6 +26,8 @@ export default function VoiceButton() {
 
     addVoiceAssistantMessage,
 
+    updateStreamingAssistantMessage,
+
     setVoiceConversationId,
   } = useChat();
 
@@ -145,6 +147,20 @@ export default function VoiceButton() {
 
 
             // ----------------------------------------------
+            // Real-time user transcription streaming
+            // ----------------------------------------------
+
+            onUserTranscript:
+              (
+                text
+              ) => {
+                addVoiceUserMessage(
+                  text
+                );
+              },
+
+
+            // ----------------------------------------------
             // Assistant transcription
             // ----------------------------------------------
 
@@ -159,6 +175,22 @@ export default function VoiceButton() {
 
                 addVoiceAssistantMessage(
                   text
+                );
+              },
+
+
+            // ----------------------------------------------
+            // Real-time streaming transcription delta
+            // ----------------------------------------------
+
+            onTranscriptDelta:
+              (
+                deltaText,
+                isDone
+              ) => {
+                updateStreamingAssistantMessage(
+                  deltaText,
+                  isDone
                 );
               },
 

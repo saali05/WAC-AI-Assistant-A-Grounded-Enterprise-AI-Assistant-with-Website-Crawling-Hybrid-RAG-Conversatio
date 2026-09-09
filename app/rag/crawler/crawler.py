@@ -1,4 +1,5 @@
 import asyncio
+from collections import deque
 import re
 from dataclasses import dataclass, field
 from datetime import datetime, UTC
@@ -49,8 +50,48 @@ class WebCrawler:
         self.robots_parser = RobotsTxtParser(user_agent=self.user_agent)
         self.rate_limiter = RateLimiter(concurrency=concurrency, crawl_delay=crawl_delay)
 
+        self.discovered_urls: Set[str] = set()
         self.visited_urls: Set[str] = set()
         self.failed_urls: dict[str, str] = {}
+
+    @staticmethod
+    def _is_content_insufficient(html: str) -> bool:
+        """
+        Detect if fetched HTML is an empty or JavaScript SPA application shell
+        (e.g., React/Vue/Angular empty mounting container with scripts but no rendered text).
+
+        Conservative heuristics:
+        1. Empty or whitespace-only HTML.
+        2. Stripped text content has fewer than 10 words overall.
+        3. Stripped text content has fewer than 25 words while containing scripts or SPA mount targets
+           (e.g. id="root", id="app", id="__next", <app-root>).
+        """
+        if not html or not html.strip():
+            return True
+
+        # Strip scripts, styles, head, comments, and tags to measure actual visible text
+        text_only = re.sub(r"<(script|style|noscript|svg|head)[^>]*>.*?</\1>", " ", html, flags=re.DOTALL | re.IGNORECASE)
+        text_only = re.sub(r"<!--.*?-->", " ", text_only, flags=re.DOTALL)
+        text_only = re.sub(r"<[^>]+>", " ", text_only)
+        words = [w for w in text_only.split() if w.strip()]
+        word_count = len(words)
+
+        if word_count < 10:
+            return True
+
+        # Check for SPA mounting markers combined with low word count (< 25 words)
+        spa_patterns = (
+            r'id=["\'](?:root|app|__next|__nuxt|main-content)["\']\s*>\s*<',
+            r'<app-root[^>]*>\s*</app-root>',
+            r'<div[^>]+id=["\'](?:root|app)["\'][^>]*>\s*</div>',
+        )
+        has_spa_mount = any(re.search(pat, html, re.IGNORECASE) for pat in spa_patterns)
+        has_scripts = bool(re.search(r"<script\b", html, re.IGNORECASE))
+
+        if word_count < 25 and (has_spa_mount or has_scripts):
+            return True
+
+        return False
 
     async def fetch_page_httpx(
         self,
@@ -170,8 +211,12 @@ class WebCrawler:
             for raw_url in start_urls:
                 try:
                     norm = URLNormalizer.normalize(raw_url)
-                    valid_start_urls.append(norm)
-                    await self.robots_parser.fetch_and_parse(norm, client=client)
+                    if URLNormalizer.validate_domain(norm, self.allowed_domains):
+                        self.discovered_urls.add(norm)
+                        valid_start_urls.append(norm)
+                        await self.robots_parser.fetch_and_parse(norm, client=client)
+                    else:
+                        logger.warning(f"Start URL {raw_url} is outside allowed domains: {self.allowed_domains}")
                 except Exception as exc:
                     logger.warning(f"Invalid start URL {raw_url}: {exc}")
 
@@ -192,27 +237,38 @@ class WebCrawler:
                 try:
                     entries = await sitemap_parser.discover_urls(sm_url)
                     for entry in entries:
-                        sitemap_urls_to_crawl.append(entry.url)
+                        try:
+                            norm_entry = URLNormalizer.normalize(entry.url)
+                            if URLNormalizer.validate_domain(norm_entry, self.allowed_domains):
+                                self.discovered_urls.add(norm_entry)
+                                sitemap_urls_to_crawl.append(norm_entry)
+                        except Exception:
+                            pass
                 except Exception as exc:
                     logger.debug(f"Could not parse sitemap {sm_url}: {exc}")
 
-        # Remove duplicate sitemap URLs
-        sitemap_urls_to_crawl = list(dict.fromkeys(sitemap_urls_to_crawl))
-        logger.info(f"Sitemap discovery completed. Total sitemap URLs found: {len(sitemap_urls_to_crawl)}")
-
-        # Prepare queue: (url, depth)
-        queue: list[tuple[str, int]] = []
+        # Prepare queue: (url, depth) using collections.deque
+        queue: deque[tuple[str, int]] = deque()
+        enqueued: Set[str] = set()
 
         for sm_url in sitemap_urls_to_crawl:
-            queue.append((sm_url, 0))
+            if sm_url not in enqueued:
+                queue.append((sm_url, 0))
+                enqueued.add(sm_url)
 
         for root_url in valid_start_urls:
-            if root_url not in [q[0] for q in queue]:
+            if root_url not in enqueued:
                 queue.append((root_url, 0))
+                enqueued.add(root_url)
+
+        logger.info(
+            f"Crawl preparation complete: {len(self.discovered_urls)} discovered URLs, "
+            f"{len(queue)} initial queued items."
+        )
 
         async with httpx.AsyncClient(timeout=self.timeout, follow_redirects=True) as client:
             while queue and len(crawled_pages) < self.max_pages:
-                current_url, depth = queue.pop(0)
+                current_url, depth = queue.popleft()
 
                 if current_url in self.visited_urls:
                     continue
@@ -227,11 +283,17 @@ class WebCrawler:
 
                 # Rate limiting acquire
                 async with self.rate_limiter:
-                    page = await self.fetch_page_httpx(client, current_url)
+                    httpx_page = await self.fetch_page_httpx(client, current_url)
 
-                if page is None or not page.html.strip():
-                    # Attempt Playwright fallback if content insufficient
+                if httpx_page is None:
+                    # Attempt Playwright fallback if HTTPX fetch failed
                     page = await self.fetch_page_playwright_fallback(current_url)
+                elif self._is_content_insufficient(httpx_page.html):
+                    # Attempt Playwright fallback if content is insufficient / JS shell
+                    rendered = await self.fetch_page_playwright_fallback(current_url)
+                    page = rendered or httpx_page
+                else:
+                    page = httpx_page
 
                 if page is not None and page.html.strip():
                     page.depth = depth
@@ -242,8 +304,16 @@ class WebCrawler:
                     if depth < self.max_depth and len(crawled_pages) < self.max_pages:
                         extracted = self.extract_internal_links(page.html, current_url)
                         for link in extracted:
-                            if link not in self.visited_urls:
+                            self.discovered_urls.add(link)
+                            if link not in self.visited_urls and link not in enqueued:
                                 queue.append((link, depth + 1))
+                                enqueued.add(link)
 
-        logger.info(f"Crawl completed. Total pages crawled: {len(crawled_pages)}")
+        logger.info(
+            f"Crawl completed:\n"
+            f"  discovered={len(self.discovered_urls)}\n"
+            f"  visited={len(self.visited_urls)}\n"
+            f"  crawled={len(crawled_pages)}\n"
+            f"  failed={len(self.failed_urls)}"
+        )
         return crawled_pages

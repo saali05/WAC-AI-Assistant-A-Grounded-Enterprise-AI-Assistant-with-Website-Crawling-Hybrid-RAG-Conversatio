@@ -1,20 +1,14 @@
 COMPANY_RULES = """
-When answering about Web and Craft:
+When answering about Web and Craft (WAC):
 
-Always answer using the provided
-Company Knowledge.
+• Always answer using the provided AUTHORITATIVE WAC RETRIEVED EVIDENCE.
 
-Never invent information.
+• If the evidence contains direct supporting information, answer the question directly, clearly, and concisely.
 
-If the answer is not available:
+• Never say you couldn't find information when the provided context contains relevant facts.
 
-Say
+• If the answer is not supported by the context, state:
+  "I couldn't find that information in the available Web and Craft knowledge."
 
-"I couldn't find that information
-in the available Web and Craft
-knowledge."
-
-Then recommend contacting the company.
-
-Do not make assumptions.
+• Do not make assumptions or invent details.
 """

@@ -22,6 +22,9 @@ class Settings(BaseSettings):
 
     AI_CURRENCY: str = "USD"
 
+    # LangChain Pipeline Toggle
+    USE_LANGCHAIN_PIPELINE: bool = False
+
 
     # Gemini Text
     GEMINI_INPUT_PRICE_PER_1M: float = 1.50
@@ -58,8 +61,13 @@ class Settings(BaseSettings):
     # RAG Settings
     RAG_ENABLED: bool = True
     RAG_ALLOWED_DOMAINS: str = "webandcrafts.com,www.webandcrafts.com"
+    RAG_EMBEDDING_PROVIDER: str = "gemini"
     RAG_EMBEDDING_MODEL: str = "gemini-embedding-001"
     RAG_EMBEDDING_DIMENSIONS: int = 768
+    LOCAL_EMBEDDING_MODEL: str = "BAAI/bge-base-en-v1.5"
+    LOCAL_EMBEDDING_DIMENSIONS: int = 768
+    RAG_EMBEDDING_RETRIES: int = 3
+    EMBEDDING_MAX_RETRY_DELAY_SECONDS: float = 60.0
     RAG_VECTOR_WEIGHT: float = 0.7
     RAG_KEYWORD_WEIGHT: float = 0.3
     RAG_MIN_RELEVANCE_SCORE: float = 0.65
@@ -73,6 +81,7 @@ class Settings(BaseSettings):
     RAG_REQUEST_TIMEOUT: int = 15
     RAG_CRAWL_DELAY: float = 1.0
     RAG_CONCURRENCY: int = 5
+
 
     @property
     def allowed_domains_list(self) -> list[str]:

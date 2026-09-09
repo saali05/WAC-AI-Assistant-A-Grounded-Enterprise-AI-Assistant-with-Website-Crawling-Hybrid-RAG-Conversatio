@@ -11,6 +11,7 @@ from app.prompts.memory_rules import MEMORY_RULES
 class PromptBuilder:
     """
     Builds the complete AI prompt from reusable sections.
+    Cleanly separates session conversation history from authoritative retrieved evidence.
     """
 
     @staticmethod
@@ -39,12 +40,12 @@ class PromptBuilder:
             ),
 
             PromptSection(
-                title="WEB AND CRAFT KNOWLEDGE",
+                title="AUTHORITATIVE WAC RETRIEVED EVIDENCE",
                 content=request.company_context,
             ),
 
             PromptSection(
-                title="SESSION MEMORY",
+                title="CONVERSATION HISTORY",
                 content=request.conversation_history,
             ),
 

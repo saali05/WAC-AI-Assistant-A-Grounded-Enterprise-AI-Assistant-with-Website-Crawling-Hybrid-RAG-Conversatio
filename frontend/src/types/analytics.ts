@@ -68,13 +68,16 @@ export interface BreakdownItem {
 export interface VoiceMetrics {
   available?: boolean;
   reason?: string | null;
+  model?: string | null;
   session_count: number;
-  audio_input_seconds: number;
-  audio_output_seconds: number;
-  input_tokens: number;
-  output_tokens: number;
-  total_tokens: number;
+  audio_input_seconds: number | null;
+  audio_output_seconds: number | null;
+  input_tokens: number | null;
+  output_tokens: number | null;
+  total_tokens: number | null;
+  latency_ms?: number | null;
   estimated_cost: number;
+  live_session_id?: string | null;
 }
 
 
